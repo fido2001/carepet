@@ -1,23 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
+@section('header', 'Pet Shop')
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Halaman Pet Shop</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    Login sebagai Petshop!
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="section-body">
+    <h5>Ini adalah halaman Pet Shop</h5>
 </div>
 @endsection
