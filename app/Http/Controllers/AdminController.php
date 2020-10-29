@@ -6,6 +6,7 @@ use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -91,6 +92,31 @@ class AdminController extends Controller
         $user->roles()->attach(Role::where('name', 'petshop')->first());
 
         return redirect()->back();
+    }
+
+    public function editPassword()
+    {
+        return view('petshop.editPassword');
+    }
+
+    public function updatePassword()
+    {
+        request()->validate([
+            'old_password' => 'required',
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $currentPassword = auth()->user()->password;
+        $oldPassword = request('old_password');
+
+        if (Hash::check($oldPassword, $currentPassword)) {
+            auth()->user()->update([
+                'password' => bcrypt(request('password'))
+            ]);
+            return back()->with('success', 'Ganti password berhasil.');
+        } else {
+            return back()->withErrors(['old_password' => 'Masukkan password anda yang sekarang.']);
+        }
     }
 
     private function _userValidation(Request $request)

@@ -45,6 +45,7 @@
                     <textarea name="alamat" class="form-control summernote-simple">{{ $user->alamat }}</textarea>
                 </div>
                 </div>
+                <a href="{{ route('edit.password.petshop') }}" class="text-danger">Ganti Password</a>
             </div>
             <div class="card-footer text-right">
             <button type="submit" class="btn btn-primary">Save Changes</button>

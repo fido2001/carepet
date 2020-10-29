@@ -1,5 +1,6 @@
 @extends('layouts.master')
 
+@section('title', 'Edit Profile | CarePet')
 @section('header', 'Edit Profile')
 @section('content')
     {{-- <div class="col-12 col-md-12 col-lg-7">s --}}
@@ -46,6 +47,7 @@
                         <textarea name="alamat" class="form-control summernote-simple">{{ $user->alamat }}</textarea>
                     </div>
                     </div>
+                    <a href="{{ route('edit.password.admin') }}" class="text-danger">Ganti Password</a>
                 </div>
                 <div class="card-footer text-right">
                 <button type="submit" class="btn btn-primary">Save Changes</button>
