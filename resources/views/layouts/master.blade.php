@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-<title>Blank Page &mdash; CarePet</title>
+<title>@yield('title')</title>
 
 <!-- General CSS Files -->
 <link rel="stylesheet" href="{{ asset('../assets/modules/bootstrap/css/bootstrap.min.css') }}">
@@ -225,11 +225,11 @@ gtag('config', 'UA-94034622-3');
                 </div>
             </li>
             <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                <img alt="image" src="assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+                <img alt="image" src="{{ asset('../assets/img/avatar/avatar-1.png') }}" class="rounded-circle mr-1">
                 <div class="d-sm-none d-lg-inline-block">Hi, {{ Auth::user()->name }}</div></a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <div class="dropdown-title">Logged in 5 min ago</div>
-                    <a href="features-profile.html" class="dropdown-item has-icon">
+                    <a href="{{ route('edit.profile.petshop') }}" class="dropdown-item has-icon">
                         <i class="far fa-user"></i> Profile
                     </a>
                     <a href="features-activities.html" class="dropdown-item has-icon">
@@ -271,6 +271,7 @@ gtag('config', 'UA-94034622-3');
             </div> --}}
             @yield('content')
         </section>
+        @yield('modal')
     </div>
     <footer class="main-footer">
         <div class="footer-left">
@@ -283,8 +284,10 @@ gtag('config', 'UA-94034622-3');
     </div>
 </div>
 
+@stack('before-scripts')
+
 <!-- General JS Scripts -->
-<script src="{{ asset('../assets/modules/jquery.min.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="{{ asset('../assets/modules/popper.js') }}"></script>
 <script src="{{ asset('../assets/modules/tooltip.js') }}"></script>
 <script src="{{ asset('../assets/modules/bootstrap/js/bootstrap.min.js') }}"></script>
@@ -293,11 +296,16 @@ gtag('config', 'UA-94034622-3');
 <script src="{{ asset('../assets/js/stisla.js') }}"></script>
 
 <!-- JS Libraies -->
+@stack('page-scripts')
 
 <!-- Page Specific JS File -->
+@stack('page-spesific-scripts')
 
 <!-- Template JS File -->
 <script src="{{ asset('../assets/js/scripts.js') }}"></script>
 <script src="{{ asset('../assets/js/custom.js') }}"></script>
+
+@stack('after-scripts')
+
 </body>
 </html>

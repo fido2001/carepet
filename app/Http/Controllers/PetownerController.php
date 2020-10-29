@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,12 +23,13 @@ class PetownerController extends Controller
         ]);
     }
 
-    public function updateProfile(Request $request, User $user)
+    public function updateProfile(Request $request)
     {
         $this->_userValidation($request);
+        $user = Auth::user();
         $attr = $request->all();
         $user->update($attr);
-        return redirect('petowner');
+        return back();
     }
 
     private function _userValidation(Request $request)
@@ -39,7 +39,7 @@ class PetownerController extends Controller
             'noHp' => ['required', 'string', 'max:13', 'min:10'],
             'alamat' => ['required'],
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255'],
         ]);
     }
 }

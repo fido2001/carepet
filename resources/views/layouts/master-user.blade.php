@@ -241,7 +241,7 @@ gtag('config', 'UA-94034622-3');
                     <div class="d-sm-none d-lg-inline-block">Hi, {{ Auth::user()->name }}</div></a>
                     <div class="dropdown-menu dropdown-menu-right">
                     <div class="dropdown-title">Logged in 5 min ago</div>
-                    <a href="/petowner/{{ Auth::user()->username }}" class="dropdown-item has-icon">
+                    <a href="/petowner/editProfile" class="dropdown-item has-icon">
                         <i class="far fa-user"></i> Profile
                     </a>
                     {{-- <a href="features-activities.html" class="dropdown-item has-icon">

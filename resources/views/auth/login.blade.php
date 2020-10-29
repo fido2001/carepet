@@ -34,9 +34,9 @@
                     <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate="">
                         @csrf
                         <div class="form-group">
-                            <label for="email">Email</label>
-                            <input id="email" type="text" class="form-control @error('email') is-invalid @enderror" name="email" tabindex="1" autofocus>
-                            @error('email')
+                            <label for="username">Username</label>
+                            <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" tabindex="1" autofocus>
+                            @error('username')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

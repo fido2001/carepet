@@ -1,10 +1,10 @@
-@extends('layouts.master-user')
+@extends('layouts.master')
 
 @section('header', 'Edit Profile')
 @section('content')
     {{-- <div class="col-12 col-md-12 col-lg-7">s --}}
         <div class="card">
-            <form method="post" action="{{ route('edit.profile') }}" class="needs-validation" novalidate="">
+            <form method="post" action="{{ route('edit.profile.petshop') }}" class="needs-validation" novalidate="">
                 @csrf
                 @method('PATCH')
                 <div class="card-header">
@@ -16,14 +16,14 @@
                             <label>Full Name</label>
                             <input type="text" class="form-control" name="name" value="{{ $user->name }}" required="">
                             <div class="invalid-feedback">
-                            Please fill in the name
+                            Please fill in the first name
                             </div>
                         </div>
                         <div class="form-group col-md-6 col-12">
                             <label>Username</label>
                             <input type="text" class="form-control" name="username" value="{{ $user->username }}" required="">
                             <div class="invalid-feedback">
-                            Please fill in the username
+                            Please fill in the last name
                             </div>
                         </div>
                     </div>
