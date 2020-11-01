@@ -6,33 +6,23 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index(Request $request)
     {
         if ($request->user()->hasRole('admin')) {
-            return redirect('admin');
+            return redirect()->route('admin.index');
         }
 
         if ($request->user()->hasRole('petshop')) {
-            return redirect('petshop');
+            return redirect()->route('petshop.index');
         }
 
         if ($request->user()->hasRole('petowner')) {
-            return redirect('petowner');
+            return redirect()->route('petowner.index');
         }
     }
 }

@@ -13,14 +13,14 @@
                         <label>Full Name</label>
                         <input type="text" class="form-control" name="name" value="{{ $user->name }}" required="">
                         <div class="invalid-feedback">
-                        Please fill in the full name
+                            Data tidak boleh kosong, harap diisi.
                         </div>
                     </div>
                     <div class="form-group col-md-6 col-12">
                         <label>Username</label>
                         <input type="text" class="form-control" name="username" value="{{ $user->username }}" required="">
                         <div class="invalid-feedback">
-                        Please fill in the username
+                            Data tidak boleh kosong, harap diisi.
                         </div>
                     </div>
                 </div>
@@ -29,18 +29,24 @@
                     <label>Email</label>
                     <input type="email" class="form-control" name="email" value="{{ $user->email }}" required="">
                     <div class="invalid-feedback">
-                    Please fill in the email
+                        Data tidak boleh kosong, harap diisi.
                     </div>
                 </div>
                 <div class="form-group col-md-6 col-12">
                     <label>Phone</label>
                     <input type="tel" class="form-control" name="noHp" value="{{ $user->noHp }}">
+                    <div class="invalid-feedback">
+                        Data tidak boleh kosong, harap diisi.
+                    </div>
                 </div>
                 </div>
                 <div class="row">
                 <div class="form-group col-12">
                     <label>Alamat</label>
                     <textarea name="alamat" class="form-control summernote-simple">{{ $user->alamat }}</textarea>
+                    <div class="invalid-feedback">
+                        Data tidak boleh kosong, harap diisi.
+                    </div>
                 </div>
                 </div>
             </div>

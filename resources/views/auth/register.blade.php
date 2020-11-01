@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-<title>Register &mdash; Care Pet</title>
+<title>Daftar &mdash; Care Pet</title>
 
 <!-- General CSS Files -->
 <link rel="stylesheet" href="{{ asset('../assets/modules/bootstrap/css/bootstrap.min.css') }}">
@@ -37,40 +37,58 @@ gtag('config', 'UA-94034622-3');
                         </div>
 
                         <div class="card card-primary">
-                            <div class="card-header"><h4>Register</h4></div>
+                            <div class="card-header"><h4>Daftar</h4></div>
 
                             <div class="card-body">
                                 <form method="POST" action="{{ route('register') }}">
                                     @csrf
                                     <div class="row">
                                         <div class="form-group col-6">
-                                            <label for="name">Full Name</label>
-                                            <input id="name" type="text" class="form-control" name="name" autofocus>
+                                            <label for="name">Nama Lengkap</label>
+                                            <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" autofocus>
+                                            @error('name')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                         <div class="form-group col-6">
                                             <label for="username">Username</label>
-                                            <input id="username" type="text" class="form-control" name="username">
+                                            <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" value="{{ old('username') }}" name="username">
+                                            @error('username')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input id="email" type="email" class="form-control" name="email">
-                                    <div class="invalid-feedback">
-                                    </div>
+                                        <label for="email">Email</label>
+                                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}">
+                                        @error('email')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
 
                                     <div class="row">
                                     <div class="form-group col-6">
                                         <label for="password" class="d-block">Password</label>
-                                        <input id="password" type="password" class="form-control pwstrength" data-indicator="pwindicator" name="password">
+                                        <input id="password" type="password" class="form-control pwstrength @error('password') is-invalid @enderror" data-indicator="pwindicator" name="password">
+                                        @error('password')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                         <div id="pwindicator" class="pwindicator">
                                         <div class="bar"></div>
                                         <div class="label"></div>
                                         </div>
                                     </div>
                                     <div class="form-group col-6">
-                                        <label for="password-confirm" class="d-block">Password Confirmation</label>
+                                        <label for="password-confirm" class="d-block">Konfirmasi Password</label>
                                         <input id="password-confirm" type="password" class="form-control" name="password_confirmation">
                                     </div>
                                     </div>
@@ -78,19 +96,29 @@ gtag('config', 'UA-94034622-3');
                                     <div class="row">
                                         <div class="form-group col-12">
                                             <label for="noHp" class="d-block">Nomor HP</label>
-                                            <input id="noHp" type="text" class="form-control" name="noHp">
+                                            <input id="noHp" type="text" class="form-control @error('noHp') is-invalid @enderror" name="noHp" value="{{ old('noHp') }}">
+                                            @error('noHp')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-12">
                                             <label for="alamat" class="d-block">Alamat</label>
-                                            <textarea id="alamat" type="text" class="form-control" name="alamat"></textarea>
+                                            <textarea id="alamat" type="text" class="form-control @error('alamat') is-invalid @enderror" name="alamat">{{ old('alamat') }}</textarea>
+                                            @error('alamat')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                     <button type="submit" class="btn btn-info btn-lg btn-block">
-                                        Register
+                                        Daftar
                                     </button>
                                     </div>
                                 </form>

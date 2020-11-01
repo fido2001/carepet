@@ -1,6 +1,6 @@
 @extends('layouts.master-user')
 
-@section('header', 'Ganti Password')
+@section('header', 'Ganti Password | Care Pet')
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -21,21 +21,25 @@
                         @csrf
                         @method("PATCH")
                         <div class="form-group">
-                            <label for="old-password">Old Password</label>
-                            <input type="password" name="old_password" id="old-password" class="form-control">
+                            <label for="old-password">Password Saat Ini</label>
+                            <input type="password" name="old_password" id="old-password" class="form-control @error('old_password') is-invalid @enderror">
                             @error('old_password')
-                                <div class="text-danger mt-2">{{ $message }}</div>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="password">New Password</label>
-                            <input type="password" name="password" id="password" class="form-control">
+                            <label for="password">Password Baru</label>
+                            <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror">
                             @error('password')
-                                <div class="text-danger mt-2">{{ $message }}</div>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="password_confirmation">Confirm Password</label>
+                            <label for="password_confirmation">Konfirmasi Password</label>
                             <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
                         </div>
                         <button type="submit" class="btn btn-primary">Change Password</button>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-<title>Login &mdash; Care Pet</title>
+<title>Masuk &mdash; Care Pet</title>
 
 <!-- General CSS Files -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -28,7 +28,7 @@
             </div>
 
             <div class="card card-primary">
-                <div class="card-header"><h4>Login</h4></div>
+                <div class="card-header"><h4>Masuk</h4></div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate="">
@@ -49,7 +49,7 @@
                                 <div class="float-right">
                                     @if (Route::has('password.request'))
                                         <a class="text-small" href="{{ route('password.request') }}">
-                                            {{ __('Forgot Password?') }}
+                                            Lupa Password?
                                         </a>
                                     @endif
                                 </div>
@@ -62,14 +62,14 @@
                             @enderror
                         </div>
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <div class="custom-control custom-checkbox">
                                 <input class="custom-control-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                                 <label class="custom-control-label" for="remember">
                                     {{ __('Remember Me') }}
                                 </label>
                             </div>
-                        </div>
+                        </div> --}}
 
                         @if (session('message'))
                             <div class="alert alert-danger alert-dismissible show fade">
@@ -84,13 +84,13 @@
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-info btn-lg btn-block" tabindex="4">
-                            Login
+                            Masuk
                             </button>
                         </div>
                     </form>
                 </div>
                 <div class="mt-1 text-muted text-center mb-5">
-                    Don't have an account? <a href="{{ route('register') }}">Create One</a>
+                    Belum Punya Akun? <a href="{{ route('register') }}">Daftar</a>
                 </div>
             </div>
             </div>
@@ -116,4 +116,3 @@
 <!-- Page Specific JS File -->
 </body>
 </html>
-

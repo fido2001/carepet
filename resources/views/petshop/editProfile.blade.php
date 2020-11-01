@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Edit Profile | CarePet')
+@section('title', 'Edit Profile | Care Pet')
 @section('header', 'Edit Profile')
 @section('content')
     {{-- <div class="col-12 col-md-12 col-lg-7">s --}}
@@ -17,14 +17,14 @@
                             <label>Full Name</label>
                             <input type="text" class="form-control" name="name" value="{{ $user->name }}" required="">
                             <div class="invalid-feedback">
-                            Please fill in the first name
+                                Data tidak boleh kosong, harap diisi
                             </div>
                         </div>
                         <div class="form-group col-md-6 col-12">
                             <label>Username</label>
                             <input type="text" class="form-control" name="username" value="{{ $user->username }}" required="">
                             <div class="invalid-feedback">
-                            Please fill in the last name
+                                Data tidak boleh kosong, harap diisi
                             </div>
                         </div>
                     </div>
@@ -33,7 +33,7 @@
                         <label>Email</label>
                         <input type="email" class="form-control" name="email" value="{{ $user->email }}" required="">
                         <div class="invalid-feedback">
-                        Please fill in the email
+                            Data tidak boleh kosong, harap diisi
                         </div>
                     </div>
                     <div class="form-group col-md-6 col-12">
@@ -45,9 +45,12 @@
                     <div class="form-group col-12">
                         <label>Alamat</label>
                         <textarea name="alamat" class="form-control summernote-simple">{{ $user->alamat }}</textarea>
+                        <div class="invalid-feedback">
+                            Data tidak boleh kosong, harap diisi
+                        </div>
                     </div>
                     </div>
-                    <a href="{{ route('edit.password.admin') }}" class="text-danger">Ganti Password</a>
+                    <a href="{{ route('edit.password.petshop') }}" class="text-danger">Ganti Password</a>
                 </div>
                 <div class="card-footer text-right">
                 <button type="submit" class="btn btn-primary">Save Changes</button>

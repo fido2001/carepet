@@ -12,6 +12,18 @@
                 Tambah Data Pet Shop
             </button>
         </div>
+        @if (session('success'))
+        <div class="card-body">
+            <div class="alert alert-success alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                    {{ session('success') }}
+                </div>
+            </div>
+        </div>
+        @endif
         <div class="card-body">
             <table class="table table-hover">
                 <thead>
@@ -64,60 +76,59 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label @error('name')
-                                            class="text-danger"
-                                        @enderror>Nama Pemilik Pet Shop @error('name')
-                                            {{ $message }}
-                                        @enderror</label>
-                                        <input type="text" name="name" value="{{ old('name') }}" class="form-control" autocomplete="off">
+                                        <label>
+                                            Nama Pet Shop
+                                        </label>
+                                        <input type="text" name="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" autocomplete="off">
+                                        @error('name')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label @error('username')
-                                            class="text-danger"
-                                        @enderror>Username @error('username')
-                                            {{ $message }}
-                                        @enderror</label>
-                                        <input type="text" name="username" value="{{ old('username') }}" class="form-control" autocomplete="off">
+                                        <label>Username</label>
+                                        <input type="text" name="username" value="{{ old('username') }}" class="form-control @error('username') is-invalid @enderror" autocomplete="off">
+                                        @error('username')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label @error('email')
-                                            class="text-danger"
-                                        @enderror>Email @error('email')
-                                            {{ $message }}
-                                        @enderror</label>
-                                        <input type="email" name="email" value="{{ old('email') }}" class="form-control" autocomplete="off">
+                                        <label>Email</label>
+                                        <input type="email" name="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror" autocomplete="off">
+                                        @error('email')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label @error('password')
-                                            class="text-danger"
-                                        @enderror>Password @error('password')
-                                            {{ $message }}
-                                        @enderror</label>
-                                        <input type="password" name="password" value="{{ old('password') }}" class="form-control" autocomplete="off">
+                                        <label>Password</label>
+                                        <input type="password" name="password" value="{{ old('password') }}" class="form-control @error('password') is-invalid @enderror" autocomplete="off">
                                     </div>
                                     <div class="form-group">
-                                        <label @error('password_confirmation')
-                                            class="text-danger"
-                                        @enderror>Konfirmasi Password @error('password_confirmation')
-                                            {{ $message }}
-                                        @enderror</label>
+                                        <label>Konfirmasi Password</label>
                                         <input type="password" name="password_confirmation" value="{{ old('password_confirmation') }}" class="form-control" autocomplete="off">
                                     </div>
                                     <div class="form-group">
-                                        <label @error('noHp')
-                                            class="text-danger"
-                                        @enderror>Nomor Handphone @error('noHp')
-                                            {{ $message }}
-                                        @enderror</label>
-                                        <input type="text" name="noHp" value="{{ old('noHp') }}" class="form-control" autocomplete="off">
+                                        <label>Nomor Handphone</label>
+                                        <input type="text" name="noHp" value="{{ old('noHp') }}" class="form-control @error('noHp') is-invalid @enderror" autocomplete="off">
+                                        @error('noHp')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label @error('alamat')
-                                            class="text-danger"
-                                        @enderror>Alamat @error('alamat')
-                                            {{ $message }}
-                                        @enderror</label>
-                                        <textarea type="text" name="alamat" value="{{ old('alamat') }}" class="form-control" autocomplete="off"></textarea>
+                                        <label>Alamat</label>
+                                        <textarea type="text" name="alamat" value="{{ old('alamat') }}" class="form-control @error('alamat') is-invalid @enderror" autocomplete="off"></textarea>
+                                        @error('alamat')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
