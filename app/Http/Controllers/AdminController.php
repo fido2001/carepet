@@ -108,7 +108,7 @@ class AdminController extends Controller
         ]);
         $user->roles()->attach(Role::where('name', 'petshop')->first());
 
-        return redirect()->route('shows.users-management')->with('success', 'Pet Shop Berhasil Ditambahkan.');
+        return redirect()->route('show.users-management')->with('success', 'Pet Shop Berhasil Ditambahkan.');
     }
 
     public function editPassword()

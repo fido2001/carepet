@@ -31,4 +31,9 @@ class User extends Authenticatable
     {
         return $this->roles()->where('name', $role)->count() == 1;
     }
+
+    public function dataproduk()
+    {
+        return $this->belongsToMany(DataProduk::class, 'ordering_medicine_food');
+    }
 }
