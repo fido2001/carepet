@@ -257,9 +257,7 @@ gtag('config', 'UA-94034622-3');
         </nav>
         @if (Request::segment(1) == 'admin')
             @include('layouts.sidebar-admin')
-        @endif
-        
-        @if (Request::segment(1) == 'petshop')
+        @elseif(Request::segment(1) == 'petshop')
             @include('layouts.sidebar-petshop')
         @endif
 

@@ -37,11 +37,6 @@ gtag('config', 'UA-94034622-3');
                 <a class="sidebar-gone-show nav-collapse-toggle nav-link" href="#">
                     <i class="fas fa-ellipsis-v"></i>
                 </a>
-                <ul class="navbar-nav">
-                    <li class="nav-item active"><a href="#" class="nav-link">Application</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">Report Something</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">Server Status</a></li>
-                </ul>
             </div>
             <form class="form-inline ml-auto">
                 {{-- <ul class="navbar-nav">
@@ -268,15 +263,14 @@ gtag('config', 'UA-94034622-3');
         <nav class="navbar navbar-secondary navbar-expand-lg">
             <div class="container">
             <ul class="navbar-nav">
-                <li class="nav-item dropdown">
-                <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
-                <ul class="dropdown-menu">
-                    <li class="nav-item"><a href="index-0.html" class="nav-link">General Dashboard</a></li>
-                    <li class="nav-item"><a href="index.html" class="nav-link">Ecommerce Dashboard</a></li>
-                </ul>
+                <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="") active @endif">
+                    <a href="{{ route('petowner.index') }}" class="nav-link"><i class="fas fa-fire"></i><span>Dashboard</span></a>
                 </li>
-                <li class="nav-item active">
-                <a href="#" class="nav-link"><i class="far fa-heart"></i><span>Top Navigation</span></a>
+                <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="produk") active @endif">
+                    <a href="{{ route('index.produk.petowner') }}" class="nav-link"><i class="far fa-heart"></i><span>Data Produk</span></a>
+                </li>
+                <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="historySale") active @endif">
+                    <a href="{{ route('history.produk.petowner') }}" class="nav-link"><i class="far fa-heart"></i><span>History Pemesanan</span></a>
                 </li>
                 <li class="nav-item dropdown">
                 <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-clone"></i><span>Multiple Dropdown</span></a>
@@ -306,32 +300,9 @@ gtag('config', 'UA-94034622-3');
             <section class="section">
                 <div class="section-header">
                     <h1>@yield('header')</h1>
-                    {{-- <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-                    <div class="breadcrumb-item"><a href="#">Layout</a></div>
-                    <div class="breadcrumb-item">Top Navigation</div> --}}
-                    {{-- </div> --}}
                 </div>
 
                 <div class="section-body">
-                    {{-- <h2 class="section-title">This is Example Page</h2>
-                    <p class="section-lead">This page is just an example for you to create your own page.</p>
-                    <div class="card">
-                    <div class="card-header">
-                        <h4>Example Card</h4>
-                    </div>
-                    <div class="card-body">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                    </div>
-                    <div class="card-footer bg-whitesmoke">
-                        This is card footer
-                    </div>
-                    </div> --}}
                     @yield('content')
                 </div>
             </section>
