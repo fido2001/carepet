@@ -73,10 +73,69 @@ class ProdukController extends Controller
         $id_produk = ProdukUser::where('user_id', $user_id)->get('produk_id')->toArray();
         // $produk = DataProduk::where('id', $id_produk)->get();
         $produk = DataProduk::find($id_produk, ['nama_produk', 'harga'])->toArray();
-        // dd($pembelian, $id_produk, $produk);
-        return view('sale.historyPetowner', [
+        // dd($user_id, $pembelian, $id_produk, $produk);
+        return view('saleProduk.historyPetowner', [
             'dataPembelian' => $pembelian,
             'dataProduk' => $produk
         ]);
+    }
+
+    public function historyPetownerDestroy($id)
+    {
+        ProdukUser::destroy($id);
+        return redirect()->back()->with('success', 'Pesanan berhasil dibatalkan');
+    }
+
+    public function historyPetownerDetail($id)
+    {
+        $pemesanan = ProdukUser::where('id', $id)->get()->toArray();
+        $id_produk = ProdukUser::where('id', $id)->get('produk_id')->toArray();
+        // $produk = DataProduk::where('id', $id_produk)->get();
+        $produk = DataProduk::find($id_produk, ['nama_produk', 'harga'])->toArray();
+        // dd($pemesanan, $id_paket, $produk);
+        return view('saleProduk.historyPetowner-detail', [
+            'dataPemesanan' => $pemesanan,
+            'dataProduk' => $produk
+        ]);
+    }
+
+    public function pembayaran($id)
+    {
+        $pemesanan = ProdukUser::where('id', $id)->get()->toArray();
+        $id_produk = ProdukUser::where('id', $id)->get('produk_id')->toArray();
+        $produk = DataProduk::find($id_produk, ['nama_produk', 'harga'])->toArray();
+        return view('saleProduk.pembayaran', [
+            'dataPemesanan' => $pemesanan,
+            'dataProduk' => $produk
+        ]);
+    }
+
+    public function storePembayaran(Request $request, $id)
+    {
+        $request->validate(
+            [
+                'bukti_pembayaran' => 'required|image|mimes:jpeg,png,jpg,svg|max:2048',
+                'nama_pengirim' => 'required|max:30',
+                'no_rek_pengirim' => 'required|max:15'
+            ],
+            [
+                'bukti_pembayaran.required' => 'Semua Form harap diisi dan tidak boleh kosong',
+                'nama_pengirim.required' => 'Semua Form harap diisi dan tidak boleh kosong',
+                'no_rek_pengirim.required' => 'Semua Form harap diisi dan tidak boleh kosong',
+                'no_rek_pengirim.max' => 'Maksimal 15 Karakter',
+                'nama_pengirim.max' => 'Maksimal 30 Karakter'
+            ]
+        );
+
+        $bukti_pembayaran = request()->file('bukti_pembayaran')->store("images/tfProduk");
+
+        ProdukUser::where('id', $id)->update([
+            'no_rek_pengirim' => $request->no_rek_pengirim,
+            'nama_pengirim' => $request->nama_pengirim,
+            'tgl_kirim' => date('Y-m-d'),
+            'bukti_pembayaran' => $bukti_pembayaran
+        ]);
+
+        return redirect()->route('history.produk.petowner')->with('success', 'Data pembayaran akan segera kami proses');
     }
 }

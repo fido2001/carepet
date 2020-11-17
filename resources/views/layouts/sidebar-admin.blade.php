@@ -17,14 +17,13 @@
             active @endif"><a class="nav-link" href="{{ route('show.users-management') }}"><i class="far fa-user"></i> <span>User Management</span></a></li>
             <li class="@if (Request::segment(1) == 'admin' && Request::segment(2) == 'produk')
             active @endif"><a class="nav-link" href="{{ route('index.produk.admin') }}"><i class="far fa-square"></i> <span>Data Produk</span></a></li>
-            <li class="menu-header">Pages</li>
+            <li class="@if (Request::segment(1) == 'admin' && Request::segment(2) == 'paket')
+            active @endif"><a class="nav-link" href="{{ route('index.paket.admin') }}"><i class="far fa-square"></i> <span>Service Packages</span></a></li>
             <li class="dropdown">
-                <a href="#" class="nav-link has-dropdown"><i class="far fa-user"></i> <span>Auth</span></a>
+                <a href="#" class="nav-link has-dropdown"><i class="far fa-user"></i> <span>Rekap Pemesanan</span></a>
                 <ul class="dropdown-menu">
-                    <li><a href="auth-forgot-password.html">Forgot Password</a></li> 
-                    <li><a href="auth-login.html">Login</a></li> 
-                    <li><a href="auth-register.html">Register</a></li> 
-                    <li><a href="auth-reset-password.html">Reset Password</a></li> 
+                    <li><a href="{{ route('history.paket.admin') }}">Service Packages</a></li> 
+                    <li><a href="{{ route('index.produk.admin') }}">Medicine and Food</a></li> 
                 </ul>
             </li>
         </ul>      

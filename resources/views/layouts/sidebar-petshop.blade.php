@@ -21,6 +21,7 @@
                 </ul>
             </li>
             <li class="@if(Request::segment(1)=="petshop" && Request::segment(2)=="produk") active @endif"><a class="nav-link" href="{{ route('index.produk.petshop') }}"><i class="far fa-square"></i> <span>Data Produk</span></a></li>
+            <li class="@if(Request::segment(1)=="petshop" && Request::segment(2)=="paket") active @endif"><a class="nav-link" href="{{ route('index.paket.petshop') }}"><i class="far fa-square"></i> <span>Service Packages</span></a></li>
             <li class="dropdown">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-th"></i> <span>Bootstrap</span></a>
                 <ul class="dropdown-menu">

@@ -36,4 +36,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(DataProduk::class, 'ordering_medicine_food', 'produk_id', 'user_id');
     }
+
+    public function datapaket()
+    {
+        return $this->belongsToMany(Paket::class, 'ordering_service_packages', 'paket_id', 'user_id');
+    }
 }

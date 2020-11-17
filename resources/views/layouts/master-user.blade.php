@@ -269,26 +269,32 @@ gtag('config', 'UA-94034622-3');
                 <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="produk") active @endif">
                     <a href="{{ route('index.produk.petowner') }}" class="nav-link"><i class="far fa-heart"></i><span>Data Produk</span></a>
                 </li>
-                <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="historySale") active @endif">
-                    <a href="{{ route('history.produk.petowner') }}" class="nav-link"><i class="far fa-heart"></i><span>History Pemesanan</span></a>
+                <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="paket") active @endif">
+                    <a href="{{ route('index.paket.petowner') }}" class="nav-link"><i class="far fa-heart"></i><span>Data Paket</span></a>
                 </li>
                 <li class="nav-item dropdown">
-                <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-clone"></i><span>Multiple Dropdown</span></a>
+                <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-clone"></i><span>History Pemesanan</span></a>
                 <ul class="dropdown-menu">
-                    <li class="nav-item"><a href="#" class="nav-link">Not Dropdown Link</a></li>
+                    <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="historySale") active @endif">
+                        <a href="/petowner/historyMedicine" class="nav-link">Medicine and Food</a>
+                    </li>
+                    <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="historySale") active @endif">
+                        <a href="/petowner/historyPackages" class="nav-link">Service Packages</a>
+                    </li>
+                    {{-- <li class="nav-item"><a href="#" class="nav-link">Not Dropdown Link</a></li>
                     <li class="nav-item dropdown"><a href="#" class="nav-link has-dropdown">Hover Me</a>
-                    <ul class="dropdown-menu">
-                        <li class="nav-item"><a href="#" class="nav-link">Link</a></li>
-                        <li class="nav-item dropdown"><a href="#" class="nav-link has-dropdown">Link 2</a>
                         <ul class="dropdown-menu">
                             <li class="nav-item"><a href="#" class="nav-link">Link</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link">Link</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link">Link</a></li>
+                            <li class="nav-item dropdown"><a href="#" class="nav-link has-dropdown">Link 2</a>
+                            <ul class="dropdown-menu">
+                                <li class="nav-item"><a href="#" class="nav-link">Link</a></li>
+                                <li class="nav-item"><a href="#" class="nav-link">Link</a></li>
+                                <li class="nav-item"><a href="#" class="nav-link">Link</a></li>
+                            </ul>
+                            </li>
+                            <li class="nav-item"><a href="#" class="nav-link">Link 3</a></li>
                         </ul>
-                        </li>
-                        <li class="nav-item"><a href="#" class="nav-link">Link 3</a></li>
-                    </ul>
-                    </li>
+                    </li> --}}
                 </ul>
                 </li>
             </ul>
@@ -328,11 +334,16 @@ gtag('config', 'UA-94034622-3');
 <script src="{{ asset('../assets/js/stisla.js') }}"></script>
 
 <!-- JS Libraies -->
+@stack('page-scripts')
 
 <!-- Page Specific JS File -->
+@stack('page-spesific-scripts')
 
 <!-- Template JS File -->
 <script src="{{ asset('../assets/js/scripts.js') }}"></script>
 <script src="{{ asset('../assets/js/custom.js') }}"></script>
+
+@stack('after-scripts')
+
 </body>
 </html>
