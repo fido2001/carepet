@@ -25,7 +25,7 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">ID Pemesanan</th>
+                        <th scope="col">Nama Paket</th>
                         <th scope="col">Durasi Pemesanan</th>
                         <th scope="col">Jenis Hewan</th>
                         <th scope="col">Status</th>
@@ -37,21 +37,21 @@
                     {{-- @foreach ($dataPaket as $no => $paket) --}}
                         <tr>
                             <th scope="row">{{ $no+1 }}</th>
-                            <td>{{ $pemesanan['id'] }}</td>
-                            <td>{{ $pemesanan['durasi_pemesanan'] }} Hari</td>
-                            <td>{{ $pemesanan['jenis_hewan'] }}</td>
+                            <td>{{ $pemesanan->nama_paket }}</td>
+                            <td>{{ $pemesanan->durasi_pemesanan }} Hari</td>
+                            <td>{{ $pemesanan->jenis_hewan }}</td>
                             <td>
-                                @if ($pemesanan['bukti_pembayaran'] == null)
+                                @if ($pemesanan->bukti_pembayaran == null)
                                 Belum Bayar
-                                @elseif ($pemesanan['bukti_pembayaran'] != null)
+                                @elseif ($pemesanan->bukti_pembayaran != null)
                                 Sudah Bayar
                                 @endif
                             </td>
                             <td class="text-center">
-                                <a href="{{ route('historyDetail.paket.petowner', $pemesanan['id']) }}" class="badge badge-info">Detail Pesanan</a>
-                                @if ($pemesanan['bukti_pembayaran'] == null)
-                                <a href="#" data-id="{{ $pemesanan['id'] }}" class="badge badge-danger swal-confirm">
-                                    <form action="{{ route('destroy.paket.petowner', $pemesanan['id']) }}" id="delete{{ $pemesanan['id'] }}" method="POST">
+                                <a href="{{ route('historyDetail.paket.petowner', $pemesanan->id) }}" class="badge badge-info">Detail Pesanan</a>
+                                @if ($pemesanan->bukti_pembayaran == null)
+                                <a href="#" data-id="{{ $pemesanan->id }}" class="badge badge-danger swal-confirm">
+                                    <form action="{{ route('destroy.paket.petowner', $pemesanan->id) }}" id="delete{{ $pemesanan->id }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     </form>

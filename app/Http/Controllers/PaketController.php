@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Paket;
 use App\PaketUser;
+use App\Progress;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PaketController extends Controller
 {
@@ -116,44 +118,25 @@ class PaketController extends Controller
     public function historyPetowner()
     {
         $user_id = auth()->user()->id;
-        $pemesanan = PaketUser::where('user_id', $user_id)->get()->toArray();
-        $id_paket = PaketUser::where('user_id', $user_id)->get('paket_id')->toArray();
-        // $produk = DataProduk::where('id', $id_produk)->get();
-        $paket = Paket::find($id_paket, ['nama_paket', 'harga'])->toArray();
-        // dd($pemesanan, $id_paket, $paket);
+        $history = DB::table('pilihan_paket as paket')->join('ordering_service_packages as order', 'paket.id', '=', 'order.paket_id')->join('users', 'order.user_id', '=', 'users.id')->where('users.id', '=', $user_id)->select('paket.nama_paket', 'order.durasi_pemesanan', 'order.jenis_hewan', 'order.bukti_pembayaran', 'order.id')->get();
         return view('salePaket.historyPetowner', [
-            'dataPemesanan' => $pemesanan,
-            'dataPaket' => $paket
+            'dataPemesanan' => $history
         ]);
     }
 
     public function historyPetshop()
     {
-        $pemesanan = PaketUser::get()->toArray();
-        $user_id_paket = PaketUser::get('user_id')->toArray();
-        $user = User::where('id', $user_id_paket)->get()->toArray();
-        $id_paket = PaketUser::get('paket_id')->toArray();
-        $paket = Paket::find($id_paket, ['nama_paket', 'harga'])->toArray();
-        // dd($pemesanan, $user_id_paket, $user, $paket);
+        $history = DB::table('pilihan_paket as paket')->join('ordering_service_packages as order', 'paket.id', '=', 'order.paket_id')->join('users', 'order.user_id', '=', 'users.id')->select('paket.nama_paket', 'order.durasi_pemesanan', 'order.jenis_hewan', 'order.bukti_pembayaran', 'order.id', 'order.status_pembayaran')->get();
         return view('salePaket.historyPetshop', [
-            'dataPemesanan' => $pemesanan,
-            'dataPetowner' => $user,
-            'dataPaket' => $paket
+            'dataPemesanan' => $history
         ]);
     }
 
     public function historyAdmin()
     {
-        $pemesanan = PaketUser::get()->toArray();
-        $user_id_paket = PaketUser::get('user_id')->toArray();
-        $user = User::where('id', $user_id_paket)->get()->toArray();
-        $id_paket = PaketUser::get('paket_id')->toArray();
-        $paket = Paket::find($id_paket, ['nama_paket', 'harga'])->toArray();
-        // dd($pemesanan, $user_id_paket, $user, $paket);
+        $history = DB::table('pilihan_paket as paket')->join('ordering_service_packages as order', 'paket.id', '=', 'order.paket_id')->join('users', 'order.user_id', '=', 'users.id')->select('paket.nama_paket', 'order.durasi_pemesanan', 'order.jenis_hewan', 'order.bukti_pembayaran', 'order.id', 'order.status_pembayaran')->get();
         return view('salePaket.historyAdmin', [
-            'dataPemesanan' => $pemesanan,
-            'dataPetowner' => $user,
-            'dataPaket' => $paket
+            'dataPemesanan' => $history
         ]);
     }
 
@@ -176,6 +159,31 @@ class PaketController extends Controller
         ]);
     }
 
+    public function historyPetshopDetail($id)
+    {
+        $pemesanan = PaketUser::where('id', $id)->get()->toArray();
+        $id_paket = PaketUser::where('id', $id)->get('paket_id')->toArray();
+        $paket = Paket::find($id_paket, ['nama_paket', 'harga'])->toArray();
+        // dd($pemesanan, $id_paket, $paket);
+        return view('salePaket.historyPetshop-detail', [
+            'dataPemesanan' => $pemesanan,
+            'dataPaket' => $paket
+        ]);
+    }
+
+    public function historyAdminDetail($id)
+    {
+        $pemesanan = PaketUser::where('id', $id)->get();
+        $id_paket = PaketUser::where('id', $id)->get('paket_id')->toArray();
+        $paket = Paket::find($id_paket, ['nama_paket', 'harga'])->toArray();
+        // dd($pemesanan, $id_paket, $paket);
+        $history = DB::table('pilihan_paket as paket')->join('ordering_service_packages as order', 'paket.id', '=', 'order.paket_id')->join('users', 'order.user_id', '=', 'users.id')->where('order.id', '=', $id)->select('paket.nama_paket', 'order.durasi_pemesanan', 'order.jenis_hewan', 'order.bukti_pembayaran', 'order.id')->get();
+        return view('salePaket.historyAdmin-detail', [
+            'dataPemesanan' => $pemesanan,
+            'dataPaket' => $paket
+        ]);
+    }
+
     public function pembayaran($id)
     {
         $pemesanan = PaketUser::where('id', $id)->get()->toArray();
@@ -185,6 +193,14 @@ class PaketController extends Controller
             'dataPemesanan' => $pemesanan,
             'dataPaket' => $paket
         ]);
+    }
+
+    public function verifikasiPembayaran(Request $request, $id)
+    {
+        PaketUser::where('id', $id)->update([
+            'status_pembayaran' => $request->status_pembayaran
+        ]);
+        return redirect()->back();
     }
 
     public function storePembayaran(Request $request, $id)
@@ -204,15 +220,30 @@ class PaketController extends Controller
             ]
         );
 
-        $bukti_pembayaran = request()->file('bukti_pembayaran')->store("images/bukti");
+        $bukti_pembayaran = request()->file('bukti_pembayaran')->store('images/bukti', 'public');
 
         PaketUser::where('id', $id)->update([
             'no_rek_pengirim' => $request->no_rek_pengirim,
             'nama_pengirim' => $request->nama_pengirim,
             'tgl_kirim' => date('Y-m-d'),
-            'bukti_pembayaran' => $bukti_pembayaran
+            'bukti_pembayaran' => $bukti_pembayaran,
+            'status_pembayaran' => 'Belum Diverifikasi',
         ]);
 
         return redirect()->route('history.paket.petowner')->with('success', 'Data pembayaran akan segera kami proses');
+    }
+
+    public function progressPetowner($id)
+    {
+        $progress = Progress::where('id_service', $id)->get();
+        $pemesanan = PaketUser::where('id', $id)->get()->toArray();
+        $id_paket = PaketUser::where('id', $id)->get('paket_id')->toArray();
+        $paket = Paket::find($id_paket, ['nama_paket', 'harga'])->toArray();
+        // dd($pemesanan, $id_paket, $paket);
+        return view('progress.indexPetowner', [
+            'dataProgress' => $progress,
+            'dataPemesanan' => $pemesanan,
+            'dataPaket' => $paket
+        ]);
     }
 }

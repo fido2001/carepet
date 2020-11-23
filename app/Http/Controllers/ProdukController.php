@@ -80,6 +80,36 @@ class ProdukController extends Controller
         ]);
     }
 
+    public function historyPetshop()
+    {
+        $pemesanan = ProdukUser::get()->toArray();
+        $user_id_produk = ProdukUser::get('user_id')->toArray();
+        $user = User::where('id', $user_id_produk)->get()->toArray();
+        $id_produk = ProdukUser::get('produk_id')->toArray();
+        $produk = DataProduk::find($id_produk, ['nama_produk', 'harga'])->toArray();
+        // dd($pemesanan, $user_id_produk, $user, $produk);
+        return view('saleProduk.historyPetshop', [
+            'dataPemesanan' => $pemesanan,
+            'dataPetowner' => $user,
+            'dataProduk' => $produk
+        ]);
+    }
+
+    public function historyAdmin()
+    {
+        $pemesanan = ProdukUser::get()->toArray();
+        $user_id_produk = ProdukUser::get('user_id')->toArray();
+        $user = User::where('id', $user_id_produk)->get()->toArray();
+        $id_produk = ProdukUser::get('produk_id')->toArray();
+        $produk = DataProduk::find($id_produk, ['nama_produk', 'harga'])->toArray();
+        // dd($pemesanan, $user_id_produk, $user, $produk);
+        return view('saleProduk.historyAdmin', [
+            'dataPemesanan' => $pemesanan,
+            'dataPetowner' => $user,
+            'dataProduk' => $produk
+        ]);
+    }
+
     public function historyPetownerDestroy($id)
     {
         ProdukUser::destroy($id);
@@ -127,7 +157,7 @@ class ProdukController extends Controller
             ]
         );
 
-        $bukti_pembayaran = request()->file('bukti_pembayaran')->store("images/tfProduk");
+        $bukti_pembayaran = request()->file('bukti_pembayaran')->store('images/bukti', 'public');
 
         ProdukUser::where('id', $id)->update([
             'no_rek_pengirim' => $request->no_rek_pengirim,

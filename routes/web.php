@@ -29,6 +29,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/paket/{paket}/edit', 'PaketController@edit')->name('edit.paket.admin');
     Route::patch('/paket/{paket}', 'PaketController@update')->name('update.paket.admin');
     Route::get('/historyPackages', 'PaketController@historyAdmin')->name('history.paket.admin');
+    Route::get('/historyPackages/{paketuser}', 'PaketController@historyAdminDetail')->name('historyDetail.paket.admin');
+    Route::patch('/historyPackages/{paketuser}', 'PaketController@verifikasiPembayaran')->name('verifikasi.pembayaran.admin');
+    Route::get('/historyMedicine', 'ProdukController@historyAdmin')->name('history.produk.admin');
 });
 
 Route::prefix('petshop')->middleware('auth')->group(function () {
@@ -43,6 +46,14 @@ Route::prefix('petshop')->middleware('auth')->group(function () {
     Route::patch('/produk/{dataProduk}', 'ProdukController@update')->name('update.produk.petshop');
     Route::get('/paket', 'PaketController@indexPetshop')->name('index.paket.petshop');
     Route::get('/historyPackages', 'PaketController@historyPetshop')->name('history.paket.petshop');
+    Route::get('/historyPackages/{paketuser}', 'PaketController@historyPetshopDetail')->name('historyDetail.paket.petshop');
+    Route::get('/historyMedicine', 'ProdukController@historyPetshop')->name('history.produk.petshop');
+    Route::get('/progress/{paketuser}', 'ProgressController@index')->name('index.progress.petshop');
+    Route::get('/progress/{paketuser}/create', 'ProgressController@create')->name('create.progress.petshop');
+    Route::post('/progress/{paketuser}/create', 'ProgressController@store')->name('store.progress.petshop');
+    Route::get('/progress/{progress}/edit', 'ProgressController@edit')->name('edit.progress.petshop');
+    Route::patch('/progress/{progress}/edit', 'ProgressController@update')->name('update.progress.petshop');
+    Route::delete('/progress/{progress}', 'ProgressController@destroy')->name('destroy.progress.petshop');
 });
 
 Route::prefix('petowner')->middleware('auth')->group(function () {
@@ -67,6 +78,7 @@ Route::prefix('petowner')->middleware('auth')->group(function () {
     Route::get('/historyPackages', 'PaketController@historyPetowner')->name('history.paket.petowner');
     Route::delete('/historyPackages/{paketuser}', 'PaketController@historyPetownerDestroy')->name('destroy.paket.petowner');
     Route::get('/historyPackages/{paketuser}', 'PaketController@historyPetownerDetail')->name('historyDetail.paket.petowner');
+    Route::get('/progress/{paketuser}', 'PaketController@progressPetowner')->name('index.progress.petowner');
     Route::get('/historyPackages/{paketuser}/pembayaran', 'PaketController@pembayaran')->name('pembayaran.paket.petowner');
     Route::patch('/historyPackages/{paketuser}/pembayaran', 'PaketController@storePembayaran')->name('pembayaran.paket.petowner');
 });

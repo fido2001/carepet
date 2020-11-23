@@ -23,7 +23,7 @@
                 <a href="#" class="nav-link has-dropdown"><i class="far fa-user"></i> <span>Rekap Pemesanan</span></a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ route('history.paket.admin') }}">Service Packages</a></li> 
-                    <li><a href="{{ route('index.produk.admin') }}">Medicine and Food</a></li> 
+                    <li><a href="{{ route('history.produk.admin') }}">Medicine and Food</a></li> 
                 </ul>
             </li>
         </ul>      

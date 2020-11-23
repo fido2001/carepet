@@ -11,7 +11,7 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">ID Pemesanan</th>
+                        <th scope="col">Nama Paket</th>
                         <th scope="col">Durasi Pemesanan</th>
                         <th scope="col">Jenis Hewan</th>
                         <th scope="col">Status</th>
@@ -19,21 +19,23 @@
                     </tr>
                 </thead>    
                 <tbody>
-                @foreach ($dataPemesanan as $no => $pemesanan)
+                    @foreach ($dataPemesanan as $no => $pemesanan)
                     {{-- @foreach ($dataPaket as $no => $paket) --}}
                         <tr>
                             <th scope="row">{{ $no+1 }}</th>
-                            <td>{{ $pemesanan['id'] }}</td>
-                            <td>{{ $pemesanan['durasi_pemesanan'] }} Hari</td>
-                            <td>{{ $pemesanan['jenis_hewan'] }}</td>
+                            <td>{{ $pemesanan->nama_paket }}</td>
+                            <td>{{ $pemesanan->durasi_pemesanan }} Hari</td>
+                            <td>{{ $pemesanan->jenis_hewan }}</td>
                             <td>
-                                @if ($pemesanan['bukti_pembayaran'] == null)
-                                Belum Bayar
-                                @elseif ($pemesanan['bukti_pembayaran'] != null)
-                                Sudah Bayar
+                                @if ($pemesanan->bukti_pembayaran == null)
+                                <p class="badge badge-danger">Belum Bayar</p> 
+                                @elseif ($pemesanan->bukti_pembayaran != null && $pemesanan->status_pembayaran == null)
+                                <p class="badge badge-info">Lakukan Verifikasi</p> 
+                                @elseif ($pemesanan->bukti_pembayaran != null && $pemesanan->status_pembayaran == '1')
+                                <p class="badge badge-success">Sudah Verifikasi</p> 
                                 @endif
                             </td>
-                            {{-- <td><a href="{{ route('historyDetail.paket.petowner', $pemesanan['id']) }}" class="btn btn-info">Detail</a></td> --}}
+                            <td><a href="{{ route('historyDetail.paket.admin', $pemesanan->id) }}" class="badge badge-info">Detail</a></td>
                         </tr>
                     {{-- @endforeach --}}
                 @endforeach

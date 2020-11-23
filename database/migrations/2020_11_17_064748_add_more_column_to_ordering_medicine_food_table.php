@@ -18,6 +18,7 @@ class AddMoreColumnToOrderingMedicineFoodTable extends Migration
             $table->string('nama_pengirim', 30)->nullable()->after('no_rek_pengirim');
             $table->date('tgl_kirim')->nullable()->after('nama_pengirim');
             $table->string('bukti_pembayaran', 100)->nullable()->after('tgl_kirim');
+            $table->enum('is_verified', ['true', 'false'])->nullable()->after('bukti_pembayaran');
         });
     }
 
