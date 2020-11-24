@@ -11,9 +11,9 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">ID Pemesanan</th>
+                        <th scope="col">Nama Produk</th>
                         <th scope="col">Jumlah Pemesanan</th>
-                        <th scope="col">Nomor HP</th>
+                        {{-- <th scope="col">Nomor HP</th> --}}
                         <th scope="col">Status</th>
                         <th scope="col">Aksi</th>
                     </tr>
@@ -23,17 +23,19 @@
                     {{-- @foreach ($dataPaket as $no => $paket) --}}
                         <tr>
                             <th scope="row">{{ $no+1 }}</th>
-                            <td>{{ $pemesanan['id'] }}</td>
-                            <td>{{ $pemesanan['jumlahProduk'] }} Hari</td>
-                            <td>{{ $pemesanan['noHp'] }}</td>
+                            <td>{{ $pemesanan->nama_produk }}</td>
+                            <td>{{ $pemesanan->jumlahProduk }} Item</td>
+                            {{-- <td>{{ $pemesanan->noHp }}</td> --}}
                             <td>
-                                @if ($pemesanan['bukti_pembayaran'] == null)
-                                Belum Bayar
-                                @elseif ($pemesanan['bukti_pembayaran'] != null)
-                                Sudah Bayar
+                                @if ($pemesanan->bukti_pembayaran == null)
+                                <p class="badge badge-danger">Belum Bayar</p> 
+                                @elseif ($pemesanan->bukti_pembayaran != null && $pemesanan->status_pembayaran == null)
+                                <p class="badge badge-info">Lakukan Verifikasi</p> 
+                                @elseif ($pemesanan->bukti_pembayaran != null && $pemesanan->status_pembayaran == '1')
+                                <p class="badge badge-success">Sudah Verifikasi</p> 
                                 @endif
                             </td>
-                            {{-- <td><a href="{{ route('historyDetail.paket.petowner', $pemesanan['id']) }}" class="btn btn-info">Detail</a></td> --}}
+                            <td><a href="{{ route('historyDetail.produk.petshop', $pemesanan->id) }}" class="badge badge-info">Detail</a></td>
                         </tr>
                     {{-- @endforeach --}}
                 @endforeach

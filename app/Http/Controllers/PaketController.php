@@ -142,6 +142,9 @@ class PaketController extends Controller
 
     public function historyPetownerDestroy($id)
     {
+        $data = PaketUser::find($id);
+        $image_path = public_path() . '/storage/' . $data->foto;
+        unlink($image_path);
         PaketUser::destroy($id);
         return redirect()->back()->with('success', 'Pesanan berhasil dibatalkan');
     }
@@ -176,8 +179,6 @@ class PaketController extends Controller
         $pemesanan = PaketUser::where('id', $id)->get();
         $id_paket = PaketUser::where('id', $id)->get('paket_id')->toArray();
         $paket = Paket::find($id_paket, ['nama_paket', 'harga'])->toArray();
-        // dd($pemesanan, $id_paket, $paket);
-        $history = DB::table('pilihan_paket as paket')->join('ordering_service_packages as order', 'paket.id', '=', 'order.paket_id')->join('users', 'order.user_id', '=', 'users.id')->where('order.id', '=', $id)->select('paket.nama_paket', 'order.durasi_pemesanan', 'order.jenis_hewan', 'order.bukti_pembayaran', 'order.id')->get();
         return view('salePaket.historyAdmin-detail', [
             'dataPemesanan' => $pemesanan,
             'dataPaket' => $paket

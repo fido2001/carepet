@@ -48,6 +48,8 @@ Route::prefix('petshop')->middleware('auth')->group(function () {
     Route::get('/historyPackages', 'PaketController@historyPetshop')->name('history.paket.petshop');
     Route::get('/historyPackages/{paketuser}', 'PaketController@historyPetshopDetail')->name('historyDetail.paket.petshop');
     Route::get('/historyMedicine', 'ProdukController@historyPetshop')->name('history.produk.petshop');
+    Route::get('/historyMedicine/{produkuser}', 'ProdukController@historyPetshopDetail')->name('historyDetail.produk.petshop');
+    Route::patch('/historyMedicine/{paketuser}', 'ProdukController@verifikasiPembayaran')->name('verifikasi.pembayaran.petshop');
     Route::get('/progress/{paketuser}', 'ProgressController@index')->name('index.progress.petshop');
     Route::get('/progress/{paketuser}/create', 'ProgressController@create')->name('create.progress.petshop');
     Route::post('/progress/{paketuser}/create', 'ProgressController@store')->name('store.progress.petshop');

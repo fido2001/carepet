@@ -8,4 +8,9 @@ class ProdukUser extends Model
 {
     protected $table = 'ordering_medicine_food';
     protected $fillable = ['user_id', 'produk_id', 'jumlahProduk', 'alamat', 'catatan', 'noHp'];
+
+    public function takeImage()
+    {
+        return "/storage/" . $this->bukti_pembayaran;
+    }
 }

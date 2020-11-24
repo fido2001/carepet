@@ -6,6 +6,7 @@ use App\DataProduk;
 use App\ProdukUser;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProdukController extends Controller
 {
@@ -82,16 +83,10 @@ class ProdukController extends Controller
 
     public function historyPetshop()
     {
-        $pemesanan = ProdukUser::get()->toArray();
-        $user_id_produk = ProdukUser::get('user_id')->toArray();
-        $user = User::where('id', $user_id_produk)->get()->toArray();
-        $id_produk = ProdukUser::get('produk_id')->toArray();
-        $produk = DataProduk::find($id_produk, ['nama_produk', 'harga'])->toArray();
+        $history = DB::table('data_produk as produk')->join('ordering_medicine_food as order', 'produk.id', '=', 'order.produk_id')->join('users', 'order.user_id', '=', 'users.id')->select('produk.nama_produk', 'order.jumlahProduk', 'produk.harga', 'order.bukti_pembayaran', 'order.id', 'order.status_pembayaran')->get();
         // dd($pemesanan, $user_id_produk, $user, $produk);
         return view('saleProduk.historyPetshop', [
-            'dataPemesanan' => $pemesanan,
-            'dataPetowner' => $user,
-            'dataProduk' => $produk
+            'dataPemesanan' => $history
         ]);
     }
 
@@ -103,6 +98,7 @@ class ProdukController extends Controller
         $id_produk = ProdukUser::get('produk_id')->toArray();
         $produk = DataProduk::find($id_produk, ['nama_produk', 'harga'])->toArray();
         // dd($pemesanan, $user_id_produk, $user, $produk);
+        $history = DB::table('data_produk as produk')->join('ordering_medicine_food as order', 'produk.id', '=', 'order.produk_id')->join('users', 'order.user_id', '=', 'users.id')->select('produk.nama_produk', 'order.jumlahProduk', 'produk.harga', 'order.bukti_pembayaran', 'order.id', 'order.status_pembayaran')->get();
         return view('saleProduk.historyAdmin', [
             'dataPemesanan' => $pemesanan,
             'dataPetowner' => $user,
@@ -112,6 +108,9 @@ class ProdukController extends Controller
 
     public function historyPetownerDestroy($id)
     {
+        $data = ProdukUser::find($id);
+        $image_path = public_path() . '/storage/' . $data->foto;
+        unlink($image_path);
         ProdukUser::destroy($id);
         return redirect()->back()->with('success', 'Pesanan berhasil dibatalkan');
     }
@@ -129,6 +128,19 @@ class ProdukController extends Controller
         ]);
     }
 
+    public function historyPetshopDetail($id)
+    {
+        $pemesanan = ProdukUser::where('id', $id)->get();
+        $id_produk = ProdukUser::where('id', $id)->get('produk_id')->toArray();
+        // $produk = DataProduk::where('id', $id_produk)->get();
+        $produk = DataProduk::find($id_produk, ['nama_produk', 'harga'])->toArray();
+        // dd($pemesanan, $id_paket, $produk);
+        return view('saleProduk.historyPetshop-detail', [
+            'dataPemesanan' => $pemesanan,
+            'dataProduk' => $produk
+        ]);
+    }
+
     public function pembayaran($id)
     {
         $pemesanan = ProdukUser::where('id', $id)->get()->toArray();
@@ -138,6 +150,14 @@ class ProdukController extends Controller
             'dataPemesanan' => $pemesanan,
             'dataProduk' => $produk
         ]);
+    }
+
+    public function verifikasiPembayaran(Request $request, $id)
+    {
+        ProdukUser::where('id', $id)->update([
+            'status_pembayaran' => $request->status_pembayaran
+        ]);
+        return redirect()->back();
     }
 
     public function storePembayaran(Request $request, $id)
