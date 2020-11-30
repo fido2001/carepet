@@ -32,6 +32,13 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/historyPackages/{paketuser}', 'PaketController@historyAdminDetail')->name('historyDetail.paket.admin');
     Route::patch('/historyPackages/{paketuser}', 'PaketController@verifikasiPembayaran')->name('verifikasi.pembayaran.admin');
     Route::get('/historyMedicine', 'ProdukController@historyAdmin')->name('history.produk.admin');
+    Route::get('/article', 'ArticleController@indexAdmin')->name('index.article.admin');
+    Route::get('/article/create', 'ArticleController@create')->name('create.article.admin');
+    Route::post('/article/create', 'ArticleController@store')->name('store.article.admin');
+    Route::get('/article/{article:slug}', 'ArticleController@showAdmin')->name('show.article.admin');
+    Route::get('/article/{article:slug}/edit', 'ArticleController@edit')->name('edit.article.admin');
+    Route::patch('/article/{article:slug}/edit', 'ArticleController@update')->name('update.article.admin');
+    Route::delete('/article/{article:slug}', 'ArticleController@destroy')->name('destroy.article.admin');
 });
 
 Route::prefix('petshop')->middleware('auth')->group(function () {
@@ -56,6 +63,8 @@ Route::prefix('petshop')->middleware('auth')->group(function () {
     Route::get('/progress/{progress}/edit', 'ProgressController@edit')->name('edit.progress.petshop');
     Route::patch('/progress/{progress}/edit', 'ProgressController@update')->name('update.progress.petshop');
     Route::delete('/progress/{progress}', 'ProgressController@destroy')->name('destroy.progress.petshop');
+    Route::get('/article', 'ArticleController@indexPetshop')->name('index.article.petshop');
+    Route::get('/article/{article:slug}', 'ArticleController@showPetshop')->name('show.article.petshop');
 });
 
 Route::prefix('petowner')->middleware('auth')->group(function () {
@@ -83,4 +92,6 @@ Route::prefix('petowner')->middleware('auth')->group(function () {
     Route::get('/progress/{paketuser}', 'PaketController@progressPetowner')->name('index.progress.petowner');
     Route::get('/historyPackages/{paketuser}/pembayaran', 'PaketController@pembayaran')->name('pembayaran.paket.petowner');
     Route::patch('/historyPackages/{paketuser}/pembayaran', 'PaketController@storePembayaran')->name('pembayaran.paket.petowner');
+    Route::get('/article', 'ArticleController@indexPetowner')->name('index.article.petowner');
+    Route::get('/article/{article:slug}', 'ArticleController@showPetowner')->name('show.article.petowner');
 });

@@ -8,6 +8,7 @@ use App\PaketUser;
 use App\Progress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class PaketController extends Controller
 {
@@ -111,7 +112,16 @@ class PaketController extends Controller
             ]
         );
 
-        $paket = PaketUser::create($request->all());
+        $tgl_pesan = Carbon::now()->setTimezone('Asia/Jakarta');
+        $tgl_selesai = Carbon::now()->setTimezone('Asia/Jakarta')->addDays($request->durasi_pemesanan);
+        $paket = PaketUser::create([
+            'user_id' => $request->user_id,
+            'paket_id' => $request->paket_id,
+            'jenis_hewan' => $request->jenis_hewan,
+            'durasi_pemesanan' => $request->durasi_pemesanan,
+            'tgl_pesan' => $tgl_pesan,
+            'tgl_selesai' => $tgl_selesai
+        ]);
         return redirect()->route('index.paket.petowner')->with('success', 'Paket berhasil dipesan, segera lakukan pembayaran');
     }
 
@@ -151,11 +161,14 @@ class PaketController extends Controller
 
     public function historyPetownerDetail($id)
     {
-        $pemesanan = PaketUser::where('id', $id)->get()->toArray();
+        $pemesanan = PaketUser::where('id', $id)->get();
+        $tgl = PaketUser::where('id', $id)->get('tgl_pesan');
+        // $tgl_masuk = Carbon::parse($tgl)->translatedFormat('l, d F Y');
         $id_paket = PaketUser::where('id', $id)->get('paket_id')->toArray();
         // $produk = DataProduk::where('id', $id_produk)->get();
         $paket = Paket::find($id_paket, ['nama_paket', 'harga'])->toArray();
         // dd($pemesanan, $id_paket, $paket);
+        // dd($tgl);
         return view('salePaket.historyPetowner-detail', [
             'dataPemesanan' => $pemesanan,
             'dataPaket' => $paket
@@ -227,8 +240,7 @@ class PaketController extends Controller
             'no_rek_pengirim' => $request->no_rek_pengirim,
             'nama_pengirim' => $request->nama_pengirim,
             'tgl_kirim' => date('Y-m-d'),
-            'bukti_pembayaran' => $bukti_pembayaran,
-            'status_pembayaran' => 'Belum Diverifikasi',
+            'bukti_pembayaran' => $bukti_pembayaran
         ]);
 
         return redirect()->route('history.paket.petowner')->with('success', 'Data pembayaran akan segera kami proses');

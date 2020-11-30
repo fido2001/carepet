@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrderingServicePackagesTable extends Migration
+class CreateArticleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,17 @@ class CreateOrderingServicePackagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('ordering_service_packages', function (Blueprint $table) {
+        Schema::create('article', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('paket_id');
-            $table->string('jenis_hewan', 30);
-            $table->bigInteger('durasi_pemesanan');
-            $table->datetime('tgl_pesan')->nullable();
-            $table->datetime('tgl_selesai')->nullable();
+            $table->string('judul', 50);
+            $table->string('slug', 50);
+            $table->string('gambar', 100);
+            $table->datetime('tanggal');
+            $table->text('ulasan');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('paket_id')->references('id')->on('pilihan_paket')->onDelete('cascade');
         });
     }
 
@@ -35,6 +34,6 @@ class CreateOrderingServicePackagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ordering_service_packages');
+        Schema::dropIfExists('article');
     }
 }
