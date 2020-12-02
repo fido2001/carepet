@@ -20,7 +20,7 @@
                     </a>
                     @endif
                     <div class="article-details">
-                        <div class="article-category"><a>Published on {{ $art->created_at->diffForHumans() }}</a></div>
+                        <div class="article-category"><a>Dibuat {{ $art->created_at->diffForHumans() }}</a></div>
                         <div class="article-title">
                         <h2><a href="{{ route('show.article.petshop', $art->slug) }}">{{ $art->judul }}</a></h2>
                         </div>

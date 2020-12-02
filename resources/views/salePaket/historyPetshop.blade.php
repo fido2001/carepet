@@ -27,7 +27,7 @@
                         <th scope="col">Durasi Pemesanan</th>
                         <th scope="col">Jenis Hewan</th>
                         <th scope="col">Status</th>
-                        <th scope="col" style="width:190px" class="text-center">Aksi</th>
+                        <th scope="col" style="width:190px">Aksi</th>
                     </tr>
                 </thead>    
                 <tbody>

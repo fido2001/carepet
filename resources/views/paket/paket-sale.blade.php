@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div class="card-footer text-right">
-                    <a href="/petowner/paket" class="btn btn-warning">Kembali</a>
+                    <a href="/petowner/paket/{{ $paket->id }}" class="btn btn-warning">Kembali</a>
                     <button type="submit" class="btn btn-primary">Pesan</button>
                     </div>
                 </form>

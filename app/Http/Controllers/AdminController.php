@@ -104,9 +104,9 @@ class AdminController extends Controller
             'noHp' => $request->input('noHp'),
             'alamat' => $request->input('alamat'),
             'email' => $request->input('email'),
+            'id_role' => 2,
             'password' => bcrypt($request->input('password')),
         ]);
-        $user->roles()->attach(Role::where('name', 'petshop')->first());
 
         return redirect()->route('show.users-management')->with('success', 'Pet Shop Berhasil Ditambahkan.');
     }

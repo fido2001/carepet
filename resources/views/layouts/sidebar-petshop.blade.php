@@ -23,6 +23,7 @@
             <li class="@if(Request::segment(1)=="petshop" && Request::segment(2)=="produk") active @endif"><a class="nav-link" href="{{ route('index.produk.petshop') }}"><i class="far fa-square"></i> <span>Data Produk</span></a></li>
             <li class="@if(Request::segment(1)=="petshop" && Request::segment(2)=="paket") active @endif"><a class="nav-link" href="{{ route('index.paket.petshop') }}"><i class="far fa-square"></i> <span>Service Packages</span></a></li>
             <li class="@if(Request::segment(1)=="petshop" && Request::segment(2)=="article") active @endif"><a class="nav-link" href="{{ route('index.article.petshop') }}"><i class="far fa-square"></i> <span>Artikel</span></a></li>
+            <li class="@if(Request::segment(1)=="petshop" && Request::segment(2)=="consultation") active @endif"><a class="nav-link" href="{{ route('index.consultation.petshop') }}"><i class="far fa-square"></i> <span>Konsultasi</span></a></li>
             <li class="dropdown">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-th"></i> <span>Rekap Pemesanan</span></a>
                 <ul class="dropdown-menu">

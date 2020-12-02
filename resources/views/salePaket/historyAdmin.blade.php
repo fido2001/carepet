@@ -28,11 +28,11 @@
                             <td>{{ $pemesanan->jenis_hewan }}</td>
                             <td>
                                 @if ($pemesanan->bukti_pembayaran == null)
-                                <p class="badge badge-danger">Belum Bayar</p> 
+                                Belum Bayar 
                                 @elseif ($pemesanan->bukti_pembayaran != null && $pemesanan->status_pembayaran == null)
-                                <p class="badge badge-info">Lakukan Verifikasi</p> 
+                                Lakukan Verifikasi 
                                 @elseif ($pemesanan->bukti_pembayaran != null && $pemesanan->status_pembayaran == '1')
-                                <p class="badge badge-success">Sudah Verifikasi</p> 
+                                Sudah di Verifikasi 
                                 @endif
                             </td>
                             <td><a href="{{ route('historyDetail.paket.admin', $pemesanan->id) }}" class="badge badge-info">Detail</a></td>

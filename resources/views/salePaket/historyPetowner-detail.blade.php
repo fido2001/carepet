@@ -16,6 +16,7 @@
         <?php $totHarga=$paket['harga']*$pemesanan->durasi_pemesanan ?>
         <h6 class="card-text">Total Harga : {{ $totHarga }}</h5>
         <h6 class="card-text">Jenis Hewan : {{ $pemesanan->jenis_hewan }}</h5>
+        <h6 class="card-text">Durasi Pemesanan : {{ $pemesanan->durasi_pemesanan }} Hari</h5>
         <h6 class="card-text">Tanggal Pemesanan : {{ $pemesanan->getTanggalPesan() }}</h5>
         <h6 class="card-text">Tanggal Selesai : {{ $pemesanan->getTanggalSelesai() }}</h5>
         @endforeach

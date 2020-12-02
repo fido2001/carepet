@@ -51,19 +51,28 @@ class ProgressController extends Controller
             ]
         );
 
-        $attr = $request->all();
+        $progress = Progress::where([
+            ['id_service', '=', $request->id_service],
+            ['hari_ke', '=', $request->hari_ke]
+        ])->get();
 
-        if (request()->file('foto')) {
-            $foto = request()->file('foto')->store('images/progress', 'public');
+        if (count($progress) > 0) {
+            return redirect()->back()->with('warning', 'Progress sudah ada.');
         } else {
-            $foto = null;
+            $attr = $request->all();
+
+            if (request()->file('foto')) {
+                $foto = request()->file('foto')->store('images/progress', 'public');
+            } else {
+                $foto = null;
+            }
+
+            $attr['foto'] = $foto;
+
+            $progress = Progress::create($attr);
+
+            return redirect()->route('history.paket.petshop')->with('success', 'Progress hewan berhasil ditambahkan');
         }
-
-        $attr['foto'] = $foto;
-
-        $progress = Progress::create($attr);
-
-        return redirect()->route('history.paket.petshop')->with('success', 'Progress hewan berhasil ditambahkan');
     }
 
     public function edit(Progress $progress)

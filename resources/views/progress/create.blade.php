@@ -4,6 +4,18 @@
 @section('content')
 <div class="section-body">
     <div class="card">
+        @if(session('warning'))
+        <div class="card-body">
+            <div class="alert alert-warning alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                    {{ session('warning') }}
+                </div>
+            </div>
+        </div>
+        @endif
         @foreach ($dataPaket as $paket)
         @foreach ($dataPemesanan as $pemesanan)
         <div class="card-header d-flex justify-content-between align-items-center">
@@ -60,7 +72,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="/petshop/historyPackages/{{ $pemesanan['id'] }}" class="btn btn-warning">Kembali</a>
+                    <a href="/petshop/progress/{{ $pemesanan['id'] }}" class="btn btn-warning">Kembali</a>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </form>

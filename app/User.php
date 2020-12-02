@@ -11,7 +11,7 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'password', 'username', 'noHp', 'alamat'
+        'name', 'email', 'password', 'username', 'noHp', 'alamat', 'id_role'
     ];
 
     protected $hidden = [
@@ -24,7 +24,7 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'role_users');
+        return $this->belongsTo(Role::class, 'id_role');
     }
 
     public function hasRole($role)

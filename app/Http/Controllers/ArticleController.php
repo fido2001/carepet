@@ -13,14 +13,14 @@ class ArticleController extends Controller
             'article' => Article::latest()->paginate(6),
         ]);
     }
-    
+
     public function indexPetshop()
     {
         return view('article.indexPetshop', [
             'article' => Article::latest()->paginate(6),
         ]);
     }
-    
+
     public function indexPetowner()
     {
         return view('article.indexPetowner', [
@@ -35,12 +35,12 @@ class ArticleController extends Controller
 
     public function showPetshop(Article $article)
     {
-
+        return view('article.showPetshop', compact('article'));
     }
-    
+
     public function showPetowner(Article $article)
     {
-
+        return view('article.showPetowner', compact('article'));
     }
 
     public function create()
@@ -77,5 +77,47 @@ class ArticleController extends Controller
     public function edit(Article $article)
     {
         return view('article.edit', compact('article'));
+    }
+
+    public function update(Request $request, Article $article)
+    {
+        $request->validate(
+            [
+                'judul' => 'required',
+                'ulasan' => 'required',
+                'gambar' => 'image|mimes:jpeg,png,jpg,svg|max:2048'
+            ],
+            [
+                'judul.required' => 'Data tidak boleh kosong',
+                'ulasan.required' => 'Data tidak boleh kosong',
+                // 'gambar.required' => 'Data tidak boleh kosong'
+            ]
+        );
+
+        if (request()->file('image')) {
+            \Storage::delete($article->thumbnail);
+            $thumbnail = request()->file('image')->store("images/artikel", 'public');
+        } else {
+            $thumbnail = $article->thumbnail;
+        }
+
+
+        $attr = $request->all();
+        $attr['user_id'] = auth()->id();
+        $attr['gambar'] = $thumbnail;
+
+        $article->update($attr);
+
+        session()->flash('success', 'Data berhasil disimpan.');
+
+        return redirect()->route('index.article.admin');
+    }
+
+    public function destroy(Article $article)
+    {
+        \Storage::delete($article->gambar);
+        $article->delete();
+        session()->flash('success', 'Artikel berhasil dihapus.');
+        return redirect()->route('index.article.admin');
     }
 }

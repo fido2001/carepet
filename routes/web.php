@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -65,6 +64,9 @@ Route::prefix('petshop')->middleware('auth')->group(function () {
     Route::delete('/progress/{progress}', 'ProgressController@destroy')->name('destroy.progress.petshop');
     Route::get('/article', 'ArticleController@indexPetshop')->name('index.article.petshop');
     Route::get('/article/{article:slug}', 'ArticleController@showPetshop')->name('show.article.petshop');
+    Route::get('/consultation', 'ConsultationController@indexPetshop')->name('index.consultation.petshop');
+    Route::get('/consultation/{id}', 'ChatController@indexPetshop')->name('index.chat.petshop');
+    Route::post('/consultation/{id}', 'ChatController@store')->name('store.chat.petshop');
 });
 
 Route::prefix('petowner')->middleware('auth')->group(function () {
@@ -94,4 +96,9 @@ Route::prefix('petowner')->middleware('auth')->group(function () {
     Route::patch('/historyPackages/{paketuser}/pembayaran', 'PaketController@storePembayaran')->name('pembayaran.paket.petowner');
     Route::get('/article', 'ArticleController@indexPetowner')->name('index.article.petowner');
     Route::get('/article/{article:slug}', 'ArticleController@showPetowner')->name('show.article.petowner');
+    Route::get('/consultation', 'ConsultationController@indexPetowner')->name('index.consultation.petowner');
+    Route::get('/consultation/create', 'ConsultationController@create')->name('create.consultation.petowner');
+    Route::post('/consultation/create', 'ConsultationController@store')->name('store.consultation.petowner');
+    Route::get('/consultation/{id}', 'ChatController@indexPetowner')->name('index.chat.petowner');
+    Route::post('/consultation/{id}', 'ChatController@store')->name('store.chat.petowner');
 });

@@ -4,13 +4,14 @@
 <head>
 <meta charset="UTF-8">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-<title>CarePet</title>
+<title>@yield('title', 'Care Pet')</title>
 
 <!-- General CSS Files -->
 <link rel="stylesheet" href="{{ asset('../assets/modules/bootstrap/css/bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{ asset('../assets/modules/fontawesome/css/all.min.css') }}">
 
 <!-- CSS Libraries -->
+@yield('css')
 
 <!-- Template CSS -->
 <link rel="stylesheet" href="{{ asset('../assets/css/style.css') }}">
@@ -246,10 +247,8 @@ gtag('config', 'UA-94034622-3');
                         <i class="fas fa-cog"></i> Settings
                     </a> --}}
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item has-icon text-danger" href="{{ route('logout') }}"
-                        onclick="event.preventDefault();
-                                        document.getElementById('logout-form').submit();">
-                        <i class="fas fa-sign-out-alt"></i> Logout
+                    <a href="" class="dropdown-item has-icon text-danger" data-toggle="modal" data-target="#exampleModalOut">
+                        <i class="fas fa-sign-out-alt"></i>Logout
                     </a>
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -271,6 +270,12 @@ gtag('config', 'UA-94034622-3');
                 </li>
                 <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="paket") active @endif">
                     <a href="{{ route('index.paket.petowner') }}" class="nav-link"><i class="far fa-heart"></i><span>Data Paket</span></a>
+                </li>
+                <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="article") active @endif">
+                    <a href="{{ route('index.article.petowner') }}" class="nav-link"><i class="far fa-heart"></i><span>Artikel</span></a>
+                </li>
+                <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="consultation") active @endif">
+                    <a href="{{ route('index.consultation.petowner') }}" class="nav-link"><i class="far fa-heart"></i><span>Konsultasi</span></a>
                 </li>
                 <li class="nav-item dropdown">
                 <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-clone"></i><span>History Pemesanan</span></a>
@@ -312,10 +317,31 @@ gtag('config', 'UA-94034622-3');
                     @yield('content')
                 </div>
             </section>
+            <div class="modal fade" id="exampleModalOut" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Anda yakin ingin Keluar ?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <div class="d-flex">
+                                    <button class="btn btn-danger mr-3" type="submit">Ya</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <footer class="main-footer">
             <div class="footer-left">
-            Copyright &copy; 2018 <div class="bullet"></div> Design By <a href="https://nauval.in/">Muhamad Nauval Azhar</a>
+                TRPL B - Kelompok G<div class="bullet"></div>CARE PET
             </div>
             <div class="footer-right">
             

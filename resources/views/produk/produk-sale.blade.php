@@ -71,6 +71,7 @@
                         </div>
                     </div>
                     <div class="card-footer text-right">
+                    <a href="/petowner/produk/{{ $dataProduk->id }}" class="btn btn-warning">Kembali</a>
                     <button type="submit" class="btn btn-primary">Pesan</button>
                     </div>
                 </form>

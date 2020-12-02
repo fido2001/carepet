@@ -1,12 +1,10 @@
 @extends('layouts.master-user')
 
+@section('header', 'Artikel')
+
 @section('content')
 
 <div class="section-body">
-    <div class="d-flex justify-content-between align-items-center">
-        <h2 class="section-title">Artikel</h2>
-        {{-- <a href="{{ route('artikel.create') }}" class="btn btn-success">Tambah Artikel</a> --}}
-    </div>
     <div class="row">
         @forelse ($article as $art)
             <div class="col-12 col-md-4 col-lg-4">
@@ -20,7 +18,7 @@
                     </a>
                     @endif
                     <div class="article-details">
-                        <div class="article-category"><a>Published on {{ $art->created_at->diffForHumans() }}</a></div>
+                        <div class="article-category"><a>Dibuat {{ $art->created_at->diffForHumans() }}</a></div>
                         <div class="article-title">
                         <h2><a href="{{ route('show.article.petowner', $art->slug) }}">{{ $art->judul }}</a></h2>
                         </div>

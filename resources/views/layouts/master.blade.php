@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-<title>@yield('title')</title>
+<title>@yield('title', 'Care Pet')</title>
 
 <!-- General CSS Files -->
 <link rel="stylesheet" href="{{ asset('../assets/modules/bootstrap/css/bootstrap.min.css') }}">
@@ -236,17 +236,15 @@ gtag('config', 'UA-94034622-3');
                             {{ route('edit.profile.admin') }} @endif" class="dropdown-item has-icon">
                         <i class="far fa-user"></i> Profile
                     </a>
-                    <a href="features-activities.html" class="dropdown-item has-icon">
+                    {{-- <a href="features-activities.html" class="dropdown-item has-icon">
                         <i class="fas fa-bolt"></i> Activities
                     </a>
                     <a href="features-settings.html" class="dropdown-item has-icon">
                         <i class="fas fa-cog"></i> Settings
-                    </a>
+                    </a> --}}
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item has-icon text-danger" href="{{ route('logout') }}"
-                        onclick="event.preventDefault();
-                                        document.getElementById('logout-form').submit();">
-                        <i class="fas fa-sign-out-alt"></i> Logout
+                    <a href="" class="dropdown-item has-icon text-danger" data-toggle="modal" data-target="#exampleModalOut">
+                        <i class="fas fa-sign-out-alt"></i>Logout
                     </a>
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -274,10 +272,31 @@ gtag('config', 'UA-94034622-3');
             @yield('content')
         </section>
         @yield('modal')
+        <div class="modal fade" id="exampleModalOut" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Anda yakin ingin Keluar ?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <div class="d-flex">
+                                <button class="btn btn-danger mr-3" type="submit">Ya</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <footer class="main-footer">
         <div class="footer-left">
-            Copyright &copy; 2018 <div class="bullet"></div> Design By <a href="https://nauval.in/">Muhamad Nauval Azhar</a>
+            TRPL B - Kelompok G<div class="bullet"></div>CARE PET
         </div>
         <div class="footer-right">
         
