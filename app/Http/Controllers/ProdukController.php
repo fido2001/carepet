@@ -7,12 +7,13 @@ use App\ProdukUser;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class ProdukController extends Controller
 {
     public function indexPetshop()
     {
-        $produk = DataProduk::get();
+        $produk = DataProduk::where('user_id', auth()->user()->id)->get();
         return view('produk.indexPetshop', ['data_produk' => $produk]);
     }
 
@@ -30,7 +31,26 @@ class ProdukController extends Controller
 
     public function store(Request $request)
     {
-        $produk = DataProduk::create($request->all());
+        $request->validate([
+            'nama_produk' => 'required',
+            'stok' => 'required',
+            'harga' => 'required',
+            'deskripsi_produk' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,svg|max:2048'
+        ]);
+
+        if (request()->file('image')) {
+            $gambar = request()->file('image')->store("images/produk", "public");
+        } else {
+            $gambar = null;
+        }
+
+        $attr = $request->all();
+
+        $attr['gambar'] = $gambar;
+
+        $produk = DataProduk::create($attr);
+
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan');
     }
 
@@ -39,51 +59,68 @@ class ProdukController extends Controller
         return view('produk.produk-edit', ['dataProduk' => $dataProduk]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, DataProduk $dataProduk)
     {
-        DataProduk::where('id', $id)->update([
-            'nama_produk' => $request->nama_produk,
-            'stok' => $request->stok,
-            'harga' => $request->harga,
-            'deskripsi_produk' => $request->deskripsi_produk
+        $request->validate([
+            'nama_produk' => 'required',
+            'stok' => 'required',
+            'harga' => 'required',
+            'deskripsi_produk' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,svg|max:2048'
         ]);
+
+        if (request()->file('image')) {
+            \Storage::delete($dataProduk->gambar);
+            $gambar = request()->file('image')->store("images/artikel", 'public');
+        } else {
+            $gambar = $dataProduk->gambar;
+        }
+
+
+        $attr = $request->all();
+
+        $attr['gambar'] = $gambar;
+
+        $dataProduk->update($attr);
 
         return redirect()->route('index.produk.petshop')->with('success', 'Data Berhasil Disimpan');
     }
 
     public function show(DataProduk $dataProduk)
     {
-        return view('produk.produk-show', ['dataProduk' => $dataProduk]);
+        $produk = $dataProduk;
+        $data_petshop = User::where('id', $produk->user_id)->first();
+        return view('produk.produk-show', ['dataProduk' => $dataProduk, 'petshop' => $data_petshop]);
     }
 
     public function sale(DataProduk $dataProduk)
     {
-        return view('produk.produk-sale', ['dataProduk' => $dataProduk]);
+        $produk = $dataProduk;
+        $data_petshop = User::where('id', $produk->user_id)->first();
+        return view('produk.produk-sale', ['dataProduk' => $dataProduk, 'petshop' => $data_petshop]);
     }
 
     public function purchase(Request $request)
     {
-        $produk = ProdukUser::create($request->all());
+        $attr = $request->all();
+        $attr['payment_due'] = Carbon::now()->setTimeZone('Asia/Jakarta')->addHours(24);
+        // dd($attr);
+        $produk = ProdukUser::create($attr);
         return redirect()->route('index.produk.petowner')->with('success', 'Pemasanan berhasil dipesan, segera lakukan pembayaran');
     }
 
     public function historyPetowner()
     {
         $user_id = auth()->user()->id;
-        $pembelian = ProdukUser::where('user_id', $user_id)->get()->toArray();
-        $id_produk = ProdukUser::where('user_id', $user_id)->get('produk_id')->toArray();
-        // $produk = DataProduk::where('id', $id_produk)->get();
-        $produk = DataProduk::find($id_produk, ['nama_produk', 'harga'])->toArray();
-        // dd($user_id, $pembelian, $id_produk, $produk);
+        $pembelian = DB::table('ordering_medicine_food as ord')->join('data_produk as prd', 'prd.id', '=', 'ord.produk_id')->where('ord.user_id', $user_id)->select('ord.*', 'prd.nama_produk')->get();
         return view('saleProduk.historyPetowner', [
-            'dataPembelian' => $pembelian,
-            'dataProduk' => $produk
+            'dataPembelian' => $pembelian
         ]);
     }
 
     public function historyPetshop()
     {
-        $history = DB::table('data_produk as produk')->join('ordering_medicine_food as order', 'produk.id', '=', 'order.produk_id')->join('users', 'order.user_id', '=', 'users.id')->select('produk.nama_produk', 'order.jumlahProduk', 'produk.harga', 'order.bukti_pembayaran', 'order.id', 'order.status_pembayaran')->get();
+        $history = DB::table('data_produk as produk')->join('ordering_medicine_food as order', 'produk.id', '=', 'order.produk_id')->join('users', 'order.user_id', '=', 'users.id')->where('produk.user_id', auth()->user()->id)->select('produk.nama_produk', 'order.jumlahProduk', 'produk.harga', 'order.bukti_pembayaran', 'order.id', 'order.status')->get();
         // dd($pemesanan, $user_id_produk, $user, $produk);
         return view('saleProduk.historyPetshop', [
             'dataPemesanan' => $history
@@ -94,70 +131,75 @@ class ProdukController extends Controller
     {
         $pemesanan = ProdukUser::get()->toArray();
         $user_id_produk = ProdukUser::get('user_id')->toArray();
-        $user = User::where('id', $user_id_produk)->get()->toArray();
+        // $user = User::where('id', $user_id_produk)->get()->toArray();
         $id_produk = ProdukUser::get('produk_id')->toArray();
         $produk = DataProduk::find($id_produk, ['nama_produk', 'harga'])->toArray();
         // dd($pemesanan, $user_id_produk, $user, $produk);
         $history = DB::table('data_produk as produk')->join('ordering_medicine_food as order', 'produk.id', '=', 'order.produk_id')->join('users', 'order.user_id', '=', 'users.id')->select('produk.nama_produk', 'order.jumlahProduk', 'produk.harga', 'order.bukti_pembayaran', 'order.id', 'order.status_pembayaran')->get();
         return view('saleProduk.historyAdmin', [
             'dataPemesanan' => $pemesanan,
-            'dataPetowner' => $user,
+            // 'dataPetowner' => $user,
             'dataProduk' => $produk
         ]);
     }
 
     public function historyPetownerDestroy($id)
     {
-        $data = ProdukUser::find($id);
-        $image_path = public_path() . '/storage/' . $data->foto;
-        unlink($image_path);
         ProdukUser::destroy($id);
         return redirect()->back()->with('success', 'Pesanan berhasil dibatalkan');
     }
 
     public function historyPetownerDetail($id)
     {
-        $pemesanan = ProdukUser::where('id', $id)->get()->toArray();
-        $id_produk = ProdukUser::where('id', $id)->get('produk_id')->toArray();
-        // $produk = DataProduk::where('id', $id_produk)->get();
-        $produk = DataProduk::find($id_produk, ['nama_produk', 'harga'])->toArray();
-        // dd($pemesanan, $id_paket, $produk);
+        // Carbon::setTestNow('2020-12-06');
+        $pembelian = DB::table('ordering_medicine_food as ord')->join('data_produk as prd', 'prd.id', '=', 'ord.produk_id')->join('users', 'users.id', '=', 'prd.user_id')->where('ord.id', $id)->select('ord.*', 'prd.nama_produk', 'prd.harga', 'users.name')->get();
+        // dd($pembelian);
         return view('saleProduk.historyPetowner-detail', [
-            'dataPemesanan' => $pemesanan,
-            'dataProduk' => $produk
+            'dataPemesanan' => $pembelian
         ]);
     }
 
     public function historyPetshopDetail($id)
     {
-        $pemesanan = ProdukUser::where('id', $id)->get();
-        $id_produk = ProdukUser::where('id', $id)->get('produk_id')->toArray();
+        // $pembelian = DB::table('ordering_medicine_food as ord')->join('data_produk as prd', 'prd.id', '=', 'ord.produk_id')->join('users', 'users.id', '=', 'prd.user_id')->where('ord.id', $id)->select('ord.*', 'prd.nama_produk', 'prd.harga', 'users.name')->get();
+        $pemesanan = ProdukUser::join('data_produk as prd', 'prd.id', '=', 'ordering_medicine_food.produk_id')->where('ordering_medicine_food.id', $id)->select('ordering_medicine_food.*', 'prd.nama_produk', 'prd.harga')->get();
+        // dd($pemesanan);
+        // $id_produk = ProdukUser::where('id', $id)->get('produk_id')->toArray();
         // $produk = DataProduk::where('id', $id_produk)->get();
-        $produk = DataProduk::find($id_produk, ['nama_produk', 'harga'])->toArray();
+        // $produk = DataProduk::find($id_produk, ['nama_produk', 'harga'])->toArray();
         // dd($pemesanan, $id_paket, $produk);
         return view('saleProduk.historyPetshop-detail', [
-            'dataPemesanan' => $pemesanan,
-            'dataProduk' => $produk
+            'dataPemesanan' => $pemesanan
         ]);
     }
 
     public function pembayaran($id)
     {
-        $pemesanan = ProdukUser::where('id', $id)->get()->toArray();
-        $id_produk = ProdukUser::where('id', $id)->get('produk_id')->toArray();
-        $produk = DataProduk::find($id_produk, ['nama_produk', 'harga'])->toArray();
+        // $pemesanan = ProdukUser::where('id', $id)->get()->toArray();
+        // $id_produk = ProdukUser::where('id', $id)->get('produk_id')->toArray();
+        // $produk = DataProduk::find($id_produk, ['nama_produk', 'harga'])->toArray();
+        $pembelian = DB::table('ordering_medicine_food as ord')->join('data_produk as prd', 'prd.id', '=', 'ord.produk_id')->join('users', 'users.id', '=', 'prd.user_id')->where('ord.id', $id)->select('ord.*', 'prd.nama_produk', 'prd.harga', 'users.name')->get();
+
         return view('saleProduk.pembayaran', [
-            'dataPemesanan' => $pemesanan,
-            'dataProduk' => $produk
+            'dataPemesanan' => $pembelian
         ]);
     }
 
     public function verifikasiPembayaran(Request $request, $id)
     {
         ProdukUser::where('id', $id)->update([
-            'status_pembayaran' => $request->status_pembayaran
+            'status' => $request->status
         ]);
         return redirect()->back();
+    }
+
+    public function storeResi(Request $request, $id)
+    {
+        ProdukUser::where('id', $id)->update([
+            'resi' => $request->resi,
+            'status' => 'dikirim'
+        ]);
+        return redirect('/petshop/historyMedicine');
     }
 
     public function storePembayaran(Request $request, $id)
@@ -178,14 +220,32 @@ class ProdukController extends Controller
         );
 
         $bukti_pembayaran = request()->file('bukti_pembayaran')->store('images/bukti', 'public');
+        // $data = $request->all();
+        // dd($data);
 
         ProdukUser::where('id', $id)->update([
             'no_rek_pengirim' => $request->no_rek_pengirim,
             'nama_pengirim' => $request->nama_pengirim,
-            'tgl_kirim' => date('Y-m-d'),
+            'nominal' => $request->nominal,
+            'status' => 'diterima',
+            'tgl_kirim' => Carbon::now()->setTimeZone('Asia/Jakarta'),
             'bukti_pembayaran' => $bukti_pembayaran
         ]);
 
-        return redirect()->route('history.produk.petowner')->with('success', 'Data pembayaran akan segera kami proses');
+        return redirect()->back()->with('success', 'Data pembayaran akan segera diproses');
+    }
+
+    public function verifikasiKedatangan($id)
+    {
+        $data_order = ProdukUser::where('id', $id)->first();
+        $data_order->status = 'pesanan diterima';
+        $data_order->update();
+
+        $id_petshop = DataProduk::where('id', $data_order->produk_id)->value('user_id');
+        $data_petshop = User::where('id', $id_petshop)->first();
+        $data_petshop->saldo = ($data_petshop->saldo) + ($data_order->nominal * 0.85);
+        $data_petshop->update();
+
+        return redirect('/petowner/historyMedicine');
     }
 }

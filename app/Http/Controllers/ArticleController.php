@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class ArticleController extends Controller
 {
@@ -53,7 +54,7 @@ class ArticleController extends Controller
         $request->validate([
             'judul' => 'required',
             'ulasan' => 'required',
-            'gambar' => 'image|mimes:jpeg,png,jpg,svg|max:2048'
+            'image' => 'image|mimes:jpeg,png,jpg,svg|max:2048'
         ]);
         $attr = $request->all();
         $slug = \Str::slug(request('judul'));
@@ -64,6 +65,8 @@ class ArticleController extends Controller
         } else {
             $gambar = null;
         }
+
+        $attr['tanggal'] = Carbon::now();
 
         $attr['gambar'] = $gambar;
 

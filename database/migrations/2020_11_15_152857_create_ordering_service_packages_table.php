@@ -21,6 +21,13 @@ class CreateOrderingServicePackagesTable extends Migration
             $table->bigInteger('durasi_pemesanan');
             $table->datetime('tgl_pesan')->nullable();
             $table->datetime('tgl_selesai')->nullable();
+            $table->string('no_rek_pengirim', 15)->nullable();
+            $table->string('nama_pengirim', 30)->nullable();
+            $table->date('tgl_kirim')->nullable();
+            $table->integer('nominal')->nullable();
+            $table->string('bukti_pembayaran', 100)->nullable();
+            $table->string('status', 20)->nullable();
+            $table->datetime('payment_due')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

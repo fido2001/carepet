@@ -15,9 +15,13 @@ class CreatePilihanPaketTable extends Migration
     {
         Schema::create('pilihan_paket', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->string('nama_paket', 30);
             $table->integer('harga');
+            $table->text('keterangan');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

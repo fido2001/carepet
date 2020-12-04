@@ -43,14 +43,16 @@
                         <td>{{ $user->username }}</td>
                         <td>{{ implode(', ', $user->roles()->get()->pluck('name')->toArray())  }}</td>
                         <td class="text-center">
+                            @if ($user->id_role == 2)
                             <a href="{{ route('edit.users-management', $user->id) }}" class="badge badge-info btn-edit">Edit</a>
-                            <a href="#" data-id="{{ $user->id }}" class="badge badge-danger swal-confirm">
+                            @endif
+                            {{-- <a href="#" data-id="{{ $user->id }}" class="badge badge-danger swal-confirm">
                                 <form action="{{ route('destroy.users-management', $user->id) }}" id="delete{{ $user->id }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 </form>
                                 Delete
-                            </a>
+                            </a> --}}
                         </td>
                     </tr>
                 @endforeach

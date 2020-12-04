@@ -64,8 +64,9 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="{{ route('store.produk.petshop') }}" method="POST">
+                    <form action="{{ route('store.produk.petshop') }}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-12">
@@ -86,7 +87,7 @@
                                         <label for="stok">
                                             Stok
                                         </label>
-                                        <input type="number" id="stok" name="stok" value="{{ old('stok') }}" class="input form-control @error('stok') is-invalid @enderror" autocomplete="off">
+                                        <input type="number" min="1" step="1" id="stok" name="stok" value="{{ old('stok') }}" class="input form-control @error('stok') is-invalid @enderror" autocomplete="off">
                                         @error('stok')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -99,7 +100,7 @@
                                         <label for="lebar">
                                             Harga
                                         </label>
-                                        <input type="text" id="harga" name="harga" value="{{ old('harga') }}" class="input form-control @error('harga') is-invalid @enderror" autocomplete="off">
+                                        <input type="number" min="1000" step="100" id="harga" name="harga" value="{{ old('harga') }}" class="input form-control @error('harga') is-invalid @enderror" autocomplete="off">
                                         @error('harga')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -114,6 +115,17 @@
                                         </label>
                                         <textarea name="deskripsi_produk" class="form-control @error('deskripsi_produk') is-invalid @enderror" autocomplete="off">{{ old('deskripsi_produk') }}</textarea>
                                         @error('deskripsi_produk')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlFile1">Gambar Produk</label>
+                                        <input type="file" name="image" class="form-control-file @error('image') is-invalid @enderror" id="exampleFormControlFile1">
+                                        @error('image')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>

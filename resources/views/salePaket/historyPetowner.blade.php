@@ -43,8 +43,10 @@
                             <td>
                                 @if ($pemesanan->bukti_pembayaran == null)
                                 Belum Bayar
-                                @elseif ($pemesanan->bukti_pembayaran != null)
-                                Sudah Bayar
+                                @elseif ($pemesanan->bukti_pembayaran != null && $pemesanan->status_pembayaran == 0)
+                                Tunggu Verifikasi
+                                @elseif ($pemesanan->bukti_pembayaran != null && $pemesanan->status_pembayaran == 1)
+                                Sudah di Verifikasi
                                 @endif
                             </td>
                             <td class="text-center">

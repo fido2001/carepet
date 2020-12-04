@@ -7,6 +7,7 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h4>Data Paket</h4>
+            <a href="{{ route('create.paket.petshop') }}" class="btn btn-success">Tambah Data Paket</a>
         </div>
         @if (session('success'))
         <div class="card-body">
@@ -28,6 +29,7 @@
                     <th scope="col">Nama Paket</th>
                     <th scope="col">Harga</th>
                     <th scope="col">Keterangan</th>
+                    <th scope="col">Aksi</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -37,6 +39,9 @@
                         <td>{{ $paket->nama_paket }}</td>
                         <td>Rp. {{ $paket->harga }}</td>
                         <td>{!! Str::limit(nl2br($paket->keterangan), 80) !!}</td>
+                        <td class="text-center">
+                            <a href="{{ route('edit.paket.petshop', $paket->id) }}" class="badge badge-info btn-edit">Ubah Data</a>
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>

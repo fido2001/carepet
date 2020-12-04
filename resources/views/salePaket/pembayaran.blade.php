@@ -9,6 +9,18 @@
         <div class="card-header d-flex justify-content-between align-items-center">
             <h4>Pembayaran Paket {{ $paket['nama_paket'] }}</h4>
         </div>
+        @if (session('success'))
+        <div class="card-body">
+            <div class="alert alert-success alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                    {{ session('success') }}
+                </div>
+            </div>
+        </div>
+        @endif
         <div class="card-body">
             <form method="POST" action="{{ route('pembayaran.paket.petowner', $pemesanan['id']) }}" class="needs-validation" enctype="multipart/form-data" novalidate="">
                 @csrf
@@ -22,9 +34,9 @@
                             <input type="text" class="form-control" value="{{ $paket['nama_paket'] }}" disabled>
                         </div>
                         <div class="form-group col-md-6 col-12">
-                            <label>Harga</label>
+                            <label>Total Harga</label>
                             <?php $totHarga=$paket['harga']*$pemesanan['durasi_pemesanan'] ?>
-                            <input type="text" class="form-control" value="{{ $totHarga }}" disabled>
+                            <input type="text" class="form-control" value="{{ $totHarga }}" name="nominal">
                             <div class="invalid-feedback">
                                 Data tidak boleh kosong, harap diisi
                             </div>

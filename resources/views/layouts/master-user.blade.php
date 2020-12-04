@@ -266,10 +266,10 @@ gtag('config', 'UA-94034622-3');
                     <a href="{{ route('petowner.index') }}" class="nav-link"><i class="fas fa-fire"></i><span>Dashboard</span></a>
                 </li>
                 <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="produk") active @endif">
-                    <a href="{{ route('index.produk.petowner') }}" class="nav-link"><i class="far fa-heart"></i><span>Data Produk</span></a>
+                    <a href="{{ route('index.produk.petowner') }}" class="nav-link"><i class="far fa-heart"></i><span>Medicine and Food</span></a>
                 </li>
                 <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="paket") active @endif">
-                    <a href="{{ route('index.paket.petowner') }}" class="nav-link"><i class="far fa-heart"></i><span>Data Paket</span></a>
+                    <a href="{{ route('index.paket.petowner') }}" class="nav-link"><i class="far fa-heart"></i><span>Service Packages</span></a>
                 </li>
                 <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="article") active @endif">
                     <a href="{{ route('index.article.petowner') }}" class="nav-link"><i class="far fa-heart"></i><span>Artikel</span></a>
@@ -278,7 +278,7 @@ gtag('config', 'UA-94034622-3');
                     <a href="{{ route('index.consultation.petowner') }}" class="nav-link"><i class="far fa-heart"></i><span>Konsultasi</span></a>
                 </li>
                 <li class="nav-item dropdown">
-                <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-clone"></i><span>History Pemesanan</span></a>
+                <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-clone"></i><span>Order History</span></a>
                 <ul class="dropdown-menu">
                     <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="historySale") active @endif">
                         <a href="/petowner/historyMedicine" class="nav-link">Medicine and Food</a>

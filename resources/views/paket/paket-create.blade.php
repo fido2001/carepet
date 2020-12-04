@@ -14,7 +14,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('store.paket.admin') }}" method="POST">
+                    <form action="{{ route('store.paket.petshop') }}" method="POST">
                         @csrf
                         <div class="form-group row mb-4">
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Nama Paket</label>
@@ -30,7 +30,7 @@
                         <div class="form-group row mb-4">
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Harga</label>
                             <div class="col-sm-12 col-md-7">
-                                <input type="text" class="form-control @error('harga') is-invalid @enderror" name="harga" value="{{ old('harga') }}">
+                                <input type="number" min="1000" class="form-control @error('harga') is-invalid @enderror" name="harga" value="{{ old('harga') }}">
                                 @error('harga')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -53,7 +53,7 @@
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3"></label>
                             <div class="col-sm-12 col-md-7">
                                 <button class="btn btn-primary" type="submit">Simpan</button>
-                                <a href="{{ route('index.paket.admin') }}" class="btn btn-danger">Batal</a>
+                                <a href="{{ route('index.paket.petshop') }}" class="btn btn-danger">Batal</a>
                             </div>
                         </div>
                     </form>

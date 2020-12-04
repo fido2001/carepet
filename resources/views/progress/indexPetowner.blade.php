@@ -18,6 +18,7 @@
                         <th scope="col">#</th>
                     <th scope="col">Hari Ke-</th>
                     <th scope="col">Kondisi Hewan</th>
+                    <th scope="col">Tanggal</th>
                     <th scope="col">Foto</th>
                     {{-- <th scope="col" class="text-center">Action</th> --}}
                 </tr>
@@ -28,6 +29,7 @@
                         <th scope="row">{{ $no+1 }}</th>
                         <td>{{ $progress->hari_ke }}</td>
                         <td>{{ $progress->kondisi_hewan }}</td>
+                        <td>{{ \Carbon\Carbon::parse($progress->created_at)->translatedFormat('l, d F Y') }}</td>
                         <td><img src="{{ $progress->takeImage() }}" alt="" style="height: 100px"></td>
                         {{-- <td class="text-center">
                             <a href="{{ route('edit.progress.petshop', $progress->id) }}" class="badge badge-info btn-edit">Edit</a>

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Article extends Model
 {
     protected $table = 'article';
-    protected $fillable = ['judul', 'slug', 'ulasan', 'gambar'];
+    protected $fillable = ['judul', 'slug', 'ulasan', 'gambar', 'tanggal'];
     protected $with = ['author'];
 
     public function author()

@@ -14,6 +14,20 @@
                             <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">                               
                             <input type="hidden" name="produk_id" value="{{ $dataProduk->id }}">                               
                             <div class="form-group col-md-6 col-12">
+                                <label>Nama Petshop</label>
+                                <input type="text" class="form-control" value="{{ $petshop->name }}" disabled>
+                                <div class="invalid-feedback">
+                                    Data tidak boleh kosong, harap diisi
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 col-12">
+                                <label>Alamat Petshop</label>
+                                <input type="text" class="form-control" value="{{ $petshop->alamat }}" disabled>
+                                <div class="invalid-feedback">
+                                    Data tidak boleh kosong, harap diisi
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 col-12">
                                 <label>Nama Produk</label>
                                 <input type="text" class="form-control" value="{{ $dataProduk->nama_produk }}" disabled>
                                 <div class="invalid-feedback">

@@ -53,7 +53,7 @@ class PaketController extends Controller
             ]
         );
         $paket = Paket::create($request->all());
-        return redirect()->route('index.paket.admin')->with('success', 'Paket berhasil ditambahkan');
+        return redirect()->route('index.paket.petshop')->with('success', 'Paket berhasil ditambahkan');
     }
 
     public function edit(Paket $paket)
@@ -84,7 +84,7 @@ class PaketController extends Controller
             'keterangan' => $request->keterangan
         ]);
 
-        return redirect()->route('index.paket.admin')->with('success', 'Data Berhasil Disimpan');
+        return redirect()->route('index.paket.petshop')->with('success', 'Data Berhasil Disimpan');
     }
 
     public function show(Paket $paket)
@@ -128,7 +128,7 @@ class PaketController extends Controller
     public function historyPetowner()
     {
         $user_id = auth()->user()->id;
-        $history = DB::table('pilihan_paket as paket')->join('ordering_service_packages as order', 'paket.id', '=', 'order.paket_id')->join('users', 'order.user_id', '=', 'users.id')->where('users.id', '=', $user_id)->select('paket.nama_paket', 'order.durasi_pemesanan', 'order.jenis_hewan', 'order.bukti_pembayaran', 'order.id')->get();
+        $history = DB::table('pilihan_paket as paket')->join('ordering_service_packages as order', 'paket.id', '=', 'order.paket_id')->join('users', 'order.user_id', '=', 'users.id')->where('users.id', '=', $user_id)->select('paket.nama_paket', 'order.durasi_pemesanan', 'order.jenis_hewan', 'order.bukti_pembayaran', 'order.id', 'order.status_pembayaran')->get();
         return view('salePaket.historyPetowner', [
             'dataPemesanan' => $history
         ]);
@@ -152,9 +152,6 @@ class PaketController extends Controller
 
     public function historyPetownerDestroy($id)
     {
-        $data = PaketUser::find($id);
-        $image_path = public_path() . '/storage/' . $data->foto;
-        unlink($image_path);
         PaketUser::destroy($id);
         return redirect()->back()->with('success', 'Pesanan berhasil dibatalkan');
     }
@@ -243,7 +240,7 @@ class PaketController extends Controller
             'bukti_pembayaran' => $bukti_pembayaran
         ]);
 
-        return redirect()->route('history.paket.petowner')->with('success', 'Data pembayaran akan segera kami proses');
+        return redirect()->back()->with('success', 'Data pembayaran akan segera diproses');
     }
 
     public function progressPetowner($id)

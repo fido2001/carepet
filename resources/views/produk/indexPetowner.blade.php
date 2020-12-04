@@ -2,24 +2,24 @@
 @section('header', 'Medicine And Food')
 @section('content')
 <div class="section-body">
-    <div class="row">
-        @if (session('success'))
-        <div class="card-body">
-            <div class="alert alert-success alert-dismissible show fade">
-                <div class="alert-body">
-                    <button class="close" data-dismiss="alert">
-                        <span>&times;</span>
-                    </button>
-                    {{ session('success') }}
-                </div>
+    @if (session('success'))
+    <div class="card-body">
+        <div class="alert alert-success alert-dismissible show fade">
+            <div class="alert-body">
+                <button class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                </button>
+                {{ session('success') }}
             </div>
         </div>
-        @endif
+    </div>
+    @endif
+    <div class="row">
         @forelse ($data_produk as $produk)
         <div class="col-12 col-sm-6 col-md-6 col-lg-3">
             <article class="article article-style-b">
                 <div class="article-header">
-                    <div class="article-image" data-background="{{ asset('assets/img/news/img13.jpg') }}">
+                    <div class="article-image" data-background="{{ $produk->takeImage() }}">
                     </div>
                 </div>
                 <div class="article-details">

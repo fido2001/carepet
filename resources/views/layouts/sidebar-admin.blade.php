@@ -16,13 +16,13 @@
             <li class="@if (Request::segment(1) == 'admin' && Request::segment(2) == 'users-management')
             active @endif"><a class="nav-link" href="{{ route('show.users-management') }}"><i class="far fa-user"></i> <span>User Management</span></a></li>
             <li class="@if (Request::segment(1) == 'admin' && Request::segment(2) == 'produk')
-            active @endif"><a class="nav-link" href="{{ route('index.produk.admin') }}"><i class="far fa-square"></i> <span>Data Produk</span></a></li>
+            active @endif"><a class="nav-link" href="{{ route('index.produk.admin') }}"><i class="far fa-square"></i> <span>Medicine and Food</span></a></li>
             <li class="@if (Request::segment(1) == 'admin' && Request::segment(2) == 'paket')
             active @endif"><a class="nav-link" href="{{ route('index.paket.admin') }}"><i class="far fa-square"></i> <span>Service Packages</span></a></li>
             <li class="@if (Request::segment(1) == 'admin' && Request::segment(2) == 'article')
             active @endif"><a class="nav-link" href="/admin/article"><i class="far fa-square"></i> <span>Artikel</span></a></li>
             <li class="dropdown">
-                <a href="#" class="nav-link has-dropdown"><i class="far fa-user"></i> <span>Rekap Pemesanan</span></a>
+                <a href="#" class="nav-link has-dropdown"><i class="far fa-user"></i> <span>Order History</span></a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ route('history.paket.admin') }}">Service Packages</a></li> 
                     <li><a href="{{ route('history.produk.admin') }}">Medicine and Food</a></li> 

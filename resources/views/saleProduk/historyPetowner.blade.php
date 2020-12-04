@@ -25,7 +25,7 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">ID Produk</th>
+                    <th scope="col">Nama Produk</th>
                     <th scope="col">Jumlah</th>
                     <th scope="col">Alamat</th>
                     <th scope="col">Nomor HP</th>
@@ -34,27 +34,25 @@
                 </thead>
                 <tbody>
                 @foreach ($dataPembelian as $no => $pembelian)
-                    {{-- @foreach ($dataProduk as $no => $produk) --}}
                         <tr>
                             <th scope="row">{{ $no+1 }}</th>
-                            <td>{{ $pembelian['produk_id'] }}</td>
-                            <td>{{ $pembelian['jumlahProduk'] }}</td>
-                            <td>{{ $pembelian['alamat'] }}</td>
-                            <td>{{ $pembelian['noHp'] }}</td>
+                            <td>{{ $pembelian->nama_produk }}</td>
+                            <td>{{ $pembelian->jumlahProduk }}</td>
+                            <td>{{ $pembelian->alamat }}</td>
+                            <td>{{ $pembelian->noHp }}</td>
                             <td class="text-center">
-                                <a href="{{ route('historyDetail.produk.petowner', $pembelian['id']) }}" class="badge badge-success">Detail Pesanan</a>
-                                @if ($pembelian['bukti_pembayaran'] == null)
-                                <a href="#" data-id="{{ $pembelian['id'] }}" class="badge badge-danger swal-confirm">
-                                    <form action="{{ route('destroy.produk.petowner', $pembelian['id']) }}" id="delete{{ $pembelian['id'] }}" method="POST">
+                                <a href="{{ route('historyDetail.produk.petowner', $pembelian->id) }}" class="badge badge-success">Detail Pesanan</a>
+                                @if ($pembelian->bukti_pembayaran == null)
+                                <a href="#" data-id="{{ $pembelian->id }}" class="badge badge-danger swal-confirm">
+                                    <form action="{{ route('destroy.produk.petowner', $pembelian->id) }}" id="delete{{ $pembelian->id }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     </form>
                                     Batalkan Pesanan
                                 </a>
-                                @endif
                             </td>
+                            @endif
                         </tr>
-                    {{-- @endforeach --}}
                 @endforeach
                 </tbody>
             </table>

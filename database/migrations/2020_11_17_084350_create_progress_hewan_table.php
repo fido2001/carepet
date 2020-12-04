@@ -20,6 +20,8 @@ class CreateProgressHewanTable extends Migration
             $table->text('kondisi_hewan');
             $table->string('foto');
             $table->timestamps();
+
+            $table->foreign('id_service')->references('id')->on('ordering_service_packages')->onDelete('cascade');
         });
     }
 

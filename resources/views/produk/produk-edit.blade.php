@@ -3,7 +3,7 @@
 @section('content')
     <div class="card">
         <div class="card-header"><h4>Edit Data Produk</h4></div>
-        <form method="post" action="{{ route('update.produk.petshop', $dataProduk) }}" class="needs-validation" novalidate="">
+        <form method="post" action="{{ route('update.produk.petshop', $dataProduk) }}" enctype="multipart/form-data" class="needs-validation" novalidate="">
             @csrf
             @method('PATCH')
             <input type="hidden" name="id" value="{{ $dataProduk->id }}">
@@ -42,6 +42,17 @@
                         <div class="invalid-feedback">
                             Data tidak boleh kosong, harap diisi!
                         </div>
+                    </div>
+                </div>
+                <div class="row">                               
+                    <div class="form-group col-md-6 col-12">
+                        <label for="exampleFormControlFile1">Gambar Produk</label>
+                        <input type="file" name="image" class="form-control-file @error('image') is-invalid @enderror" id="exampleFormControlFile1">
+                        @error('image')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                 </div>
             </div>

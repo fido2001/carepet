@@ -17,6 +17,17 @@ class CreateOrderingMedicineFoodTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('produk_id');
+            $table->integer('jumlahProduk');
+            $table->text('alamat');
+            $table->string('noHp', 13);
+            $table->text('catatan')->nullable();
+            $table->string('no_rek_pengirim', 15)->nullable();
+            $table->string('nama_pengirim', 30)->nullable();
+            $table->date('tgl_kirim')->nullable();
+            $table->integer('nominal')->nullable();
+            $table->string('bukti_pembayaran', 100)->nullable();
+            $table->string('status', 20)->nullable();
+            $table->datetime('payment_due')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

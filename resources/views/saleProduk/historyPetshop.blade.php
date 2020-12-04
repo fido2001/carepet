@@ -29,10 +29,14 @@
                             <td>
                                 @if ($pemesanan->bukti_pembayaran == null)
                                 <p class="badge badge-danger">Belum Bayar</p> 
-                                @elseif ($pemesanan->bukti_pembayaran != null && $pemesanan->status_pembayaran == null)
-                                <p class="badge badge-info">Lakukan Verifikasi</p> 
-                                @elseif ($pemesanan->bukti_pembayaran != null && $pemesanan->status_pembayaran == '1')
-                                <p class="badge badge-success">Sudah Verifikasi</p> 
+                                @elseif ($pemesanan->bukti_pembayaran != null && $pemesanan->status == 'diterima')
+                                <p class="badge badge-warning">Lakukan Verifikasi</p> 
+                                @elseif ($pemesanan->bukti_pembayaran != null && $pemesanan->status == 'dikemas')
+                                <p class="badge badge-info">Masukkan Resi</p> 
+                                @elseif ($pemesanan->bukti_pembayaran != null && $pemesanan->status == 'dikirim')
+                                <p class="badge badge-success">Menunggu Pesanan Diterima</p> 
+                                @elseif ($pemesanan->bukti_pembayaran != null && $pemesanan->status == 'pesanan diterima')
+                                <p class="badge badge-success">Pesanan Selesai</p> 
                                 @endif
                             </td>
                             <td><a href="{{ route('historyDetail.produk.petshop', $pemesanan->id) }}" class="badge badge-info">Detail</a></td>

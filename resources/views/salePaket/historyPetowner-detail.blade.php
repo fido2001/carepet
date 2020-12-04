@@ -22,7 +22,7 @@
         @endforeach
         @endforeach
         {{-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> --}}
-        @if ($pemesanan->bukti_pembayaran != null && $pemesanan->verifikasi_pembayaran == 1)
+        @if ($pemesanan->bukti_pembayaran != null && $pemesanan->status_pembayaran == 1)
         <a href="{{ route('index.progress.petowner', $pemesanan->id) }}" class="badge badge-success">Progress Hewan</a>    
         @endif
         <a href="/petowner/historyPackages" class="card-link float-right">Kembali</a>
