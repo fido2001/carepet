@@ -106,7 +106,7 @@ class ProdukController extends Controller
         $attr['payment_due'] = Carbon::now()->setTimeZone('Asia/Jakarta')->addHours(24);
         // dd($attr);
         $produk = ProdukUser::create($attr);
-        return redirect()->route('index.produk.petowner')->with('success', 'Pemasanan berhasil dipesan, segera lakukan pembayaran');
+        return redirect()->route('index.produk.petowner')->with('success', 'Produk berhasil dipesan, segera lakukan pembayaran');
     }
 
     public function historyPetowner()
@@ -161,13 +161,7 @@ class ProdukController extends Controller
 
     public function historyPetshopDetail($id)
     {
-        // $pembelian = DB::table('ordering_medicine_food as ord')->join('data_produk as prd', 'prd.id', '=', 'ord.produk_id')->join('users', 'users.id', '=', 'prd.user_id')->where('ord.id', $id)->select('ord.*', 'prd.nama_produk', 'prd.harga', 'users.name')->get();
         $pemesanan = ProdukUser::join('data_produk as prd', 'prd.id', '=', 'ordering_medicine_food.produk_id')->where('ordering_medicine_food.id', $id)->select('ordering_medicine_food.*', 'prd.nama_produk', 'prd.harga')->get();
-        // dd($pemesanan);
-        // $id_produk = ProdukUser::where('id', $id)->get('produk_id')->toArray();
-        // $produk = DataProduk::where('id', $id_produk)->get();
-        // $produk = DataProduk::find($id_produk, ['nama_produk', 'harga'])->toArray();
-        // dd($pemesanan, $id_paket, $produk);
         return view('saleProduk.historyPetshop-detail', [
             'dataPemesanan' => $pemesanan
         ]);
@@ -175,9 +169,6 @@ class ProdukController extends Controller
 
     public function pembayaran($id)
     {
-        // $pemesanan = ProdukUser::where('id', $id)->get()->toArray();
-        // $id_produk = ProdukUser::where('id', $id)->get('produk_id')->toArray();
-        // $produk = DataProduk::find($id_produk, ['nama_produk', 'harga'])->toArray();
         $pembelian = DB::table('ordering_medicine_food as ord')->join('data_produk as prd', 'prd.id', '=', 'ord.produk_id')->join('users', 'users.id', '=', 'prd.user_id')->where('ord.id', $id)->select('ord.*', 'prd.nama_produk', 'prd.harga', 'users.name')->get();
 
         return view('saleProduk.pembayaran', [

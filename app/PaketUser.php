@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 class PaketUser extends Model
 {
     protected $table = 'ordering_service_packages';
-    protected $fillable = ['user_id', 'paket_id', 'jenis_hewan', 'durasi_pemesanan', 'tgl_pesan', 'tgl_selesai', 'no_rek_pengirim', 'status_pembayaran', 'nama_pengirim', 'tgl_kirim', 'bukti_pembayaran'];
+    protected $fillable = ['user_id', 'paket_id', 'jenis_hewan', 'durasi_pemesanan', 'tgl_pesan', 'tgl_selesai', 'no_rek_pengirim', 'status', 'nama_pengirim', 'tgl_kirim', 'bukti_pembayaran', 'payment_due'];
 
     public function progress()
     {

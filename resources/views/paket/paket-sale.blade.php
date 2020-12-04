@@ -14,7 +14,7 @@
                             <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">                               
                             <input type="hidden" name="paket_id" value="{{ $paket->id }}">                               
                             <div class="form-group col-md-6 col-12">
-                                <label>Nama Produk</label>
+                                <label>Nama Paket</label>
                                 <input type="text" class="form-control" value="{{ $paket->nama_paket }}" disabled>
                             </div>
                             <div class="form-group col-md-6 col-12">
@@ -39,6 +39,15 @@
                                 <label>Durasi Pemesanan</label>
                                 <input type="number" name="durasi_pemesanan" class="form-control summernote-simple @error('durasi_pemesanan') is-invalid @enderror">
                                 @error('durasi_pemesanan')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="form-group col-md-6 col-12">
+                                <label>Tanggal Pemesanan</label>
+                                <input type="date" name="tgl_pesan" class="form-control summernote-simple @error('tgl_pesan') is-invalid @enderror">
+                                @error('tgl_pesan')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

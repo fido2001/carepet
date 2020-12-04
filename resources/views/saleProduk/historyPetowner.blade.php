@@ -27,8 +27,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Nama Produk</th>
                     <th scope="col">Jumlah</th>
-                    <th scope="col">Alamat</th>
-                    <th scope="col">Nomor HP</th>
+                    <th scope="col">Status</th>
                     <th scope="col" class="text-center">Aksi</th>
                 </tr>
                 </thead>
@@ -38,8 +37,7 @@
                             <th scope="row">{{ $no+1 }}</th>
                             <td>{{ $pembelian->nama_produk }}</td>
                             <td>{{ $pembelian->jumlahProduk }}</td>
-                            <td>{{ $pembelian->alamat }}</td>
-                            <td>{{ $pembelian->noHp }}</td>
+                            <td>{{ $pembelian->status }}</td>
                             <td class="text-center">
                                 <a href="{{ route('historyDetail.produk.petowner', $pembelian->id) }}" class="badge badge-success">Detail Pesanan</a>
                                 @if ($pembelian->bukti_pembayaran == null)

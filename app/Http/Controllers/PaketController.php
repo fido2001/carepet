@@ -89,7 +89,9 @@ class PaketController extends Controller
 
     public function show(Paket $paket)
     {
-        return view('paket.paket-show', ['paket' => $paket]);
+        $datapaket = $paket;
+        $data_petshop = User::where('id', $datapaket->user_id)->first();
+        return view('paket.paket-show', ['paket' => $paket, 'petshop' => $data_petshop]);
     }
 
     public function sale(Paket $paket)
@@ -102,33 +104,37 @@ class PaketController extends Controller
         $request->validate(
             [
                 'jenis_hewan' => 'required|max:30',
-                'durasi_pemesanan' => 'required|max:20'
+                'durasi_pemesanan' => 'required|max:20',
+                'tgl_pesan' => 'required'
             ],
             [
                 'jenis_hewan.required' => 'Semua Form harap diisi dan tidak boleh kosong',
                 'jenis_hewan.max' => 'Maksimal 30 karakter',
                 'durasi_pemesanan.max' => 'Maksimal 20 karakter',
-                'durasi_pemesanan.required' => 'Semua Form harap diisi dan tidak boleh kosong'
+                'durasi_pemesanan.required' => 'Semua Form harap diisi dan tidak boleh kosong',
+                'tgl_pesan.required' => 'Semua Form harap diisi dan tidak boleh kosong'
             ]
         );
 
-        $tgl_pesan = Carbon::now()->setTimezone('Asia/Jakarta');
-        $tgl_selesai = Carbon::now()->setTimezone('Asia/Jakarta')->addDays($request->durasi_pemesanan);
+        $tgl_pesan = $request->tgl_pesan;
+        $tgl_selesai = Carbon::createFromFormat('Y-m-d', $tgl_pesan)->addDays($request->durasi_pemesanan);
+        $payment_due = Carbon::now()->setTimezone('Asia/Jakarta')->addHours(24);
         $paket = PaketUser::create([
             'user_id' => $request->user_id,
             'paket_id' => $request->paket_id,
             'jenis_hewan' => $request->jenis_hewan,
             'durasi_pemesanan' => $request->durasi_pemesanan,
             'tgl_pesan' => $tgl_pesan,
-            'tgl_selesai' => $tgl_selesai
+            'tgl_selesai' => $tgl_selesai,
+            'payment_due' => $payment_due
         ]);
-        return redirect()->route('index.paket.petowner')->with('success', 'Paket berhasil dipesan, segera lakukan pembayaran');
+        return redirect()->route('index.paket.petowner')->with('success', 'Paket Service berhasil dipesan, segera lakukan pembayaran');
     }
 
     public function historyPetowner()
     {
         $user_id = auth()->user()->id;
-        $history = DB::table('pilihan_paket as paket')->join('ordering_service_packages as order', 'paket.id', '=', 'order.paket_id')->join('users', 'order.user_id', '=', 'users.id')->where('users.id', '=', $user_id)->select('paket.nama_paket', 'order.durasi_pemesanan', 'order.jenis_hewan', 'order.bukti_pembayaran', 'order.id', 'order.status_pembayaran')->get();
+        $history = DB::table('pilihan_paket as paket')->join('ordering_service_packages as order', 'paket.id', '=', 'order.paket_id')->join('users', 'order.user_id', '=', 'users.id')->where('order.user_id', '=', $user_id)->select('paket.nama_paket', 'order.durasi_pemesanan', 'order.jenis_hewan', 'order.bukti_pembayaran', 'order.id', 'order.status')->get();
         return view('salePaket.historyPetowner', [
             'dataPemesanan' => $history
         ]);
@@ -136,7 +142,7 @@ class PaketController extends Controller
 
     public function historyPetshop()
     {
-        $history = DB::table('pilihan_paket as paket')->join('ordering_service_packages as order', 'paket.id', '=', 'order.paket_id')->join('users', 'order.user_id', '=', 'users.id')->select('paket.nama_paket', 'order.durasi_pemesanan', 'order.jenis_hewan', 'order.bukti_pembayaran', 'order.id', 'order.status_pembayaran')->get();
+        $history = DB::table('pilihan_paket as paket')->join('ordering_service_packages as order', 'paket.id', '=', 'order.paket_id')->join('users', 'order.user_id', '=', 'users.id')->where('paket.user_id', auth()->user()->id)->select('paket.nama_paket', 'order.durasi_pemesanan', 'order.jenis_hewan', 'order.bukti_pembayaran', 'order.id', 'order.status')->get();
         return view('salePaket.historyPetshop', [
             'dataPemesanan' => $history
         ]);
@@ -144,7 +150,7 @@ class PaketController extends Controller
 
     public function historyAdmin()
     {
-        $history = DB::table('pilihan_paket as paket')->join('ordering_service_packages as order', 'paket.id', '=', 'order.paket_id')->join('users', 'order.user_id', '=', 'users.id')->select('paket.nama_paket', 'order.durasi_pemesanan', 'order.jenis_hewan', 'order.bukti_pembayaran', 'order.id', 'order.status_pembayaran')->get();
+        $history = DB::table('pilihan_paket as paket')->join('ordering_service_packages as order', 'paket.id', '=', 'order.paket_id')->join('users', 'order.user_id', '=', 'users.id')->select('paket.nama_paket', 'order.durasi_pemesanan', 'order.jenis_hewan', 'order.bukti_pembayaran', 'order.id', 'order.status')->get();
         return view('salePaket.historyAdmin', [
             'dataPemesanan' => $history
         ]);
@@ -158,17 +164,11 @@ class PaketController extends Controller
 
     public function historyPetownerDetail($id)
     {
-        $pemesanan = PaketUser::where('id', $id)->get();
-        $tgl = PaketUser::where('id', $id)->get('tgl_pesan');
-        // $tgl_masuk = Carbon::parse($tgl)->translatedFormat('l, d F Y');
-        $id_paket = PaketUser::where('id', $id)->get('paket_id')->toArray();
-        // $produk = DataProduk::where('id', $id_produk)->get();
-        $paket = Paket::find($id_paket, ['nama_paket', 'harga'])->toArray();
-        // dd($pemesanan, $id_paket, $paket);
-        // dd($tgl);
+        // Carbon::setTestNow('2020-12-07');
+        $pemesanan = PaketUser::join('pilihan_paket as pkt', 'pkt.id', '=', 'ordering_service_packages.paket_id')->join('users', 'users.id', '=', 'pkt.user_id')->where('ordering_service_packages.id', $id)->select('ordering_service_packages.*', 'pkt.nama_paket', 'pkt.harga', 'users.name', 'users.alamat')->get();
+        // dd($pemesanan);
         return view('salePaket.historyPetowner-detail', [
-            'dataPemesanan' => $pemesanan,
-            'dataPaket' => $paket
+            'dataPemesanan' => $pemesanan
         ]);
     }
 
@@ -197,19 +197,19 @@ class PaketController extends Controller
 
     public function pembayaran($id)
     {
-        $pemesanan = PaketUser::where('id', $id)->get()->toArray();
-        $id_paket = PaketUser::where('id', $id)->get('paket_id')->toArray();
-        $paket = Paket::find($id_paket, ['nama_paket', 'harga'])->toArray();
+        // $pemesanan = PaketUser::where('id', $id)->get()->toArray();
+        // $id_paket = PaketUser::where('id', $id)->get('paket_id')->toArray();
+        // $paket = Paket::find($id_paket, ['nama_paket', 'harga'])->toArray();
+        $pemesanan = PaketUser::join('pilihan_paket as pkt', 'pkt.id', '=', 'ordering_service_packages.paket_id')->where('ordering_service_packages.id', $id)->select('ordering_service_packages.*', 'pkt.nama_paket', 'pkt.harga')->get();
         return view('salePaket.pembayaran', [
-            'dataPemesanan' => $pemesanan,
-            'dataPaket' => $paket
+            'dataPemesanan' => $pemesanan
         ]);
     }
 
     public function verifikasiPembayaran(Request $request, $id)
     {
         PaketUser::where('id', $id)->update([
-            'status_pembayaran' => $request->status_pembayaran
+            'status' => $request->status_pembayaran
         ]);
         return redirect()->back();
     }
@@ -236,7 +236,9 @@ class PaketController extends Controller
         PaketUser::where('id', $id)->update([
             'no_rek_pengirim' => $request->no_rek_pengirim,
             'nama_pengirim' => $request->nama_pengirim,
-            'tgl_kirim' => date('Y-m-d'),
+            'tgl_kirim' => Carbon::now()->setTimeZone('Asia/Jakarta'),
+            'status' => 'diterima',
+            'nominal' => $request->nominal,
             'bukti_pembayaran' => $bukti_pembayaran
         ]);
 

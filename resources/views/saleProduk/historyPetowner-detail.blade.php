@@ -13,7 +13,7 @@
         @endif
         @if (Carbon\Carbon::now()->setTimeZone('Asia/Jakarta') > $pemesanan->payment_due && $pemesanan->bukti_pembayaran == null)
             <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert">
-                <div>Waktu Pembayaran telah selesai</div>
+                <div>Pesanan telah dibatalkan, karena melebihi batas tenggat pembayaran</div>
                 <div><a href="/petowner/produk" class="btn btn-warning">Mulai Pesanan Baru Disini</a></div>
             </div>
         @endif
