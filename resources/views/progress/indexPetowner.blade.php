@@ -1,5 +1,9 @@
 @extends('layouts.master-user')
 
+@section('css')
+<link rel="stylesheet" href="{{ asset('../assets/modules/chocolat/dist/css/chocolat.css') }}">
+@endsection
+
 @section('header', 'Data Progress Service Packages')
 @section('content')
 <div class="section-body">
@@ -30,7 +34,11 @@
                         <td>{{ $progress->hari_ke }}</td>
                         <td>{{ $progress->kondisi_hewan }}</td>
                         <td>{{ \Carbon\Carbon::parse($progress->created_at)->translatedFormat('l, d F Y') }}</td>
-                        <td><img src="{{ $progress->takeImage() }}" alt="" style="height: 100px"></td>
+                        <td>
+                            <div class="gallery">
+                                <div class="gallery-item" data-image="{{ $progress->takeImage() }}"></div>
+                            </div>
+                        </td>
                         {{-- <td class="text-center">
                             <a href="{{ route('edit.progress.petshop', $progress->id) }}" class="badge badge-info btn-edit">Edit</a>
                             <a href="#" data-id="{{ $progress->id }}" class="badge badge-danger swal-confirm">
@@ -51,3 +59,7 @@
     </div>
 </div>
 @endsection
+
+@push('page-scripts')
+<script src="{{ asset('../assets/modules/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
+@endpush

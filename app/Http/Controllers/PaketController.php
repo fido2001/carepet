@@ -186,20 +186,14 @@ class PaketController extends Controller
 
     public function historyAdminDetail($id)
     {
-        $pemesanan = PaketUser::where('id', $id)->get();
-        $id_paket = PaketUser::where('id', $id)->get('paket_id')->toArray();
-        $paket = Paket::find($id_paket, ['nama_paket', 'harga'])->toArray();
+        $pembelian = PaketUser::join('pilihan_paket as pkt', 'pkt.id', '=', 'ordering_service_packages.paket_id')->where('ordering_service_packages.id', $id)->select('ordering_service_packages.*', 'pkt.nama_paket', 'pkt.harga')->get();
         return view('salePaket.historyAdmin-detail', [
-            'dataPemesanan' => $pemesanan,
-            'dataPaket' => $paket
+            'dataPemesanan' => $pembelian
         ]);
     }
 
     public function pembayaran($id)
     {
-        // $pemesanan = PaketUser::where('id', $id)->get()->toArray();
-        // $id_paket = PaketUser::where('id', $id)->get('paket_id')->toArray();
-        // $paket = Paket::find($id_paket, ['nama_paket', 'harga'])->toArray();
         $pemesanan = PaketUser::join('pilihan_paket as pkt', 'pkt.id', '=', 'ordering_service_packages.paket_id')->where('ordering_service_packages.id', $id)->select('ordering_service_packages.*', 'pkt.nama_paket', 'pkt.harga')->get();
         return view('salePaket.pembayaran', [
             'dataPemesanan' => $pemesanan
@@ -211,6 +205,13 @@ class PaketController extends Controller
         PaketUser::where('id', $id)->update([
             'status' => $request->status_pembayaran
         ]);
+
+        $data_order = PaketUser::where('id', $id)->first();
+        $id_petshop = Paket::where('id', $data_order->paket_id)->value('user_id');
+        $data_petshop = User::where('id', $id_petshop)->first();
+        $data_petshop->saldo = ($data_petshop->saldo) + ($data_order->nominal * 0.85);
+        $data_petshop->update();
+
         return redirect()->back();
     }
 

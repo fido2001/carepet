@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\DataProduk;
+use App\Paket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -11,7 +13,11 @@ class PetshopController extends Controller
     public function index()
     {
         if (request()->user()->hasRole('petshop')) {
-            return view('petshop.index');
+            $paket = Paket::where('user_id', auth()->user()->id)->get();
+            $produk = DataProduk::where('user_id', auth()->user()->id)->get();
+            $jml_paket = count($paket);
+            $jml_produk = count($produk);
+            return view('petshop.index', compact('jml_paket', 'jml_produk'));
         } else {
             return redirect('/');
         }

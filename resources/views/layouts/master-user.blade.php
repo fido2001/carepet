@@ -266,24 +266,24 @@ gtag('config', 'UA-94034622-3');
                     <a href="{{ route('petowner.index') }}" class="nav-link"><i class="fas fa-fire"></i><span>Dashboard</span></a>
                 </li>
                 <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="produk") active @endif">
-                    <a href="{{ route('index.produk.petowner') }}" class="nav-link"><i class="far fa-heart"></i><span>Medicine and Food</span></a>
+                    <a href="{{ route('index.produk.petowner') }}" class="nav-link"><i class="fas fa-bone"></i><span>Medicine and Food</span></a>
                 </li>
                 <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="paket") active @endif">
-                    <a href="{{ route('index.paket.petowner') }}" class="nav-link"><i class="far fa-heart"></i><span>Service Packages</span></a>
+                    <a href="{{ route('index.paket.petowner') }}" class="nav-link"><i class="fas fa-tag"></i><span>Service Packages</span></a>
                 </li>
                 <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="article") active @endif">
-                    <a href="{{ route('index.article.petowner') }}" class="nav-link"><i class="far fa-heart"></i><span>Artikel</span></a>
+                    <a href="{{ route('index.article.petowner') }}" class="nav-link"><i class="fas fa-newspaper"></i><span>Artikel</span></a>
                 </li>
                 <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="consultation") active @endif">
-                    <a href="{{ route('index.consultation.petowner') }}" class="nav-link"><i class="far fa-heart"></i><span>Konsultasi</span></a>
+                    <a href="{{ route('index.consultation.petowner') }}" class="nav-link"><i class="far fa-comment"></i><span>Konsultasi</span></a>
                 </li>
-                <li class="nav-item dropdown">
-                <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-clone"></i><span>Order History</span></a>
+                <li class="nav-item dropdown @if(Request::segment(1)=="petowner" && Request::segment(2)=="historyMedicine") active @elseif (Request::segment(1)=="petowner" && Request::segment(2)=="historyPackages") active @endif">
+                <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-shopping-cart"></i><span>Order History</span></a>
                 <ul class="dropdown-menu">
-                    <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="historySale") active @endif">
+                    <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="historyMedicine") active @endif">
                         <a href="/petowner/historyMedicine" class="nav-link">Medicine and Food</a>
                     </li>
-                    <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="historySale") active @endif">
+                    <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="historyPackages") active @endif">
                         <a href="/petowner/historyPackages" class="nav-link">Service Packages</a>
                     </li>
                     {{-- <li class="nav-item"><a href="#" class="nav-link">Not Dropdown Link</a></li>

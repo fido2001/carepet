@@ -32,26 +32,18 @@
                 </thead>    
                 <tbody>
                 @foreach ($dataPemesanan as $no => $pemesanan)
-                    {{-- @foreach ($dataPaket as $no => $paket) --}}
                         <tr>
                             <th scope="row">{{ $no+1 }}</th>
                             <td>{{ $pemesanan->nama_paket }}</td>
                             <td>{{ $pemesanan->durasi_pemesanan }} Hari</td>
                             <td>{{ $pemesanan->jenis_hewan }}</td>
-                            <td>
-                                @if ($pemesanan->bukti_pembayaran == null)
-                                Belum Bayar
-                                @elseif ($pemesanan->bukti_pembayaran != null)
-                                Sudah Bayar
-                                @endif
-                            </td>
+                            <td>{{ $pemesanan->status }}</td>
                             <td><a href="{{ route('historyDetail.paket.petshop', $pemesanan->id) }}" class="badge badge-info">Detail</a>
-                            @if ($pemesanan->bukti_pembayaran != null && $pemesanan->status_pembayaran == 1)
+                            @if ($pemesanan->bukti_pembayaran != null && $pemesanan->status == 'dalam progress')
                                 {{-- <a href="{{ route('create.progress.petshop', $pemesanan['id']) }}" class="btn btn-warning">Masukkan Progress Hewan</a> --}}
                                 <a href="{{ route('index.progress.petshop', $pemesanan->id) }}" class="badge badge-success">Progress</a></td>
                             @endif
                         </tr>
-                    {{-- @endforeach --}}
                 @endforeach
                 </tbody>
             </table>

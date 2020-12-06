@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\DataProduk;
+use App\Paket;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
@@ -13,7 +15,15 @@ class AdminController extends Controller
     public function index()
     {
         if (request()->user()->hasRole('admin')) {
-            return view('admin.index');
+            $petshop = User::where('id_role', 2)->get();
+            $petowner = User::where('id_role', 3)->get();
+            $paket = Paket::get();
+            $produk = DataProduk::get();
+            $jml_petshop = count($petshop);
+            $jml_petowner = count($petowner);
+            $jml_paket = count($paket);
+            $jml_produk = count($produk);
+            return view('admin.index', compact('jml_petshop', 'jml_petowner', 'jml_paket', 'jml_produk'));
         } else {
             return redirect('/');
         }

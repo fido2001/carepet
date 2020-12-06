@@ -135,7 +135,7 @@ class ProdukController extends Controller
         $id_produk = ProdukUser::get('produk_id')->toArray();
         $produk = DataProduk::find($id_produk, ['nama_produk', 'harga'])->toArray();
         // dd($pemesanan, $user_id_produk, $user, $produk);
-        $history = DB::table('data_produk as produk')->join('ordering_medicine_food as order', 'produk.id', '=', 'order.produk_id')->join('users', 'order.user_id', '=', 'users.id')->select('produk.nama_produk', 'order.jumlahProduk', 'produk.harga', 'order.bukti_pembayaran', 'order.id', 'order.status_pembayaran')->get();
+        $history = DB::table('data_produk as produk')->join('ordering_medicine_food as order', 'produk.id', '=', 'order.produk_id')->join('users', 'order.user_id', '=', 'users.id')->select('produk.nama_produk', 'order.jumlahProduk', 'produk.harga', 'order.bukti_pembayaran', 'order.id', 'order.status')->get();
         return view('saleProduk.historyAdmin', [
             'dataPemesanan' => $pemesanan,
             // 'dataPetowner' => $user,

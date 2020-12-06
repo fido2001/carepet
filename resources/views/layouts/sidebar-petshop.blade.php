@@ -20,12 +20,13 @@
                     <li><a class="nav-link" href="layout-top-navigation.html">Top Navigation</a></li>
                 </ul>
             </li> --}}
-            <li class="@if(Request::segment(1)=="petshop" && Request::segment(2)=="produk") active @endif"><a class="nav-link" href="{{ route('index.produk.petshop') }}"><i class="far fa-square"></i> <span>Medicine and Food</span></a></li>
-            <li class="@if(Request::segment(1)=="petshop" && Request::segment(2)=="paket") active @endif"><a class="nav-link" href="{{ route('index.paket.petshop') }}"><i class="far fa-square"></i> <span>Service Packages</span></a></li>
-            <li class="@if(Request::segment(1)=="petshop" && Request::segment(2)=="article") active @endif"><a class="nav-link" href="{{ route('index.article.petshop') }}"><i class="far fa-square"></i> <span>Artikel</span></a></li>
-            <li class="@if(Request::segment(1)=="petshop" && Request::segment(2)=="consultation") active @endif"><a class="nav-link" href="{{ route('index.consultation.petshop') }}"><i class="far fa-square"></i> <span>Konsultasi</span></a></li>
+            <li class="@if(Request::segment(1)=="petshop" && Request::segment(2)=="produk") active @endif"><a class="nav-link" href="{{ route('index.produk.petshop') }}"><i class="fas fa-bone"></i> <span>Medicine and Food</span></a></li>
+            <li class="@if(Request::segment(1)=="petshop" && Request::segment(2)=="paket") active @endif"><a class="nav-link" href="{{ route('index.paket.petshop') }}"><i class="fas fa-tag"></i> <span>Service Packages</span></a></li>
+            <li class="@if(Request::segment(1)=="petshop" && Request::segment(2)=="article") active @endif"><a class="nav-link" href="{{ route('index.article.petshop') }}"><i class="far fa-newspaper"></i> <span>Artikel</span></a></li>
+            <li class="@if(Request::segment(1)=="petshop" && Request::segment(2)=="consultation") active @endif"><a class="nav-link" href="{{ route('index.consultation.petshop') }}"><i class="far fa-comment"></i> <span>Konsultasi</span></a></li>
+            <li class="@if(Request::segment(1)=="petshop" && Request::segment(2)=="withdrawal") active @endif"><a class="nav-link" href="{{ route('index.withdrawal.petshop') }}"><i class="fas fa-wallet"></i> <span>Penarikan Saldo</span></a></li>
             <li class="dropdown">
-                <a href="#" class="nav-link has-dropdown"><i class="fas fa-th"></i> <span>Order History</span></a>
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-shopping-cart"></i> <span>Order History</span></a>
                 <ul class="dropdown-menu">
                     <li><a href="{{ route('history.paket.petshop') }}">Service Packages</a></li> 
                     <li><a href="{{ route('history.produk.petshop') }}">Medicine and Food</a></li> 

@@ -26,15 +26,7 @@
                             <td>{{ $pemesanan->nama_paket }}</td>
                             <td>{{ $pemesanan->durasi_pemesanan }} Hari</td>
                             <td>{{ $pemesanan->jenis_hewan }}</td>
-                            <td>
-                                @if ($pemesanan->bukti_pembayaran == null)
-                                Belum Bayar 
-                                @elseif ($pemesanan->bukti_pembayaran != null && $pemesanan->status_pembayaran == null)
-                                Lakukan Verifikasi 
-                                @elseif ($pemesanan->bukti_pembayaran != null && $pemesanan->status_pembayaran == '1')
-                                Sudah di Verifikasi 
-                                @endif
-                            </td>
+                            <td>{{ $pemesanan->status }}</td>
                             <td><a href="{{ route('historyDetail.paket.admin', $pemesanan->id) }}" class="badge badge-info">Detail</a></td>
                         </tr>
                     {{-- @endforeach --}}

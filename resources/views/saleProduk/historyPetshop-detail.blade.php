@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('css')
+<link rel="stylesheet" href="{{ asset('../assets/modules/chocolat/dist/css/chocolat.css') }}">
+@endsection
+
 @section('header', 'Detail Pemesanan Service Packages')
 @section('content')
 <div class="card">
@@ -13,7 +17,10 @@
         @if ($pemesanan->bukti_pembayaran != null && $pemesanan->status == 'dikemas')
         <h6 class="card-text">Bukti Pembayaran : </h6><img src="{{ $pemesanan->takeImage() }}" alt="" style="height: 250px">
         @elseif ($pemesanan->bukti_pembayaran != null && $pemesanan->status == 'diterima')
-        <h6 class="card-text">Bukti Pembayaran : </h6><img src="{{ $pemesanan->takeImage() }}" alt="" style="height: 250px" class="mb-3"><br>
+        <h6 class="card-text">Bukti Pembayaran : </h6>
+        <div class="gallery">
+            <div class="gallery-item" data-image="{{ $pemesanan->takeImage() }}"></div>
+        </div><br>
         {{-- <a href="" class="badge badge-info">Verifikasi Pembayaran</a> --}}
         <a class="badge badge-info" href="{{ route('verifikasi.pembayaran.petshop', $pemesanan->id) }}"
             onclick="event.preventDefault();
@@ -46,3 +53,7 @@
     </div>
 </div>
 @endsection
+
+@push('page-scripts')
+<script src="{{ asset('../assets/modules/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
+@endpush

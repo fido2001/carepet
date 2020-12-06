@@ -34,6 +34,9 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/article/{article:slug}/edit', 'ArticleController@edit')->name('edit.article.admin');
     Route::patch('/article/{article:slug}/edit', 'ArticleController@update')->name('update.article.admin');
     Route::delete('/article/{article:slug}', 'ArticleController@destroy')->name('destroy.article.admin');
+    Route::get('/withdrawal', 'WithdrawalController@indexAdmin')->name('index.withdrawal.admin');
+    Route::get('/withdrawal/{withdrawal}/detail', 'WithdrawalController@showAdmin')->name('show.withdrawal.admin');
+    Route::patch('/withdrawal/{withdrawal}/detail', 'WithdrawalController@storeBukti')->name('bukti.withdrawal.admin');
 });
 
 Route::middleware('auth')->prefix('petshop')->group(function () {
@@ -68,6 +71,10 @@ Route::middleware('auth')->prefix('petshop')->group(function () {
     Route::get('/consultation', 'ConsultationController@indexPetshop')->name('index.consultation.petshop');
     Route::get('/consultation/{id}', 'ChatController@indexPetshop')->name('index.chat.petshop');
     Route::post('/consultation/{id}', 'ChatController@store')->name('store.chat.petshop');
+    Route::get('/withdrawal', 'WithdrawalController@index')->name('index.withdrawal.petshop');
+    Route::get('/withdrawal/create', 'WithdrawalController@create')->name('create.withdrawal.petshop');
+    Route::post('/withdrawal/create', 'WithdrawalController@store')->name('store.withdrawal.petshop');
+    Route::get('/withdrawal/{withdrawal}/detail', 'WithdrawalController@show')->name('show.withdrawal.petshop');
 });
 
 Route::middleware('auth')->prefix('petowner')->group(function () {
