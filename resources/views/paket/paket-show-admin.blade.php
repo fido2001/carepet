@@ -1,4 +1,4 @@
-@extends('layouts.master-user')
+@extends('layouts.master')
 
 @section('header')
 Detail Paket {{ $paket->nama_paket }}
@@ -13,8 +13,7 @@ Detail Paket {{ $paket->nama_paket }}
                 <h5>Harga : Rp. {{ $paket->harga }}</h5>
                 <h5>Alamat Petshop : {{ $petshop->alamat }}</h5>
                 <p>Deskripsi : {!! nl2br($paket->keterangan) !!}</p>
-                <a href="/petowner/paket">Kembali</a>
-                <a href="{{ route('sale.paket.petowner', $paket->id) }}" class="badge badge-info btn-edit float-right">Pesan</a>
+                <a href="/admin/paket">Kembali</a>
             </div>
         </div>
     </div>

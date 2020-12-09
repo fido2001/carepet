@@ -19,6 +19,7 @@ class CreatePilihanPaketTable extends Migration
             $table->string('nama_paket', 30);
             $table->integer('harga');
             $table->text('keterangan');
+            $table->string('status', 11)->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

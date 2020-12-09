@@ -42,12 +42,12 @@ class RegisterController extends Controller
         return Validator::make(
             $data,
             [
-                'username' => ['required', 'alpha_num', 'max:25'],
+                'username' => ['required', 'alpha_num', 'max:15'],
                 'noHp' => ['required', 'string', 'max:13', 'min:10'],
                 'alamat' => ['required'],
-                'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'password' => ['required', 'string', 'min:8', 'confirmed'],
+                'name' => ['required', 'string', 'max:25'],
+                'email' => ['required', 'string', 'email', 'max:30', 'unique:users'],
+                'password' => ['required', 'string', 'min:8', 'max:20', 'confirmed'],
             ],
             [
                 'name.string' => 'Nama Lengkap Harus berupa huruf',
@@ -58,10 +58,12 @@ class RegisterController extends Controller
                 'email.required' => 'Data tidak boleh kosong, harap diisi',
                 'password.required' => 'Data tidak boleh kosong, harap diisi',
                 'password.min' => 'Minimal 8 karakter',
+                'password.max' => 'Maksimal 20 karakter',
                 'password.confirmed' => 'Masukkan konfirmasi password yang valid',
                 'email.email' => 'Masukkan Email yang valid.',
                 'email.unique' => 'Email sudah digunakan, silakan ganti.',
-                'username.max' => 'Maksimal 25 karakter',
+                'name.max' => 'Maksimal 25 karakter',
+                'username.max' => 'Maksimal 15 karakter',
                 'username.alpha_num' => 'Hanya bisa diisi dengan karakter alpha numeric',
             ]
         );

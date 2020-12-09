@@ -19,8 +19,15 @@ class ProdukController extends Controller
 
     public function indexAdmin()
     {
-        $produk = DataProduk::get();
+        $produk = DataProduk::join('users', 'data_produk.user_id', '=', 'users.id')->select('data_produk.*', 'users.name')->get();
         return view('produk.indexAdmin', ['data_produk' => $produk]);
+    }
+
+    public function detailAdmin(DataProduk $dataProduk)
+    {
+        $produk = $dataProduk;
+        $data_petshop = User::where('id', $produk->user_id)->first();
+        return view('produk.produk-show-admin', ['dataProduk' => $dataProduk, 'petshop' => $data_petshop]);
     }
 
     public function indexPetowner()
@@ -129,17 +136,10 @@ class ProdukController extends Controller
 
     public function historyAdmin()
     {
-        $pemesanan = ProdukUser::get()->toArray();
-        $user_id_produk = ProdukUser::get('user_id')->toArray();
-        // $user = User::where('id', $user_id_produk)->get()->toArray();
-        $id_produk = ProdukUser::get('produk_id')->toArray();
-        $produk = DataProduk::find($id_produk, ['nama_produk', 'harga'])->toArray();
-        // dd($pemesanan, $user_id_produk, $user, $produk);
         $history = DB::table('data_produk as produk')->join('ordering_medicine_food as order', 'produk.id', '=', 'order.produk_id')->join('users', 'order.user_id', '=', 'users.id')->select('produk.nama_produk', 'order.jumlahProduk', 'produk.harga', 'order.bukti_pembayaran', 'order.id', 'order.status')->get();
+
         return view('saleProduk.historyAdmin', [
-            'dataPemesanan' => $pemesanan,
-            // 'dataPetowner' => $user,
-            'dataProduk' => $produk
+            'dataPemesanan' => $history
         ]);
     }
 
@@ -163,6 +163,14 @@ class ProdukController extends Controller
     {
         $pemesanan = ProdukUser::join('data_produk as prd', 'prd.id', '=', 'ordering_medicine_food.produk_id')->where('ordering_medicine_food.id', $id)->select('ordering_medicine_food.*', 'prd.nama_produk', 'prd.harga')->get();
         return view('saleProduk.historyPetshop-detail', [
+            'dataPemesanan' => $pemesanan
+        ]);
+    }
+
+    public function historyAdminDetail($id)
+    {
+        $pemesanan = ProdukUser::join('data_produk as prd', 'prd.id', '=', 'ordering_medicine_food.produk_id')->where('ordering_medicine_food.id', $id)->select('ordering_medicine_food.*', 'prd.nama_produk', 'prd.harga')->get();
+        return view('saleProduk.historyAdmin-detail', [
             'dataPemesanan' => $pemesanan
         ]);
     }
@@ -211,8 +219,6 @@ class ProdukController extends Controller
         );
 
         $bukti_pembayaran = request()->file('bukti_pembayaran')->store('images/bukti', 'public');
-        // $data = $request->all();
-        // dd($data);
 
         ProdukUser::where('id', $id)->update([
             'no_rek_pengirim' => $request->no_rek_pengirim,

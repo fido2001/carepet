@@ -53,6 +53,11 @@ class AdminController extends Controller
         ]);
     }
 
+    public function detailPetowner(User $user)
+    {
+        return view('admin.detailPetowner', compact('user'));
+    }
+
     public function editUsersManagement(User $user)
     {
         return view('admin.editUsers', [
@@ -66,6 +71,7 @@ class AdminController extends Controller
         $this->_userValidation($request);
         User::where('id', $id)->update([
             'name' => $request->name,
+            'nama_dokter' => $request->nama_dokter,
             'username' => $request->username,
             'email' => $request->email,
             'noHp' => $request->noHp,
@@ -88,13 +94,15 @@ class AdminController extends Controller
                 'username' => ['required', 'alpha_num', 'max:25'],
                 'noHp' => ['required', 'string', 'max:13', 'min:10'],
                 'alamat' => ['required'],
-                'name' => ['required', 'string', 'max:255'],
+                'nama_dokter' => ['required', 'string', 'max:25'],
+                'name' => ['required', 'string', 'max:25'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
             ],
             [
                 'name.string' => 'Nama Lengkap Harus berupa huruf',
                 'name.required' => 'Data tidak boleh kosong, harap diisi',
+                'nama_dokter.required' => 'Data tidak boleh kosong, harap diisi',
                 'username.required' => 'Data tidak boleh kosong, harap diisi',
                 'noHp.required' => 'Data tidak boleh kosong, harap diisi',
                 'alamat.required' => 'Data tidak boleh kosong, harap diisi',
@@ -110,6 +118,7 @@ class AdminController extends Controller
         );
         $user = User::create([
             'name' => $request->input('name'),
+            'nama_dokter' => $request->input('nama_dokter'),
             'username' => $request->input('username'),
             'noHp' => $request->input('noHp'),
             'alamat' => $request->input('alamat'),

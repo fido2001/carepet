@@ -18,15 +18,20 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::patch('/editPassword', 'AdminController@updatePassword')->name('edit.password.admin');
     Route::get('users-management', 'AdminController@showUsersManagement')->name('show.users-management');
     Route::post('users-management', 'AdminController@storeDataPetshop')->name('store.petshop');
+    Route::get('users-management/{user}/detail', 'AdminController@detailPetowner')->name('detail.users-management');
     Route::get('users-management/{user}/edit', 'AdminController@editUsersManagement')->name('edit.users-management');
     Route::patch('users-management/{user}', 'AdminController@updateUsersManagement')->name('update.users-management');
     Route::delete('users-management/{user}', 'AdminController@destroyUsersManagement')->name('destroy.users-management');
     Route::get('/produk', 'ProdukController@indexAdmin')->name('index.produk.admin');
+    Route::get('/produk/{dataProduk}', 'ProdukController@detailAdmin')->name('show.produk.admin');
     Route::get('/paket', 'PaketController@indexAdmin')->name('index.paket.admin');
+    Route::get('/paket/{paket}', 'PaketController@detailAdmin')->name('show.paket.admin');
     Route::get('/historyPackages', 'PaketController@historyAdmin')->name('history.paket.admin');
     Route::get('/historyPackages/{paketuser}', 'PaketController@historyAdminDetail')->name('historyDetail.paket.admin');
     Route::patch('/historyPackages/{paketuser}', 'PaketController@verifikasiPembayaran')->name('verifikasi.pembayaran.admin');
     Route::get('/historyMedicine', 'ProdukController@historyAdmin')->name('history.produk.admin');
+    Route::get('/historyMedicine/{produkuser}', 'ProdukController@historyAdminDetail')->name('historyDetail.produk.admin');
+    Route::patch('/historyMedicine/{produkuser}', 'ProdukController@verifikasiPembayaran')->name('verifikasi.pembayaran.admin');
     Route::get('/article', 'ArticleController@indexAdmin')->name('index.article.admin');
     Route::get('/article/create', 'ArticleController@create')->name('create.article.admin');
     Route::post('/article/create', 'ArticleController@store')->name('store.article.admin');
@@ -59,7 +64,6 @@ Route::middleware('auth')->prefix('petshop')->group(function () {
     Route::get('/historyMedicine', 'ProdukController@historyPetshop')->name('history.produk.petshop');
     Route::get('/historyMedicine/{produkuser}', 'ProdukController@historyPetshopDetail')->name('historyDetail.produk.petshop');
     Route::patch('/historyMedicine/{produkuser}/resi', 'ProdukController@storeResi')->name('resi.pengiriman');
-    Route::patch('/historyMedicine/{paketuser}', 'ProdukController@verifikasiPembayaran')->name('verifikasi.pembayaran.petshop');
     Route::get('/progress/{paketuser}', 'ProgressController@index')->name('index.progress.petshop');
     Route::get('/progress/{paketuser}/create', 'ProgressController@create')->name('create.progress.petshop');
     Route::post('/progress/{paketuser}/create', 'ProgressController@store')->name('store.progress.petshop');

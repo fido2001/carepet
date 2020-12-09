@@ -70,7 +70,8 @@ class PetshopController extends Controller
             'username' => ['required', 'alpha_num', 'max:25'],
             'noHp' => ['required', 'string', 'max:13', 'min:10'],
             'alamat' => ['required'],
-            'name' => ['required', 'string', 'max:255'],
+            'nama_dokter' => ['required', 'string', 'max:25'],
+            'name' => ['required', 'string', 'max:25'],
             'email' => ['required', 'string', 'email', 'max:255'],
         ]);
     }

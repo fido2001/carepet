@@ -14,26 +14,29 @@
         <h6 class="card-text">Nama Pengirim : {{ $pemesanan->nama_pengirim }}</h6>
         <h6 class="card-text">Alamat Pengiriman : {{ $pemesanan->alamat }}</h6>
         <h6 class="card-text">Jumlah Pembelian : {{ $pemesanan->jumlahProduk }} Item</h6>
-        <h6 class="card-text">Status : {{ $pemesanan->status }}</h6>
-        @if ($pemesanan->bukti_pembayaran != null)
+        @if ($pemesanan->bukti_pembayaran != null && $pemesanan->status == 'dikemas')
         <h6 class="card-text">Bukti Pembayaran : </h6><img src="{{ $pemesanan->takeImage() }}" alt="" style="height: 250px">
-        @endif
-        @if ($pemesanan->status == 'dikemas')
-        <div class="row mb-3">
-            <form id="verifikasi-form" action="{{ route('resi.pengiriman', $pemesanan->id) }}" method="POST">
-                @csrf
-                @method('PATCH')
-                <div class="form-group">
-                    <label for="">Masukkan Resi</label>
-                    <input type="text" name="resi" class="form-control summernote-simple">
-                </div>
-                <button type="submit" class="btn btn-success">Kirim Resi</button>
-            </form>
-        </div>
+        @elseif ($pemesanan->bukti_pembayaran != null && $pemesanan->status == 'diterima')
+        <h6 class="card-text">Bukti Pembayaran : </h6>
+        <div class="gallery">
+            <div class="gallery-item" data-image="{{ $pemesanan->takeImage() }}"></div>
+        </div><br>
+        {{-- <a href="" class="badge badge-info">Verifikasi Pembayaran</a> --}}
+        <a class="badge badge-info mb-3" href="{{ route('verifikasi.pembayaran.admin', $pemesanan->id) }}"
+            onclick="event.preventDefault();
+                document.getElementById('verifikasi-form').submit();">
+            Verifikasi Pembayaran
+        </a>
+
+        <form id="verifikasi-form" action="{{ route('verifikasi.pembayaran.admin', $pemesanan->id) }}" method="POST" class="d-none">
+            @csrf
+            @method('PATCH')
+            <input type="hidden" name="status" value="dikemas">
+        </form>
         @endif
         @endforeach
         {{-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> --}}
-        <a href="/petshop/historyMedicine" class="card-link">Kembali</a>
+        <br><a href="/admin/historyMedicine" class="card-link">Kembali</a>
     </div>
 </div>
 @endsection

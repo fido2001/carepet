@@ -23,7 +23,7 @@
                         @endif
                         <div class="invoice-title">
                             <h2>Invoice</h2>
-                            <div class="invoice-number">Order #12345</div>
+                            {{-- <div class="invoice-number">Order #12345</div> --}}
                         </div>
                     </div>
                 </div>

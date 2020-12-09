@@ -1,6 +1,11 @@
 @extends('layouts.master')
 
 @section('title', 'User Management | CarePet')
+@section('css')
+<link rel="stylesheet" href="{{ asset('../assets/modules/datatables/datatables.min.css') }}">
+<link rel="stylesheet" href="{{ asset('../assets/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('../assets/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css') }}">
+@endsection
 @section('header', 'Admin')
 @section('content')
 <div class="section-body">
@@ -9,7 +14,7 @@
             <h4>Data User</h4>
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                Tambah Data Pet Shop
+                Tambahkan PetShop Baru
             </button>
         </div>
         @if (session('success'))
@@ -25,39 +30,36 @@
         </div>
         @endif
         <div class="card-body">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nama</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Roles</th>
-                    <th scope="col" class="text-center">Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach ($users as $no => $user)
+            <div class="table-responsive">
+                <table class="table table-striped" id="table-1">
+                    <thead>
                     <tr>
-                        <th scope="row">{{ $no+1 }}</th>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->username }}</td>
-                        <td>{{ implode(', ', $user->roles()->get()->pluck('name')->toArray())  }}</td>
-                        <td class="text-center">
-                            @if ($user->id_role == 2)
-                            <a href="{{ route('edit.users-management', $user->id) }}" class="badge badge-info btn-edit">Edit</a>
-                            @endif
-                            {{-- <a href="#" data-id="{{ $user->id }}" class="badge badge-danger swal-confirm">
-                                <form action="{{ route('destroy.users-management', $user->id) }}" id="delete{{ $user->id }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                </form>
-                                Delete
-                            </a> --}}
-                        </td>
+                        <th scope="col">#</th>
+                        <th scope="col">Nama</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Roles</th>
+                        <th scope="col" class="text-center">Action</th>
                     </tr>
-                @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    @foreach ($users as $no => $user)
+                        <tr>
+                            <th scope="row">{{ $no+1 }}</th>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->username }}</td>
+                            <td>{{ implode(', ', $user->roles()->get()->pluck('name')->toArray())  }}</td>
+                            <td class="text-center">
+                                @if ($user->id_role == 2)
+                                <a href="{{ route('edit.users-management', $user->id) }}" class="badge badge-info btn-edit">Detail</a>
+                                @elseif ($user->id_role == 3)
+                                <a href="{{ route('detail.users-management', $user->id) }}" class="badge badge-info btn-edit">Detail</a>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -83,6 +85,17 @@
                                         </label>
                                         <input type="text" name="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" autocomplete="off">
                                         @error('name')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            Nama Dokter
+                                        </label>
+                                        <input type="text" name="nama_dokter" value="{{ old('nama_dokter') }}" class="form-control @error('nama_dokter') is-invalid @enderror" autocomplete="off">
+                                        @error('nama_dokter')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -147,30 +160,12 @@
 @endsection
 
 @push('page-scripts')
-<script src="{{ asset('../assets/modules/sweetalert/sweetalert.min.js') }}"></script>
+<script src="{{ asset('../assets/modules/datatables/datatables.min.js') }}"></script>
+<script src="{{ asset('../assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('../assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js') }}"></script>
+<script src="{{ asset('../assets/modules/jquery-ui/jquery-ui.min.js') }}"></script>
 @endpush
 
-@push('after-scripts')
-<script>
-    $(".swal-confirm").click(function(e) {
-        id = e.target.dataset.id;
-        swal({
-            title: 'Yakin hapus data?',
-            text: 'Data yang sudah dihapus tidak bisa dikembalikan!',
-            icon: 'warning',
-            buttons: true,
-            dangerMode: true,
-        })
-        .then((willDelete) => {
-            if (willDelete) {
-                swal('Poof! File anda berhasil dihapus!', {
-                icon: 'success',
-                });
-                $(`#delete${id}`).submit();
-            } else {
-                // swal('Your imaginary file is safe!');
-            }
-        });
-    });
-</script>
+@push('page-spesific-scripts')
+<script src="{{ asset('../assets/js/page/modules-datatables.js') }}"></script>
 @endpush

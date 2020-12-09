@@ -14,15 +14,15 @@
                 <div class="card-body">
                     <div class="row">                               
                         <div class="form-group col-md-6 col-12">
-                            <label>Full Name</label>
+                            <label>Nama Petshop</label>
                             <input type="text" class="form-control" name="name" value="{{ $user->name }}" required="">
                             <div class="invalid-feedback">
                                 Data tidak boleh kosong, harap diisi
                             </div>
                         </div>
                         <div class="form-group col-md-6 col-12">
-                            <label>Username</label>
-                            <input type="text" class="form-control" name="username" value="{{ $user->username }}" required="">
+                            <label>Nama Dokter</label>
+                            <input type="text" class="form-control" name="nama_dokter" value="{{ $user->nama_dokter }}" required="">
                             <div class="invalid-feedback">
                                 Data tidak boleh kosong, harap diisi
                             </div>
@@ -37,14 +37,21 @@
                         </div>
                     </div>
                     <div class="form-group col-md-6 col-12">
-                        <label>Phone</label>
+                        <label>Nomor HP</label>
                         <input type="tel" class="form-control" name="noHp" value="{{ $user->noHp }}">
                     </div>
                     </div>
                     <div class="row">
-                    <div class="form-group col-12">
+                    <div class="form-group col-md-6 col-12">
                         <label>Alamat</label>
                         <textarea name="alamat" class="form-control summernote-simple">{{ $user->alamat }}</textarea>
+                        <div class="invalid-feedback">
+                            Data tidak boleh kosong, harap diisi
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 col-12">
+                        <label>Username</label>
+                        <input type="text" class="form-control" name="username" value="{{ $user->username }}" required="">
                         <div class="invalid-feedback">
                             Data tidak boleh kosong, harap diisi
                         </div>

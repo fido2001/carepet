@@ -14,13 +14,13 @@ class PaketController extends Controller
 {
     public function indexAdmin()
     {
-        $paket = Paket::get();
+        $paket = Paket::join('users', 'pilihan_paket.user_id', '=', 'users.id')->select('pilihan_paket.*', 'users.name')->get();
         return view('paket.indexAdmin', ['data_paket' => $paket]);
     }
 
     public function indexPetowner()
     {
-        $paket = Paket::get();
+        $paket = Paket::where('status', 'Available')->get();
         return view('paket.indexPetowner', ['data_paket' => $paket]);
     }
 
@@ -28,6 +28,13 @@ class PaketController extends Controller
     {
         $paket = Paket::get();
         return view('paket.indexPetshop', ['data_paket' => $paket]);
+    }
+
+    public function detailAdmin(Paket $paket)
+    {
+        $datapaket = $paket;
+        $data_petshop = User::where('id', $datapaket->user_id)->first();
+        return view('paket.paket-show-admin', ['paket' => $paket, 'petshop' => $data_petshop]);
     }
 
     public function create()
@@ -39,9 +46,10 @@ class PaketController extends Controller
     {
         $request->validate(
             [
-                'nama_paket' => 'required|unique:pilihan_paket|max:30',
+                'nama_paket' => 'required|max:30',
                 'harga' => 'required|max:15',
-                'keterangan' => 'required'
+                'keterangan' => 'required',
+                'status' => 'required'
             ],
             [
                 'nama_paket.required' => 'Semua Form harap diisi dan tidak boleh kosong',
@@ -49,7 +57,7 @@ class PaketController extends Controller
                 'harga.max' => 'Maksimal 15 karakter',
                 'harga.required' => 'Semua Form harap diisi dan tidak boleh kosong',
                 'keterangan.required' => 'Semua Form harap diisi dan tidak boleh kosong',
-                'nama_paket.unique' => 'Nama paket sudah ada, Silakan ganti'
+                'status.required' => 'Semua Form harap diisi dan tidak boleh kosong'
             ]
         );
         $paket = Paket::create($request->all());
@@ -67,21 +75,24 @@ class PaketController extends Controller
             [
                 'nama_paket' => 'required|max:30',
                 'harga' => 'required|max:15',
-                'keterangan' => 'required'
+                'keterangan' => 'required',
+                'status' => 'required'
             ],
             [
                 'nama_paket.required' => 'Semua Form harap diisi dan tidak boleh kosong',
                 'nama_paket.max' => 'Maksimal 30 karakter',
                 'harga.max' => 'Maksimal 15 karakter',
                 'harga.required' => 'Semua Form harap diisi dan tidak boleh kosong',
-                'keterangan.required' => 'Semua Form harap diisi dan tidak boleh kosong'
+                'keterangan.required' => 'Semua Form harap diisi dan tidak boleh kosong',
+                'status.required' => 'Semua Form harap diisi dan tidak boleh kosong'
             ]
         );
 
         Paket::where('id', $id)->update([
             'nama_paket' => $request->nama_paket,
             'harga' => $request->harga,
-            'keterangan' => $request->keterangan
+            'keterangan' => $request->keterangan,
+            'status' => $request->status
         ]);
 
         return redirect()->route('index.paket.petshop')->with('success', 'Data Berhasil Disimpan');

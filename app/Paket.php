@@ -8,7 +8,7 @@ class Paket extends Model
 {
     protected $table = 'pilihan_paket';
 
-    protected $fillable = ['nama_paket', 'harga', 'keterangan', 'user_id'];
+    protected $fillable = ['nama_paket', 'harga', 'keterangan', 'user_id', 'status'];
 
     public function users()
     {
