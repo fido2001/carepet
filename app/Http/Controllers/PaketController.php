@@ -26,7 +26,7 @@ class PaketController extends Controller
 
     public function indexPetshop()
     {
-        $paket = Paket::get();
+        $paket = Paket::where('user_id', auth()->user()->id)->get();
         return view('paket.indexPetshop', ['data_paket' => $paket]);
     }
 

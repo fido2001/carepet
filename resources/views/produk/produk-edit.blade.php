@@ -20,7 +20,7 @@
                 <div class="row">                               
                     <div class="form-group col-md-6 col-12">
                         <label>Stok</label>
-                        <input type="number" class="input form-control" name="stok" value="{{ $dataProduk->stok }}" required="">
+                        <input type="number" min="0" step="1" class="input form-control" name="stok" value="{{ $dataProduk->stok }}" required="">
                         <div class="invalid-feedback">
                             Data tidak boleh kosong, harap diisi!
                         </div>
