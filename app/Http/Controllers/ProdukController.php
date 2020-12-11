@@ -115,7 +115,7 @@ class ProdukController extends Controller
             $attr['payment_due'] = Carbon::now()->setTimeZone('Asia/Jakarta')->addHours(24);
             // dd($attr);
             $produk = ProdukUser::create($attr);
-            return redirect()->route('index.produk.petowner')->with('success', 'Produk berhasil dipesan, segera lakukan pembayaran');
+            return redirect()->route('history.produk.petowner')->with('success', 'Produk berhasil dipesan, segera lakukan pembayaran');
         } else {
             return redirect()->back()->with('warning', 'Jumlah pembelian melebihi stok.');
         }
@@ -240,7 +240,7 @@ class ProdukController extends Controller
             'bukti_pembayaran' => $bukti_pembayaran
         ]);
 
-        return redirect()->back()->with('success', 'Data pembayaran akan segera diproses');
+        return redirect('history.produk.petowner')->with('success', 'Data pembayaran akan segera diproses');
     }
 
     public function verifikasiKedatangan($id)
