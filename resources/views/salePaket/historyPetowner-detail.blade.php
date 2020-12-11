@@ -7,7 +7,7 @@
         @foreach ($dataPemesanan as $pemesanan)
         @if (Carbon\Carbon::now()->setTimeZone('Asia/Jakarta') < $pemesanan->payment_due && $pemesanan->bukti_pembayaran == null)
             <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert">
-                <div>Segera lakukan pembayaran | Batas waktu 1 X 24 Jam</div>
+                <div>Segera lakukan pembayaran | Batas waktu 1 X 24 Jam | Berakhir dalam <span id="clock"></span></div>
                 <div><a href="{{ route('pembayaran.paket.petowner', $pemesanan->id) }}" class="btn btn-warning">Bayar Pesanan Disini</a></div>
             </div>
         @endif
@@ -35,3 +35,35 @@
     </div>
 </div>
 @endsection
+
+@push('after-scripts')
+    <script>
+    // Set the date we're counting down to
+    var countDownDate = new Date('{{ $pemesanan->payment_due }}').getTime();
+
+    // Update the count down every 1 second
+    var x = setInterval(function() {
+
+    // Get today's date and time
+    var now = new Date().getTime();
+
+    // Find the distance between now and the count down date
+    var distance = countDownDate - now;
+
+    // Time calculations for days, hours, minutes and seconds
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    // Display the result in the element with id="demo"
+    document.getElementById("clock").innerHTML = hours + " Jam "
+    + minutes + " Menit " + seconds + " Detik ";
+
+    // If the count down is finished, write some text
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("clock").innerHTML = "EXPIRED";
+    }
+    }, 1000);
+    </script>
+@endpush

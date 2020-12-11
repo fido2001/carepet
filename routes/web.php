@@ -28,7 +28,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/paket/{paket}', 'PaketController@detailAdmin')->name('show.paket.admin');
     Route::get('/historyPackages', 'PaketController@historyAdmin')->name('history.paket.admin');
     Route::get('/historyPackages/{paketuser}', 'PaketController@historyAdminDetail')->name('historyDetail.paket.admin');
-    Route::patch('/historyPackages/{paketuser}', 'PaketController@verifikasiPembayaran')->name('verifikasi.pembayaran.admin');
+    Route::patch('/historyPackages/{paketuser}', 'PaketController@verifikasiPembayaran')->name('verifikasi.pembayaranPaket.admin');
     Route::get('/historyMedicine', 'ProdukController@historyAdmin')->name('history.produk.admin');
     Route::get('/historyMedicine/{produkuser}', 'ProdukController@historyAdminDetail')->name('historyDetail.produk.admin');
     Route::patch('/historyMedicine/{produkuser}', 'ProdukController@verifikasiPembayaran')->name('verifikasi.pembayaran.admin');

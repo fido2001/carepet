@@ -139,7 +139,7 @@ class PaketController extends Controller
             'tgl_selesai' => $tgl_selesai,
             'payment_due' => $payment_due
         ]);
-        return redirect()->route('index.paket.petowner')->with('success', 'Paket Service berhasil dipesan, segera lakukan pembayaran');
+        return redirect()->route('history.paket.petowner')->with('success', 'Paket Service berhasil dipesan, segera lakukan pembayaran');
     }
 
     public function historyPetowner()
@@ -254,7 +254,7 @@ class PaketController extends Controller
             'bukti_pembayaran' => $bukti_pembayaran
         ]);
 
-        return redirect()->back()->with('success', 'Data pembayaran akan segera diproses');
+        return redirect()->route('history.paket.petowner')->with('success', 'Data pembayaran akan segera diproses');
     }
 
     public function progressPetowner($id)

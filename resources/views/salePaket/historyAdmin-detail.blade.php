@@ -27,13 +27,13 @@
             <div class="gallery-item" data-image="{{ $pemesanan->takeImage() }}"></div>
         </div><br>
         {{-- <a href="" class="badge badge-info">Verifikasi Pembayaran</a> --}}
-        <a class="badge badge-info" href="{{ route('verifikasi.pembayaran.admin', $pemesanan->id) }}"
+        <a class="badge badge-info" href="{{ route('verifikasi.pembayaranPaket.admin', $pemesanan->id) }}"
             onclick="event.preventDefault();
                 document.getElementById('verifikasi-form').submit();">
             Verifikasi Pembayaran
         </a>
 
-        <form id="verifikasi-form" action="{{ route('verifikasi.pembayaran.admin', $pemesanan->id) }}" method="POST" class="d-none">
+        <form id="verifikasi-form" action="{{ route('verifikasi.pembayaranPaket.admin', $pemesanan->id) }}" method="POST" class="d-none">
             @csrf
             @method('PATCH')
             <input type="hidden" name="status_pembayaran" value="dalam progress">
