@@ -91,8 +91,8 @@ class AdminController extends Controller
     {
         request()->validate(
             [
-                'username' => ['required', 'alpha_num', 'max:25'],
-                'noHp' => ['required', 'string', 'max:13', 'min:10'],
+                'username' => ['required', 'alpha_num', 'max:15'],
+                'noHp' => ['required', 'string', 'max:13', 'min:10', 'regex:/^(08)[0-9]*/'],
                 'alamat' => ['required'],
                 'nama_dokter' => ['required', 'string', 'max:25'],
                 'name' => ['required', 'string', 'max:25'],
@@ -112,7 +112,10 @@ class AdminController extends Controller
                 'password.confirmed' => 'Masukkan konfirmasi password yang valid',
                 'email.email' => 'Masukkan Email yang valid.',
                 'email.unique' => 'Email sudah digunakan, silakan ganti.',
-                'username.max' => 'Maksimal 25 karakter',
+                'name.max' => 'Maksimal 25 karakter',
+                'nama_dokter.max' => 'Maksimal 25 karakter',
+                'noHp.regex' => 'Data tidak valid',
+                'username.max' => 'Maksimal 15 karakter',
                 'username.alpha_num' => 'Hanya bisa diisi dengan karakter alpha numeric',
             ]
         );

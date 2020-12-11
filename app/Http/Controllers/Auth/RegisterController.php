@@ -43,8 +43,8 @@ class RegisterController extends Controller
             $data,
             [
                 'username' => ['required', 'alpha_num', 'max:15'],
-                'noHp' => ['required', 'string', 'max:13', 'min:10'],
-                'alamat' => ['required'],
+                'noHp' => ['required', 'string', 'max:13', 'min:10', 'regex:/^(08)[0-9]*/'],
+                'alamat' => ['required', 'max:50'],
                 'name' => ['required', 'string', 'max:25'],
                 'email' => ['required', 'string', 'email', 'max:30', 'unique:users'],
                 'password' => ['required', 'string', 'min:8', 'max:20', 'confirmed'],
@@ -55,6 +55,7 @@ class RegisterController extends Controller
                 'username.required' => 'Data tidak boleh kosong, harap diisi',
                 'noHp.required' => 'Data tidak boleh kosong, harap diisi',
                 'alamat.required' => 'Data tidak boleh kosong, harap diisi',
+                'alamat.max' => 'Maksimal 50 karakter',
                 'email.required' => 'Data tidak boleh kosong, harap diisi',
                 'password.required' => 'Data tidak boleh kosong, harap diisi',
                 'password.min' => 'Minimal 8 karakter',
@@ -64,6 +65,7 @@ class RegisterController extends Controller
                 'email.unique' => 'Email sudah digunakan, silakan ganti.',
                 'name.max' => 'Maksimal 25 karakter',
                 'username.max' => 'Maksimal 15 karakter',
+                'noHp.regex' => 'Data tidak valid',
                 'username.alpha_num' => 'Hanya bisa diisi dengan karakter alpha numeric',
             ]
         );

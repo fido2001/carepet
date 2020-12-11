@@ -21,13 +21,13 @@
                             </div>
                         </div>
                         <div class="form-group row mb-4">
-                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Isi Konten</label>
+                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Ulasan</label>
                             <div class="col-sm-12 col-md-7">
                                 <textarea class="summernote-simple" name="ulasan">{{ $article->ulasan }}</textarea>
                             </div>
                         </div>
                         <div class="form-group row mb-4">
-                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Thumbnail</label>
+                            <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Gambar</label>
                             <div class="col-sm-12 col-md-7">
                                 <div id="image-preview" class="image-preview">
                                     <label for="image-upload" id="image-label">Pilih Gambar</label>

@@ -111,7 +111,7 @@ class ArticleController extends Controller
 
         $article->update($attr);
 
-        session()->flash('success', 'Data berhasil disimpan.');
+        session()->flash('success', 'Artikel berhasil diubah.');
 
         return redirect()->route('index.article.admin');
     }
@@ -120,7 +120,7 @@ class ArticleController extends Controller
     {
         \Storage::delete($article->gambar);
         $article->delete();
-        session()->flash('success', 'Artikel berhasil dihapus.');
+        session()->flash('success', 'Artikel Berhasil di hapus.');
         return redirect()->route('index.article.admin');
     }
 }
