@@ -32,7 +32,7 @@ class ProdukController extends Controller
 
     public function indexPetowner()
     {
-        $produk = DataProduk::get();
+        $produk = DataProduk::where('stok', '>', 0)->get();
         return view('produk.indexPetowner', ['data_produk' => $produk]);
     }
 
@@ -107,13 +107,18 @@ class ProdukController extends Controller
         return view('produk.produk-sale', ['dataProduk' => $dataProduk, 'petshop' => $data_petshop]);
     }
 
-    public function purchase(Request $request)
+    public function purchase(Request $request, $id)
     {
-        $attr = $request->all();
-        $attr['payment_due'] = Carbon::now()->setTimeZone('Asia/Jakarta')->addHours(24);
-        // dd($attr);
-        $produk = ProdukUser::create($attr);
-        return redirect()->route('index.produk.petowner')->with('success', 'Produk berhasil dipesan, segera lakukan pembayaran');
+        $stok = DataProduk::where('id', $id)->value('stok');
+        if ($request->jumlahProduk <= $stok) {
+            $attr = $request->all();
+            $attr['payment_due'] = Carbon::now()->setTimeZone('Asia/Jakarta')->addHours(24);
+            // dd($attr);
+            $produk = ProdukUser::create($attr);
+            return redirect()->route('index.produk.petowner')->with('success', 'Produk berhasil dipesan, segera lakukan pembayaran');
+        } else {
+            return redirect()->back()->with('warning', 'Jumlah pembelian melebihi stok.');
+        }
     }
 
     public function historyPetowner()
@@ -169,10 +174,16 @@ class ProdukController extends Controller
 
     public function historyAdminDetail($id)
     {
-        $pemesanan = ProdukUser::join('data_produk as prd', 'prd.id', '=', 'ordering_medicine_food.produk_id')->where('ordering_medicine_food.id', $id)->select('ordering_medicine_food.*', 'prd.nama_produk', 'prd.harga')->get();
-        return view('saleProduk.historyAdmin-detail', [
-            'dataPemesanan' => $pemesanan
-        ]);
+        $order = ProdukUser::where('id', $id)->first();
+        if (Carbon::now()->setTimezone('Asia/Jakarta') > $order->payment_due) {
+            $order->delete();
+            return redirect('petowner/historyMedicine')->with('fail', 'Pesanan telah dibatalkan, karena pembayaran tidak dilakukan sebelum waktu batas pembayaran habis.');
+        } else {
+            $pemesanan = ProdukUser::join('data_produk as prd', 'prd.id', '=', 'ordering_medicine_food.produk_id')->where('ordering_medicine_food.id', $id)->select('ordering_medicine_food.*', 'prd.nama_produk', 'prd.harga')->get();
+            return view('saleProduk.historyAdmin-detail', [
+                'dataPemesanan' => $pemesanan
+            ]);
+        }
     }
 
     public function pembayaran($id)

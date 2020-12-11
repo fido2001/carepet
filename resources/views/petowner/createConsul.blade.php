@@ -10,7 +10,7 @@
             <select name="id_penerima" id="petshop" class="form-control @error('id_penerima') is-invalid @enderror">
                 <option disabled selected>Pilih Salah Satu</option>
                 @foreach ($dataPetshop as $petshop)
-                    <option value="{{ $petshop->id }}">{{ $petshop->name }}</option>
+                    <option value="{{ $petshop->id }}">{{ $petshop->name }} | {{ $petshop->nama_dokter }}</option>
                 @endforeach
             </select>
         </div>

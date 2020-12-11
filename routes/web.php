@@ -90,7 +90,7 @@ Route::middleware('auth')->prefix('petowner')->group(function () {
     Route::get('/produk', 'ProdukController@indexPetowner')->name('index.produk.petowner');
     Route::get('/produk/{dataProduk}', 'ProdukController@show')->name('show.produk.petowner');
     Route::get('/produk/{dataProduk}/sale', 'ProdukController@sale')->name('sale.produk.petowner');
-    Route::post('/produk/sale', 'ProdukController@purchase')->name('purchase.produk.petowner');
+    Route::post('/produk/{dataProduk}/sale', 'ProdukController@purchase')->name('purchase.produk.petowner');
     Route::get('/historyMedicine', 'ProdukController@historyPetowner')->name('history.produk.petowner');
     Route::delete('/historyMedicine/{paketuser}', 'ProdukController@historyPetownerDestroy')->name('destroy.produk.petowner');
     Route::get('/historyMedicine/{produkuser}', 'ProdukController@historyPetownerDetail')->name('historyDetail.produk.petowner');

@@ -2,12 +2,24 @@
 
 @section('content')
     <div class="section-body">
+        @if (session('warning'))
+        <div class="card-body">
+            <div class="alert alert-warning alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                    {{ session('warning') }}
+                </div>
+            </div>
+        </div>
+        @endif
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4>Detail Pemesanan Produk {{ $dataProduk->nama_produk }}</h4>
             </div>
             <div class="card-body">
-                <form method="POST" action="{{ route('purchase.produk.petowner') }}" class="needs-validation" novalidate="">
+                <form method="POST" action="{{ route('purchase.produk.petowner', $dataProduk->id) }}" class="needs-validation" novalidate="">
                     @csrf
                     <div class="card-body">
                         <div class="row">
