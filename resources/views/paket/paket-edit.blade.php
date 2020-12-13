@@ -32,7 +32,7 @@
                         <div class="form-group row mb-4">
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">Harga</label>
                             <div class="col-sm-12 col-md-7">
-                                <input type="text" class="form-control @error('harga') is-invalid @enderror" name="harga" value="{{ $paket->harga }}">
+                                <input type="number" min="1000" step="100" class="form-control @error('harga') is-invalid @enderror" name="harga" value="{{ $paket->harga }}">
                                 @error('harga')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

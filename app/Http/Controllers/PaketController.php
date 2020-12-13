@@ -139,7 +139,7 @@ class PaketController extends Controller
             'tgl_selesai' => $tgl_selesai,
             'payment_due' => $payment_due
         ]);
-        return redirect()->route('history.paket.petowner')->with('success', 'Paket Service berhasil dipesan, segera lakukan pembayaran');
+        return redirect()->route('history.paket.petowner')->with('success', 'Paket Service berhasil dipesan, segera lakukan pembayaran selama 1 X 24 jam');
     }
 
     public function historyPetowner()
@@ -153,7 +153,7 @@ class PaketController extends Controller
 
     public function historyPetshop()
     {
-        $history = DB::table('pilihan_paket as paket')->join('ordering_service_packages as order', 'paket.id', '=', 'order.paket_id')->join('users', 'order.user_id', '=', 'users.id')->where('paket.user_id', auth()->user()->id)->select('paket.nama_paket', 'order.durasi_pemesanan', 'order.jenis_hewan', 'order.bukti_pembayaran', 'order.id', 'order.status')->get();
+        $history = DB::table('pilihan_paket as paket')->join('ordering_service_packages as order', 'paket.id', '=', 'order.paket_id')->join('users', 'order.user_id', '=', 'users.id')->where('paket.user_id', auth()->user()->id)->where('order.status', 'dalam progress')->select('paket.nama_paket', 'order.durasi_pemesanan', 'order.jenis_hewan', 'order.bukti_pembayaran', 'order.id', 'order.status')->get();
         return view('salePaket.historyPetshop', [
             'dataPemesanan' => $history
         ]);
@@ -165,6 +165,12 @@ class PaketController extends Controller
         return view('salePaket.historyAdmin', [
             'dataPemesanan' => $history
         ]);
+    }
+
+    public function historyAdminDestroy($id)
+    {
+        PaketUser::destroy($id);
+        return redirect()->back()->with('success', 'Pesanan berhasil dibatalkan');
     }
 
     public function historyPetownerDestroy($id)
@@ -185,13 +191,9 @@ class PaketController extends Controller
 
     public function historyPetshopDetail($id)
     {
-        $pemesanan = PaketUser::where('id', $id)->get()->toArray();
-        $id_paket = PaketUser::where('id', $id)->get('paket_id')->toArray();
-        $paket = Paket::find($id_paket, ['nama_paket', 'harga'])->toArray();
-        // dd($pemesanan, $id_paket, $paket);
+        $pembelian = PaketUser::join('pilihan_paket as pkt', 'pkt.id', '=', 'ordering_service_packages.paket_id')->where('ordering_service_packages.id', $id)->select('ordering_service_packages.*', 'pkt.nama_paket', 'pkt.harga')->get();
         return view('salePaket.historyPetshop-detail', [
-            'dataPemesanan' => $pemesanan,
-            'dataPaket' => $paket
+            'dataPemesanan' => $pembelian
         ]);
     }
 
@@ -223,7 +225,7 @@ class PaketController extends Controller
         $data_petshop->saldo = ($data_petshop->saldo) + ($data_order->nominal * 0.85);
         $data_petshop->update();
 
-        return redirect()->back();
+        return redirect('admin/historyPackages');
     }
 
     public function storePembayaran(Request $request, $id)
@@ -231,7 +233,7 @@ class PaketController extends Controller
         $request->validate(
             [
                 'bukti_pembayaran' => 'required|image|mimes:jpeg,png,jpg,svg|max:2048',
-                'nama_pengirim' => 'required|max:30',
+                'nama_pengirim' => 'required|max:20',
                 'no_rek_pengirim' => 'required|max:15'
             ],
             [
@@ -239,7 +241,7 @@ class PaketController extends Controller
                 'nama_pengirim.required' => 'Semua Form harap diisi dan tidak boleh kosong',
                 'no_rek_pengirim.required' => 'Semua Form harap diisi dan tidak boleh kosong',
                 'no_rek_pengirim.max' => 'Maksimal 15 Karakter',
-                'nama_pengirim.max' => 'Maksimal 30 Karakter'
+                'nama_pengirim.max' => 'Maksimal 20 Karakter'
             ]
         );
 

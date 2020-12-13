@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -65,6 +66,18 @@ class PetownerController extends Controller
         } else {
             return back()->withErrors(['old_password' => 'Masukkan password anda yang sekarang.']);
         }
+    }
+
+    public function showPetshop(User $user)
+    {
+        return view('petowner.petshop', [
+            'users' => User::where('id_role', '=', 2)->get()
+        ]);
+    }
+
+    public function detailPetshop(User $user)
+    {
+        return view('petowner.petshop-detail', compact('user'));
     }
 
     private function _userValidation(Request $request)

@@ -64,7 +64,7 @@
                         </div>
                         <div class="form-group col-md-6 col-12">
                             <label>Jumlah Pemesanan</label>
-                            <input type="number" class="form-control" name="jumlahProduk">
+                            <input type="number" min="1" class="form-control" name="jumlahProduk">
                             <div class="invalid-feedback">
                                 Data tidak boleh kosong, harap diisi
                             </div>

@@ -38,13 +38,24 @@ class ProdukController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nama_produk' => 'required',
-            'stok' => 'required',
-            'harga' => 'required',
-            'deskripsi_produk' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,svg|max:2048'
-        ]);
+        $request->validate(
+            [
+                'nama_produk' => ['required', 'max:50'],
+                'stok' => ['required', 'max:10'],
+                'harga' => ['required', 'max:15'],
+                'deskripsi_produk' => 'required',
+                'image' => 'image|mimes:jpeg,png,jpg,svg|max:2048'
+            ],
+            [
+                'nama_produk.required' => 'Semua Form harap diisi dan tidak boleh kosong',
+                'stok.required' => 'Semua Form harap diisi dan tidak boleh kosong',
+                'harga.required' => 'Semua Form harap diisi dan tidak boleh kosong',
+                'deskripsi_produk.required' => 'Semua Form harap diisi dan tidak boleh kosong',
+                'nama_produk.max' => 'Maksimal 50 karakter',
+                'stok.max' => 'Maksimal 10 karakter',
+                'harga.max' => 'Maksimal 15 karakter'
+            ]
+        );
 
         if (request()->file('image')) {
             $gambar = request()->file('image')->store("images/produk", "public");
@@ -68,13 +79,24 @@ class ProdukController extends Controller
 
     public function update(Request $request, DataProduk $dataProduk)
     {
-        $request->validate([
-            'nama_produk' => 'required',
-            'stok' => 'required',
-            'harga' => 'required',
-            'deskripsi_produk' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,svg|max:2048'
-        ]);
+        $request->validate(
+            [
+                'nama_produk' => ['required', 'max:50'],
+                'stok' => ['required', 'max:10'],
+                'harga' => ['required', 'max:15'],
+                'deskripsi_produk' => 'required',
+                'image' => 'image|mimes:jpeg,png,jpg,svg|max:2048'
+            ],
+            [
+                'nama_produk.required' => 'Semua Form harap diisi dan tidak boleh kosong',
+                'stok.required' => 'Semua Form harap diisi dan tidak boleh kosong',
+                'harga.required' => 'Semua Form harap diisi dan tidak boleh kosong',
+                'deskripsi_produk.required' => 'Semua Form harap diisi dan tidak boleh kosong',
+                'nama_produk.max' => 'Maksimal 50 karakter',
+                'stok.max' => 'Maksimal 10 karakter',
+                'harga.max' => 'Maksimal 15 karakter'
+            ]
+        );
 
         if (request()->file('image')) {
             \Storage::delete($dataProduk->gambar);
@@ -111,6 +133,25 @@ class ProdukController extends Controller
     {
         $stok = DataProduk::where('id', $id)->value('stok');
         if ($request->jumlahProduk <= $stok) {
+            $request->validate(
+                [
+                    'jumlahProduk' => ['required'],
+                    'noHp' => ['required', 'min:10', 'max:13', 'regex:/^(08)[0-9]*/'],
+                    'alamat' => ['required', 'max:50'],
+                    'catatan' => ['required', 'max:100'],
+                ],
+                [
+                    'jumlahProduk.required' => 'Semua Form pemesanan harap diisi dan tidak boleh Kosong',
+                    'noHp.required' => 'Semua Form pemesanan harap diisi dan tidak boleh Kosong',
+                    'alamat.required' => 'Semua Form pemesanan harap diisi dan tidak boleh Kosong',
+                    'catatan.required' => 'Semua Form pemesanan harap diisi dan tidak boleh Kosong',
+                    'catatan.max' => 'Maksimal 100 karakter',
+                    'alamat.max' => 'Maksimal 50 karakter',
+                    'noHp.max' => 'Maksimal 13 karakter',
+                    'noHp.min' => 'Maksimal 10 karakter',
+                    'noHp.regex' => 'Data yang dimasukkan tidak valid'
+                ]
+            );
             $attr = $request->all();
             $attr['payment_due'] = Carbon::now()->setTimeZone('Asia/Jakarta')->addHours(24);
             // dd($attr);
@@ -148,6 +189,12 @@ class ProdukController extends Controller
         ]);
     }
 
+    public function historyAdminDestroy($id)
+    {
+        ProdukUser::destroy($id);
+        return redirect()->back()->with('success', 'Pesanan berhasil dibatalkan');
+    }
+
     public function historyPetownerDestroy($id)
     {
         ProdukUser::destroy($id);
@@ -177,7 +224,7 @@ class ProdukController extends Controller
         $order = ProdukUser::where('id', $id)->first();
         if (Carbon::now()->setTimezone('Asia/Jakarta') > $order->payment_due) {
             $order->delete();
-            return redirect('petowner/historyMedicine')->with('fail', 'Pesanan telah dibatalkan, karena pembayaran tidak dilakukan sebelum waktu batas pembayaran habis.');
+            return redirect('admin/historyMedicine')->with('fail', 'Pesanan telah dibatalkan, karena pembayaran tidak dilakukan sebelum waktu batas pembayaran habis.');
         } else {
             $pemesanan = ProdukUser::join('data_produk as prd', 'prd.id', '=', 'ordering_medicine_food.produk_id')->where('ordering_medicine_food.id', $id)->select('ordering_medicine_food.*', 'prd.nama_produk', 'prd.harga')->get();
             return view('saleProduk.historyAdmin-detail', [
@@ -205,6 +252,15 @@ class ProdukController extends Controller
 
     public function storeResi(Request $request, $id)
     {
+        $request->validate(
+            [
+                'resi' => ['required', 'max:15']
+            ],
+            [
+                'resi.required' => 'Data tidak boleh kosong, harap diisi',
+                'resi.max' => 'Maksimal 15 karakter'
+            ]
+        );
         ProdukUser::where('id', $id)->update([
             'resi' => $request->resi,
             'status' => 'dikirim'

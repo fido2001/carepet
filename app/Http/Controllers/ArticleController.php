@@ -46,7 +46,7 @@ class ArticleController extends Controller
 
     public function create()
     {
-        return view('article.create');
+        return view('article.artikel-form');
     }
 
     public function store(Request $request)
@@ -87,7 +87,7 @@ class ArticleController extends Controller
 
     public function edit(Article $article)
     {
-        return view('article.edit', compact('article'));
+        return view('article.article-form-edit', compact('article'));
     }
 
     public function update(Request $request, Article $article)

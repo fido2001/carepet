@@ -28,9 +28,11 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/paket/{paket}', 'PaketController@detailAdmin')->name('show.paket.admin');
     Route::get('/historyPackages', 'PaketController@historyAdmin')->name('history.paket.admin');
     Route::get('/historyPackages/{paketuser}', 'PaketController@historyAdminDetail')->name('historyDetail.paket.admin');
+    Route::delete('/historyPackages/{paketuser}', 'PaketController@historyAdminDestroy')->name('destroy.paket.admin');
     Route::patch('/historyPackages/{paketuser}', 'PaketController@verifikasiPembayaran')->name('verifikasi.pembayaranPaket.admin');
     Route::get('/historyMedicine', 'ProdukController@historyAdmin')->name('history.produk.admin');
     Route::get('/historyMedicine/{produkuser}', 'ProdukController@historyAdminDetail')->name('historyDetail.produk.admin');
+    Route::delete('/historyMedicine/{paketuser}', 'ProdukController@historyAdminDestroy')->name('destroy.produk.admin');
     Route::patch('/historyMedicine/{produkuser}', 'ProdukController@verifikasiPembayaran')->name('verifikasi.pembayaran.admin');
     Route::get('/article', 'ArticleController@indexAdmin')->name('index.article.admin');
     Route::get('/article/create', 'ArticleController@create')->name('create.article.admin');
@@ -87,6 +89,8 @@ Route::middleware('auth')->prefix('petowner')->group(function () {
     Route::patch('/editProfile', 'PetownerController@updateProfile')->name('edit.profile');
     Route::get('/editPassword', 'PetownerController@editPassword')->name('edit.password');
     Route::patch('/editPassword', 'PetownerController@updatePassword')->name('edit.password');
+    Route::get('showPetshop', 'PetownerController@showPetshop')->name('show.petshop');
+    Route::get('showPetshop/{user}', 'PetownerController@detailPetshop')->name('detail.petshop');
     Route::get('/produk', 'ProdukController@indexPetowner')->name('index.produk.petowner');
     Route::get('/produk/{dataProduk}', 'ProdukController@show')->name('show.produk.petowner');
     Route::get('/produk/{dataProduk}/sale', 'ProdukController@sale')->name('sale.produk.petowner');

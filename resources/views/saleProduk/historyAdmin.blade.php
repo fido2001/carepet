@@ -46,7 +46,18 @@
                                     <a class="badge badge-success" style="color:white">Pesanan Selesai</a> 
                                     @endif
                                 </td>
-                                <td><a href="{{ route('historyDetail.produk.admin', $pemesanan->id) }}" class="badge badge-info">Detail</a></td>
+                                <td>
+                                    <a href="{{ route('historyDetail.produk.admin', $pemesanan->id) }}" class="badge badge-info">Detail</a>
+                                    @if ($pemesanan->bukti_pembayaran == null)
+                                    <a href="#" data-id="{{ $pemesanan->id }}" class="badge badge-danger swal-confirm">
+                                        <form action="{{ route('destroy.produk.admin', $pemesanan->id) }}" id="delete{{ $pemesanan->id }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        </form>
+                                        Batalkan Pesanan
+                                    </a>
+                                    @endif
+                                </td>
                             </tr>
                         {{-- @endforeach --}}
                     @endforeach
@@ -59,6 +70,7 @@
 @endsection
 
 @push('page-scripts')
+<script src="{{ asset('../assets/modules/sweetalert/sweetalert.min.js') }}"></script>
 <script src="{{ asset('../assets/modules/datatables/datatables.min.js') }}"></script>
 <script src="{{ asset('../assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('../assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js') }}"></script>
@@ -67,4 +79,29 @@
 
 @push('page-spesific-scripts')
 <script src="{{ asset('../assets/js/page/modules-datatables.js') }}"></script>
+@endpush
+
+@push('after-scripts')
+<script>
+    $(".swal-confirm").click(function(e) {
+        id = e.target.dataset.id;
+        swal({
+            title: 'Yakin batalkan pesanan?',
+            text: 'Pesanan yang sudah dibatalkan tidak bisa dikembalikan!',
+            icon: 'warning',
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                swal('Poof! Pesanan anda berhasil dibatalkan!', {
+                icon: 'success',
+                });
+                $(`#delete${id}`).submit();
+            } else {
+                // swal('Your imaginary file is safe!');
+            }
+        });
+    });
+</script>
 @endpush

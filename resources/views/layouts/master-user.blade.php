@@ -265,6 +265,9 @@ gtag('config', 'UA-94034622-3');
                 <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="") active @endif">
                     <a href="{{ route('petowner.index') }}" class="nav-link"><i class="fas fa-fire"></i><span>Dashboard</span></a>
                 </li>
+                <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="showPetshop") active @endif">
+                    <a href="{{ route('show.petshop') }}" class="nav-link"><i class="fas fa-store"></i><span>Daftar Pet Shop</span></a>
+                </li>
                 <li class="nav-item @if(Request::segment(1)=="petowner" && Request::segment(2)=="produk") active @endif">
                     <a href="{{ route('index.produk.petowner') }}" class="nav-link"><i class="fas fa-bone"></i><span>Medicine and Food</span></a>
                 </li>

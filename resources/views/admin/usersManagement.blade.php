@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="{{ asset('../assets/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ asset('../assets/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css') }}">
 @endsection
-@section('header', 'Admin')
+@section('header', 'Data User')
 @section('content')
 <div class="section-body">
     <div class="card">

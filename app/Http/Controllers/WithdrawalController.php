@@ -34,6 +34,24 @@ class WithdrawalController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate(
+            [
+                'jml_penarikan' => 'required',
+                'bank' => 'required',
+                'no_rekening' => ['required', 'max:16', 'min:10'],
+                'nama_rekening' => ['required', 'max:20'],
+            ],
+            [
+                'jml_penarikan.required' => 'Data tidak boleh kosong, harap diisi',
+                'bank.required' => 'Data tidak boleh kosong, harap diisi',
+                'no_rekening.required' => 'Data tidak boleh kosong, harap diisi',
+                'nama_rekening.required' => 'Data tidak boleh kosong, harap diisi',
+                'no_rekening.min' => 'Minimal 10 digit',
+                'no_rekening.max' => 'Maksimal 16 digit',
+                'nama_rekening.max' => 'Maksimal 20 karakter'
+            ]
+        );
+
         $petshop = User::where('id', auth()->user()->id)->first();
 
         if ($request->jml_penarikan <= $petshop->saldo) {
