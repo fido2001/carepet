@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Chat;
 use App\Consultation;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class ChatController extends Controller
 {
@@ -43,14 +43,23 @@ class ChatController extends Controller
 
     public function store(Request $request)
     {
+        request()->validate(
+            [
+                'balasan' => 'required'
+            ],
+            [
+                'balasan.required' => 'Chat tidak boleh kosong'
+            ]
+        );
+
         $user_id = auth()->user()->id;
 
         $chat = Chat::create([
             'id_pengirim' => $user_id,
             'id_konsultasi' => $request->id_konsultasi,
             'balasan' => $request->balasan,
-            'tanggal' => now(),
-            'waktu' => now()
+            'tanggal' => Carbon::now()->setTimeZone('Asia/Jakarta'),
+            'waktu' => Carbon::now()->setTimeZone('Asia/Jakarta')
         ]);
 
         return redirect()->back();

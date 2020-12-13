@@ -234,7 +234,7 @@ gtag('config', 'UA-94034622-3');
                                 {{ route('edit.profile.petshop') }}
                             @else
                             {{ route('edit.profile.admin') }} @endif" class="dropdown-item has-icon">
-                        <i class="far fa-user"></i> Profile
+                        <i class="far fa-user"></i> Profil
                     </a>
                     {{-- <a href="features-activities.html" class="dropdown-item has-icon">
                         <i class="fas fa-bolt"></i> Activities
@@ -285,7 +285,7 @@ gtag('config', 'UA-94034622-3');
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             <div class="d-flex">
-                                <button class="btn btn-danger mr-3" type="submit">Ya</button>
+                                <button class="btn btn-danger mr-3" type="submit">Iya</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
                             </div>
                         </form>

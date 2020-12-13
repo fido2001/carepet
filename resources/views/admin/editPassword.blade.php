@@ -43,7 +43,7 @@
                             <label for="password_confirmation">Konfirmasi Password</label>
                             <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
                         </div>
-                        <button type="submit" class="btn btn-primary">Change Password</button>
+                        <button type="submit" class="btn btn-primary">Ubah Password</button>
                     </form>
                 </div>
             </div>

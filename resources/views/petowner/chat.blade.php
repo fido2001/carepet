@@ -18,7 +18,12 @@
                 <div class="form-group">
                     <h5><label class="font-weight-bold" for="balasan">Balas</label></h5>
                     <input type="hidden" name="id_konsultasi" value="{{ $konsultasi->id }}">
-                    <textarea class="form-control" name="balasan" id="balasan" rows="3"></textarea>
+                    <textarea class="form-control @error('balasan') is-invalid @enderror" name="balasan" id="balasan" rows="3"></textarea>
+                    @error('balasan')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
                 <button type="submit" id="submit" class="btn btn-success">Kirim</button>
                 <a href="/petowner/consultation" class="btn btn-warning">Kembali</a>

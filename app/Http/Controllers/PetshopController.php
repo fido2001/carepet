@@ -46,10 +46,19 @@ class PetshopController extends Controller
 
     public function updatePassword()
     {
-        request()->validate([
-            'old_password' => 'required',
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        request()->validate(
+            [
+                'old_password' => 'required',
+                'password' => ['required', 'string', 'min:8', 'confirmed', 'max:20'],
+            ],
+            [
+                'old_password.required' => 'Kata sandi tidak boleh kosong',
+                'password.required' => 'Kata sandi tidak boleh kosong',
+                'password.min' => 'Minimal 8 Karakter',
+                'password.max' => 'Maksimal 20 Karakter',
+                'password.confirmed' => 'Masukkan konfirmasi password yang valid',
+            ]
+        );
 
         $currentPassword = auth()->user()->password;
         $oldPassword = request('old_password');
@@ -66,13 +75,29 @@ class PetshopController extends Controller
 
     private function _userValidation(Request $request)
     {
-        $validation = $request->validate([
-            'username' => ['required', 'alpha_num', 'max:25'],
-            'noHp' => ['required', 'string', 'max:13', 'min:10'],
-            'alamat' => ['required'],
-            'nama_dokter' => ['required', 'string', 'max:25'],
-            'name' => ['required', 'string', 'max:25'],
-            'email' => ['required', 'string', 'email', 'max:255'],
-        ]);
+        $validation = $request->validate(
+            [
+                'nama_dokter' => ['required', 'string', 'max:25'],
+                'username' => ['required', 'alpha_num', 'max:15'],
+                'noHp' => ['required', 'string', 'max:13', 'min:10', 'regex:/^(08)[0-9]*/'],
+                'alamat' => ['required', 'max:50'],
+                'name' => ['required', 'string', 'max:25'],
+                'email' => ['required', 'string', 'email', 'max:30'],
+            ],
+            [
+                'name.string' => 'Nama Lengkap Harus berupa huruf',
+                'name.required' => 'Data tidak boleh kosong, harap diisi',
+                'nama_dokter.required' => 'Data tidak boleh kosong, harap diisi',
+                'username.required' => 'Data tidak boleh kosong, harap diisi',
+                'noHp.required' => 'Data tidak boleh kosong, harap diisi',
+                'alamat.required' => 'Data tidak boleh kosong, harap diisi',
+                'email.required' => 'Data tidak boleh kosong, harap diisi',
+                'email.email' => 'Masukkan Email yang valid.',
+                'name.max' => 'Maksimal 25 karakter',
+                'noHp.regex' => 'Data tidak valid',
+                'username.max' => 'Maksimal 15 karakter',
+                'username.alpha_num' => 'Hanya bisa diisi dengan karakter alpha numeric',
+            ]
+        );
     }
 }

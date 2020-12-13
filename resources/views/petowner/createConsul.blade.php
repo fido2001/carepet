@@ -13,18 +13,32 @@
                     <option value="{{ $petshop->id }}">{{ $petshop->name }} | {{ $petshop->nama_dokter }}</option>
                 @endforeach
             </select>
+            @error('id_penerima')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
         <!-- form judul -->
         <div class="form-group">
             <label class="font-weight-bold" for="judul">Keluhan</label>
-            <input type="text" class="form-control" name="judul" id="judul" aria-describedby="emailHelp">
-            <small id="emailHelp" class="form-text text-muted">Judul keluhan maksimal 50 karakter.</small>
+            <input type="text" class="form-control @error('judul') is-invalid @enderror" name="judul" id="judul" aria-describedby="emailHelp">
+            <small id="emailHelp" class="form-text text-muted">Keluhan maksimal 50 karakter.</small>
+            @error('judul')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
         <!-- form deskripsi -->
         <div class="form-group">
             <label class="font-weight-bold" for="deskripsi">Deskripsi</label>
-            <textarea class="form-control" name="deskripsi" id="deskripsi" rows="3"></textarea>
-            <small id="emailHelp" class="form-text text-muted">Beri penjelasan lebih detail pada keluhanmu sehingga mudah dimengerti. .</small>
+            <textarea class="form-control @error('deskripsi') is-invalid @enderror" name="deskripsi" id="deskripsi" rows="3"></textarea>
+            @error('deskripsi')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
         </div>
         <button type="submit" id="submit" class="btn btn-success">Kirim</button>
     </form>

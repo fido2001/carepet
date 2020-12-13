@@ -58,8 +58,8 @@
                 </div>
             </div>
             <div class="card-footer text-right">
-            <a href="{{ route('show.users-management') }}" class="btn btn-warning">Cancel</a>
-            <button type="submit" class="btn btn-primary">Save Changes</button>
+            {{-- <a href="{{ route('show.users-management') }}" class="btn btn-warning">Batal</a> --}}
+            <button type="submit" class="btn btn-primary">Simpan</button>
             </div>
         </form>
     </div>

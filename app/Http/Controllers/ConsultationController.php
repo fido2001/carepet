@@ -34,6 +34,19 @@ class ConsultationController extends Controller
 
     public function store(Request $request)
     {
+        request()->validate(
+            [
+                'id_penerima' => 'required',
+                'judul' => ['required', 'max:50'],
+                'deskripsi' => 'required',
+            ],
+            [
+                'id_penerima.required' => 'Data tidak boleh kosong',
+                'judul.required' => 'Data tidak boleh kosong',
+                'judul.max' => 'Maksimal 50 Karakter',
+                'deskripsi.required' => 'Data tidak boleh kosong'
+            ]
+        );
         $user_id = auth()->user()->id;
         // $data = $request->all();
         // dd($data, $user_id);

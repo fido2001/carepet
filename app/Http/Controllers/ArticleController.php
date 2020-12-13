@@ -51,11 +51,19 @@ class ArticleController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'judul' => 'required',
-            'ulasan' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg,svg|max:2048'
-        ]);
+        $request->validate(
+            [
+                'judul' => ['required', 'max:50'],
+                'ulasan' => 'required',
+                'gambar' => 'image|mimes:jpeg,png,jpg,svg|max:2048'
+            ],
+            [
+                'judul.required' => 'Semua Form harap diisi dan tidak boleh kosong',
+                'judul.max' => 'Maksimal 50 karakter',
+                'ulasan.required' => 'Semua Form harap diisi dan tidak boleh kosong',
+                // 'gambar.required' => 'Data tidak boleh kosong'
+            ]
+        );
         $attr = $request->all();
         $slug = \Str::slug(request('judul'));
         $attr['slug'] = $slug;
@@ -86,13 +94,14 @@ class ArticleController extends Controller
     {
         $request->validate(
             [
-                'judul' => 'required',
+                'judul' => ['required', 'max:50'],
                 'ulasan' => 'required',
                 'gambar' => 'image|mimes:jpeg,png,jpg,svg|max:2048'
             ],
             [
-                'judul.required' => 'Data tidak boleh kosong',
-                'ulasan.required' => 'Data tidak boleh kosong',
+                'judul.required' => 'Semua Form harap diisi dan tidak boleh kosong',
+                'judul.max' => 'Maksimal 50 karakter',
+                'ulasan.required' => 'Semua Form harap diisi dan tidak boleh kosong',
                 // 'gambar.required' => 'Data tidak boleh kosong'
             ]
         );
