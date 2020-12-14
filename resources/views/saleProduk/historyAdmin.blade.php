@@ -12,6 +12,29 @@
         <div class="card-header d-flex justify-content-between align-items-center">
             <h4>Data Pemesanan Produk</h4>
         </div>
+        @if (session('success'))
+        <div class="card-body">
+            <div class="alert alert-success alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                    {{ session('success') }}
+                </div>
+            </div>
+        </div>
+        @elseif (session('fail'))
+        <div class="card-body">
+            <div class="alert alert-warning alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                    {{ session('fail') }}
+                </div>
+            </div>
+        </div>
+        @endif
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-hover" id="table-1">

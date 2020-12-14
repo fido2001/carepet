@@ -12,7 +12,9 @@ class ConsultationController extends Controller
     {
         $user_id = auth()->user()->id;
 
-        $consultation = DB::table('Consultation as c')->join('users', 'c.id_penerima', '=', 'users.id')->where('c.id_penerima', '=', $user_id)->select('c.*', 'users.name')->get();
+        $consultation = DB::table('Consultation as c')->join('users', 'c.id_pengirim', '=', 'users.id')->where('c.id_penerima', '=', $user_id)->select('c.*', 'users.name')->get();
+        // $pengirim = DB::table('users')->join('consultation as c', 'users.id', '=', 'c.id_pengirim')->where('c.id_penerima', '=', $user_id)->select('users.name')->get();
+        // dd($consultation);
 
         return view('petshop.indexConsul', ['dataConsultation' => $consultation]);
     }
@@ -21,7 +23,7 @@ class ConsultationController extends Controller
     {
         $user_id = auth()->user()->id;
 
-        $consultation = DB::table('Consultation as c')->join('users', 'c.id_pengirim', '=', 'users.id')->where('c.id_pengirim', '=', $user_id)->select('c.*')->get();
+        $consultation = DB::table('Consultation as c')->join('users', 'c.id_penerima', '=', 'users.id')->where('c.id_pengirim', '=', $user_id)->select('c.*', 'users.name')->get();
 
         return view('petowner.indexConsul', ['dataConsultation' => $consultation]);
     }

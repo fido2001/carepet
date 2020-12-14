@@ -10,7 +10,7 @@
             <select name="id_penerima" id="petshop" class="form-control @error('id_penerima') is-invalid @enderror">
                 <option disabled selected>Pilih Salah Satu</option>
                 @foreach ($dataPetshop as $petshop)
-                    <option value="{{ $petshop->id }}">{{ $petshop->name }} | {{ $petshop->nama_dokter }}</option>
+                    <option value="{{ $petshop->id }}">{{ $petshop->name }} | {{ $petshop->nama_dokter }} | {{ $petshop->alamat }}</option>
                 @endforeach
             </select>
             @error('id_penerima')
@@ -22,7 +22,7 @@
         <!-- form judul -->
         <div class="form-group">
             <label class="font-weight-bold" for="judul">Keluhan</label>
-            <input type="text" class="form-control @error('judul') is-invalid @enderror" name="judul" id="judul" aria-describedby="emailHelp">
+            <input type="text" class="form-control @error('judul') is-invalid @enderror" name="judul" id="judul" aria-describedby="emailHelp" autocomplete="off">
             <small id="emailHelp" class="form-text text-muted">Keluhan maksimal 50 karakter.</small>
             @error('judul')
                 <span class="invalid-feedback" role="alert">

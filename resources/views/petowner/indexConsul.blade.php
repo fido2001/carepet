@@ -12,6 +12,7 @@
                 <h5 class="mt-0 font-weight-bold">{{ $konsultasi->judul }}</h5>
                 {{-- <p class="tanggal">{{ $konsultasi->tanggal }} | {{ $konsultasi->waktu }} WIB</p> --}}
                 <p>{{ $konsultasi->deskripsi }}</p>
+                <p>Konsultasi ke : {{ $konsultasi->name }}</p>
                 <a class="btn btn-success mr-3 float-right" href="{{ route('index.chat.petowner', $konsultasi->id) }}" role="button">
                     Chatting
                 </a>

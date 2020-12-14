@@ -11,37 +11,45 @@
                 <div class="row">                               
                     <div class="form-group col-md-6 col-12">
                         <label>Nama Produk</label>
-                        <input type="text" class="form-control" name="nama_produk" value="{{ $dataProduk->nama_produk }}" required="">
-                        <div class="invalid-feedback">
-                            Data tidak boleh kosong, harap diisi!
-                        </div>
+                        <input type="text" class="form-control @error('nama_produk') is-invalid @enderror" name="nama_produk" value="{{ $dataProduk->nama_produk }}">
+                        @error('nama_produk')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                 </div>
                 <div class="row">                               
                     <div class="form-group col-md-6 col-12">
                         <label>Stok</label>
-                        <input type="number" min="0" step="1" class="input form-control" name="stok" value="{{ $dataProduk->stok }}" required="">
-                        <div class="invalid-feedback">
-                            Data tidak boleh kosong, harap diisi!
-                        </div>
+                        <input type="number" min="0" step="1" class="form-control @error('stok') is-invalid @enderror" name="stok" value="{{ $dataProduk->stok }}">
+                        @error('stok')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                 </div>
                 <div class="row">                               
                     <div class="form-group col-md-6 col-12">
                         <label>Harga</label>
-                        <input type="number" class="input form-control" name="harga" value="{{ $dataProduk->harga }}" required="">
-                        <div class="invalid-feedback">
-                            Data tidak boleh kosong, harap diisi!
-                        </div>
+                        <input type="number" class="form-control @error('harga') is-invalid @enderror" name="harga" value="{{ $dataProduk->harga }}">
+                        @error('harga')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                 </div>
                 <div class="row">                               
                     <div class="form-group col-md-6 col-12">
                         <label>Deskripsi Produk</label>
-                        <textarea type="number" class="form-control" name="deskripsi_produk" required="">{{ $dataProduk->deskripsi_produk }}</textarea>
-                        <div class="invalid-feedback">
-                            Data tidak boleh kosong, harap diisi!
-                        </div>
+                        <textarea type="number" class="form-control @error('deskripsi_produk') is-invalid @enderror" name="deskripsi_produk">{{ $dataProduk->deskripsi_produk }}</textarea>
+                        @error('deskripsi_produk')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                 </div>
                 <div class="row">                               

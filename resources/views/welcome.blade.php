@@ -171,19 +171,19 @@
 				<div class="col-md-6 come">
 					<div class="about-wel">
 						<h5>A Few Words About Our
-							<span>Cat Life</span>
+							<span>Care Pet</span>
 						</h5>
 						<p>Masagni dolores eoquie int Basmodi temporant, ut laboreas dolore magnam aliquam kuytase uaeraquis autem vel eum iure
 							reprehend.Unicmquam eius, Basmodi temurer sehsMunim.</p>
 						<ul>
 							<li>
-								<i class="glyphicon glyphicon-ok"></i>Cat health and Care</li>
+								<i class="glyphicon glyphicon-ok"></i>Pet health and Care</li>
 							<li>
-								<i class="glyphicon glyphicon-ok"></i>Cat grooming</li>
+								<i class="glyphicon glyphicon-ok"></i>Pet Hotel, Clinic, Etc</li>
 							<li>
-								<i class="glyphicon glyphicon-ok"></i>Food for cats</li>
+								<i class="glyphicon glyphicon-ok"></i>Food for pets</li>
 							<li>
-								<i class="glyphicon glyphicon-ok"></i>Cat behavior</li>
+								<i class="glyphicon glyphicon-ok"></i>Pet behavior</li>
 						</ul>
 					</div>
 					<div class="button-styles">

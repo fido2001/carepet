@@ -131,27 +131,27 @@ class ProdukController extends Controller
 
     public function purchase(Request $request, $id)
     {
+        $request->validate(
+            [
+                'jumlahProduk' => ['required'],
+                'noHp' => ['required', 'min:10', 'max:13', 'regex:/^(08)[0-9]*/'],
+                'alamat' => ['required', 'max:50'],
+                'catatan' => ['required', 'max:100'],
+            ],
+            [
+                'jumlahProduk.required' => 'Semua Form pemesanan harap diisi dan tidak boleh Kosong',
+                'noHp.required' => 'Semua Form pemesanan harap diisi dan tidak boleh Kosong',
+                'alamat.required' => 'Semua Form pemesanan harap diisi dan tidak boleh Kosong',
+                'catatan.required' => 'Semua Form pemesanan harap diisi dan tidak boleh Kosong',
+                'catatan.max' => 'Maksimal 100 karakter',
+                'alamat.max' => 'Maksimal 50 karakter',
+                'noHp.max' => 'Maksimal 13 karakter',
+                'noHp.min' => 'Maksimal 10 karakter',
+                'noHp.regex' => 'Data yang dimasukkan tidak valid'
+            ]
+        );
         $stok = DataProduk::where('id', $id)->value('stok');
         if ($request->jumlahProduk <= $stok) {
-            $request->validate(
-                [
-                    'jumlahProduk' => ['required'],
-                    'noHp' => ['required', 'min:10', 'max:13', 'regex:/^(08)[0-9]*/'],
-                    'alamat' => ['required', 'max:50'],
-                    'catatan' => ['required', 'max:100'],
-                ],
-                [
-                    'jumlahProduk.required' => 'Semua Form pemesanan harap diisi dan tidak boleh Kosong',
-                    'noHp.required' => 'Semua Form pemesanan harap diisi dan tidak boleh Kosong',
-                    'alamat.required' => 'Semua Form pemesanan harap diisi dan tidak boleh Kosong',
-                    'catatan.required' => 'Semua Form pemesanan harap diisi dan tidak boleh Kosong',
-                    'catatan.max' => 'Maksimal 100 karakter',
-                    'alamat.max' => 'Maksimal 50 karakter',
-                    'noHp.max' => 'Maksimal 13 karakter',
-                    'noHp.min' => 'Maksimal 10 karakter',
-                    'noHp.regex' => 'Data yang dimasukkan tidak valid'
-                ]
-            );
             $attr = $request->all();
             $attr['payment_due'] = Carbon::now()->setTimeZone('Asia/Jakarta')->addHours(24);
             // dd($attr);
@@ -203,26 +203,40 @@ class ProdukController extends Controller
 
     public function historyPetownerDetail($id)
     {
-        // Carbon::setTestNow('2020-12-06');
-        $pembelian = DB::table('ordering_medicine_food as ord')->join('data_produk as prd', 'prd.id', '=', 'ord.produk_id')->join('users', 'users.id', '=', 'prd.user_id')->where('ord.id', $id)->select('ord.*', 'prd.nama_produk', 'prd.harga', 'users.name')->get();
-        // dd($pembelian);
-        return view('saleProduk.historyPetowner-detail', [
-            'dataPemesanan' => $pembelian
-        ]);
+        // Carbon::setTestNow('2020-12-15');
+        $order = ProdukUser::where('id', $id)->first();
+        if (Carbon::now()->setTimezone('Asia/Jakarta') > $order->payment_due and $order->bukti_pembayaran == null) {
+            $order->delete();
+            return redirect('petowner/historyMedicine')->with('fail', 'Pesanan telah dibatalkan, karena pembayaran tidak dilakukan sebelum waktu batas pembayaran habis.');
+        } else {
+            $pembelian = DB::table('ordering_medicine_food as ord')->join('data_produk as prd', 'prd.id', '=', 'ord.produk_id')->join('users', 'users.id', '=', 'prd.user_id')->where('ord.id', $id)->select('ord.*', 'prd.nama_produk', 'prd.harga', 'users.name')->get();
+            // dd($pembelian);
+            return view('saleProduk.historyPetowner-detail', [
+                'dataPemesanan' => $pembelian
+            ]);
+        }
     }
 
     public function historyPetshopDetail($id)
     {
-        $pemesanan = ProdukUser::join('data_produk as prd', 'prd.id', '=', 'ordering_medicine_food.produk_id')->where('ordering_medicine_food.id', $id)->select('ordering_medicine_food.*', 'prd.nama_produk', 'prd.harga')->get();
-        return view('saleProduk.historyPetshop-detail', [
-            'dataPemesanan' => $pemesanan
-        ]);
+        $order = ProdukUser::where('id', $id)->first();
+
+        if (Carbon::now()->setTimezone('Asia/Jakarta') > $order->payment_due and $order->bukti_pembayaran == null) {
+            $order->delete();
+            return redirect('petshop/historyMedicine')->with('fail', 'Pesanan telah dibatalkan, karena pembayaran tidak dilakukan sebelum waktu batas pembayaran habis.');
+        } else {
+            $pemesanan = ProdukUser::join('data_produk as prd', 'prd.id', '=', 'ordering_medicine_food.produk_id')->where('ordering_medicine_food.id', $id)->select('ordering_medicine_food.*', 'prd.nama_produk', 'prd.harga')->get();
+            return view('saleProduk.historyPetshop-detail', [
+                'dataPemesanan' => $pemesanan
+            ]);
+        }
     }
 
     public function historyAdminDetail($id)
     {
+        // Carbon::setTestNow('2020-12-16');
         $order = ProdukUser::where('id', $id)->first();
-        if (Carbon::now()->setTimezone('Asia/Jakarta') > $order->payment_due) {
+        if (Carbon::now()->setTimezone('Asia/Jakarta') > $order->payment_due and $order->bukti_pembayaran == null) {
             $order->delete();
             return redirect('admin/historyMedicine')->with('fail', 'Pesanan telah dibatalkan, karena pembayaran tidak dilakukan sebelum waktu batas pembayaran habis.');
         } else {
@@ -274,13 +288,14 @@ class ProdukController extends Controller
             [
                 'bukti_pembayaran' => 'required|image|mimes:jpeg,png,jpg,svg|max:2048',
                 'nama_pengirim' => 'required|max:30',
-                'no_rek_pengirim' => 'required|max:15'
+                'no_rek_pengirim' => ['required', 'max:15', 'regex:/^[0-9]+$/']
             ],
             [
                 'bukti_pembayaran.required' => 'Semua Form harap diisi dan tidak boleh kosong',
                 'nama_pengirim.required' => 'Semua Form harap diisi dan tidak boleh kosong',
                 'no_rek_pengirim.required' => 'Semua Form harap diisi dan tidak boleh kosong',
                 'no_rek_pengirim.max' => 'Maksimal 15 Karakter',
+                'no_rek_pengirim.regex' => 'Data tidak valid',
                 'nama_pengirim.max' => 'Maksimal 30 Karakter'
             ]
         );
@@ -296,7 +311,7 @@ class ProdukController extends Controller
             'bukti_pembayaran' => $bukti_pembayaran
         ]);
 
-        return redirect('history.produk.petowner')->with('success', 'Data pembayaran akan segera diproses');
+        return redirect('petowner/historyMedicine')->with('success', 'Data pembayaran akan segera diproses');
     }
 
     public function verifikasiKedatangan($id)

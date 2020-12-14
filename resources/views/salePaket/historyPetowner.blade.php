@@ -25,6 +25,17 @@
                 </div>
             </div>
         </div>
+        @elseif (session('fail'))
+        <div class="card-body">
+            <div class="alert alert-warning alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                    {{ session('fail') }}
+                </div>
+            </div>
+        </div>
         @endif
         <div class="card-body">
             <div class="table-responsive">
@@ -47,9 +58,13 @@
                                 <td>{{ $pemesanan->nama_paket }}</td>
                                 <td>{{ $pemesanan->durasi_pemesanan }} Hari</td>
                                 <td>{{ $pemesanan->jenis_hewan }}</td>
+                                @if ($pemesanan->status == null)
+                                <td>Menunggu Pembayaran</td>
+                                @else
                                 <td>
                                     {{ $pemesanan->status }}
                                 </td>
+                                @endif
                                 <td class="text-center">
                                     <a href="{{ route('historyDetail.paket.petowner', $pemesanan->id) }}" class="badge badge-info">Detail Pesanan</a>
                                     @if ($pemesanan->bukti_pembayaran == null)

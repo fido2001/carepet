@@ -64,35 +64,43 @@
                         </div>
                         <div class="form-group col-md-6 col-12">
                             <label>Jumlah Pemesanan</label>
-                            <input type="number" min="1" class="form-control" name="jumlahProduk">
-                            <div class="invalid-feedback">
-                                Data tidak boleh kosong, harap diisi
-                            </div>
+                            <input type="number" min="1" class="form-control @error('jumlahProduk') is-invalid @enderror" name="jumlahProduk">
+                            @error('jumlahProduk')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label>Nomor HP</label>
-                                <input type="text" name="noHp" class="form-control summernote-simple">
-                                <div class="invalid-feedback">
-                                    Data tidak boleh kosong, harap diisi
-                                </div>
+                                <input type="text" name="noHp" class="form-control summernote-simple @error('noHp') is-invalid @enderror">
+                                @error('noHp')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6 col-12">
                                 <label>Alamat</label>
-                                <textarea name="alamat" class="form-control summernote-simple"></textarea>
-                                <div class="invalid-feedback">
-                                    Data tidak boleh kosong, harap diisi
-                                </div>
+                                <textarea name="alamat" class="form-control summernote-simple @error('alamat') is-invalid @enderror"></textarea>
+                                @error('alamat')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                             <div class="form-group col-md-6 col-12">
                                 <label>Catatan</label>
-                                <textarea name="catatan" class="form-control summernote-simple"></textarea>
-                                <div class="invalid-feedback">
-                                    Data tidak boleh kosong, harap diisi
-                                </div>
+                                <textarea name="catatan" class="form-control summernote-simple @error('catatan') is-invalid @enderror"></textarea>
+                                @error('catatan')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </div>

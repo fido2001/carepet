@@ -25,6 +25,17 @@
                 </div>
             </div>
         </div>
+        @elseif (session('fail'))
+        <div class="card-body">
+            <div class="alert alert-warning alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                    {{ session('fail') }}
+                </div>
+            </div>
+        </div>
         @endif
         <div class="card-body">
             <div class="table-responsive">

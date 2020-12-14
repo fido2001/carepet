@@ -76,7 +76,7 @@ gtag('config', 'UA-94034622-3');
                                     <div class="row">
                                     <div class="form-group col-6">
                                         <label for="password" class="d-block">Password</label>
-                                        <input id="password" type="password" class="form-control pwstrength @error('password') is-invalid @enderror" data-indicator="pwindicator" name="password">
+                                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" data-indicator="pwindicator" name="password">
                                         @error('password')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>

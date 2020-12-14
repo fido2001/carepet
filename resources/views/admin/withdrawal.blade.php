@@ -32,6 +32,7 @@
                     <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">Nama Petshop</th>
                         <th scope="col">Tanggal Pengajuan</th>
                         <th scope="col">Jumlah Penarikan</th>
                         <th scope="col">Status</th>
@@ -42,6 +43,7 @@
                     @foreach ($withdrawal as $no => $withdraw)
                         <tr>
                             <th scope="row">{{ $no+1 }}</th>
+                            <td>{{ $withdraw->name }}</td>
                             <td>{{ Carbon\Carbon::parse($withdraw->tanggal_pengajuan)->translatedFormat('l, d F Y') }}</td>
                             <td>Rp. {{ $withdraw->jml_penarikan }}</td>
                             <td>{{ $withdraw->status }}</td>

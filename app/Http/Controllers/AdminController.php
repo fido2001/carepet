@@ -116,7 +116,6 @@ class AdminController extends Controller
                 'username' => ['required', 'alpha_num', 'max:15'],
                 'noHp' => ['required', 'string', 'max:13', 'min:10', 'regex:/^(08)[0-9]*/'],
                 'alamat' => ['required'],
-                'nama_dokter' => ['required', 'string', 'max:25'],
                 'name' => ['required', 'string', 'max:25'],
                 'email' => ['required', 'string', 'email', 'max:30', 'unique:users'],
                 'password' => ['required', 'string', 'min:8', 'confirmed', 'max:20'],
@@ -124,7 +123,6 @@ class AdminController extends Controller
             [
                 'name.string' => 'Nama Lengkap Harus berupa huruf',
                 'name.required' => 'Data tidak boleh kosong, harap diisi',
-                'nama_dokter.required' => 'Data tidak boleh kosong, harap diisi',
                 'username.required' => 'Data tidak boleh kosong, harap diisi',
                 'noHp.required' => 'Data tidak boleh kosong, harap diisi',
                 'alamat.required' => 'Data tidak boleh kosong, harap diisi',

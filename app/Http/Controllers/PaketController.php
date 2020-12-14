@@ -182,11 +182,18 @@ class PaketController extends Controller
     public function historyPetownerDetail($id)
     {
         // Carbon::setTestNow('2020-12-07');
-        $pemesanan = PaketUser::join('pilihan_paket as pkt', 'pkt.id', '=', 'ordering_service_packages.paket_id')->join('users', 'users.id', '=', 'pkt.user_id')->where('ordering_service_packages.id', $id)->select('ordering_service_packages.*', 'pkt.nama_paket', 'pkt.harga', 'users.name', 'users.alamat')->get();
-        // dd($pemesanan);
-        return view('salePaket.historyPetowner-detail', [
-            'dataPemesanan' => $pemesanan
-        ]);
+        $order = PaketUser::where('id', $id)->first();
+
+        if (Carbon::now()->setTimezone('Asia/Jakarta') > $order->payment_due and $order->bukti_pembayaran == null) {
+            $order->delete();
+            return redirect('petowner/historyMedicine')->with('fail', 'Pesanan telah dibatalkan, karena pembayaran tidak dilakukan sebelum waktu batas pembayaran habis.');
+        } else {
+            $pemesanan = PaketUser::join('pilihan_paket as pkt', 'pkt.id', '=', 'ordering_service_packages.paket_id')->join('users', 'users.id', '=', 'pkt.user_id')->where('ordering_service_packages.id', $id)->select('ordering_service_packages.*', 'pkt.nama_paket', 'pkt.harga', 'users.name', 'users.alamat')->get();
+            // dd($pemesanan);
+            return view('salePaket.historyPetowner-detail', [
+                'dataPemesanan' => $pemesanan
+            ]);
+        }
     }
 
     public function historyPetshopDetail($id)
@@ -199,10 +206,17 @@ class PaketController extends Controller
 
     public function historyAdminDetail($id)
     {
-        $pembelian = PaketUser::join('pilihan_paket as pkt', 'pkt.id', '=', 'ordering_service_packages.paket_id')->where('ordering_service_packages.id', $id)->select('ordering_service_packages.*', 'pkt.nama_paket', 'pkt.harga')->get();
-        return view('salePaket.historyAdmin-detail', [
-            'dataPemesanan' => $pembelian
-        ]);
+        $order = PaketUser::where('id', $id)->first();
+
+        if (Carbon::now()->setTimezone('Asia/Jakarta') > $order->payment_due and $order->bukti_pembayaran == null) {
+            $order->delete();
+            return redirect('petowner/historyMedicine')->with('fail', 'Pesanan telah dibatalkan, karena pembayaran tidak dilakukan sebelum waktu batas pembayaran habis.');
+        } else {
+            $pembelian = PaketUser::join('pilihan_paket as pkt', 'pkt.id', '=', 'ordering_service_packages.paket_id')->where('ordering_service_packages.id', $id)->select('ordering_service_packages.*', 'pkt.nama_paket', 'pkt.harga')->get();
+            return view('salePaket.historyAdmin-detail', [
+                'dataPemesanan' => $pembelian
+            ]);
+        }
     }
 
     public function pembayaran($id)
@@ -234,13 +248,14 @@ class PaketController extends Controller
             [
                 'bukti_pembayaran' => 'required|image|mimes:jpeg,png,jpg,svg|max:2048',
                 'nama_pengirim' => 'required|max:20',
-                'no_rek_pengirim' => 'required|max:15'
+                'no_rek_pengirim' => 'required|max:15|regex:/^[0-9]+$/'
             ],
             [
                 'bukti_pembayaran.required' => 'Semua Form harap diisi dan tidak boleh kosong',
                 'nama_pengirim.required' => 'Semua Form harap diisi dan tidak boleh kosong',
                 'no_rek_pengirim.required' => 'Semua Form harap diisi dan tidak boleh kosong',
                 'no_rek_pengirim.max' => 'Maksimal 15 Karakter',
+                'no_rek_pengirim.regex' => 'Data yang dimasukkan tidak valid',
                 'nama_pengirim.max' => 'Maksimal 20 Karakter'
             ]
         );

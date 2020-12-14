@@ -89,7 +89,7 @@
                         <div class="row">
                             <div class="form-group col-md-6 col-12">
                                 <label>Nama Pengirim</label>
-                                <input type="text" name="nama_pengirim" class="form-control summernote-simple @error('nama_pengirim') is-invalid @enderror">
+                                <input type="text" name="nama_pengirim" class="form-control summernote-simple @error('nama_pengirim') is-invalid @enderror" autocomplete="off">
                                 @error('nama_pengirim')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -98,7 +98,7 @@
                             </div>
                             <div class="form-group col-md-6 col-12">
                                 <label>Nomor Rekening</label>
-                                <input type="text" name="no_rek_pengirim" class="form-control summernote-simple @error('no_rek_pengirim') is-invalid @enderror">
+                                <input type="text" name="no_rek_pengirim" class="form-control summernote-simple @error('no_rek_pengirim') is-invalid @enderror" autocomplete="off">
                                 @error('no_rek_pengirim')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

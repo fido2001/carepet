@@ -20,7 +20,7 @@ class WithdrawalController extends Controller
 
     public function indexAdmin()
     {
-        $withdrawal = Withdrawal::all();
+        $withdrawal = Withdrawal::join('users', 'withdrawals.id_petshop', '=', 'users.id')->select('withdrawals.*', 'users.name')->get();
 
         return view('admin.withdrawal', compact('withdrawal'));
     }
@@ -38,7 +38,7 @@ class WithdrawalController extends Controller
             [
                 'jml_penarikan' => 'required',
                 'bank' => 'required',
-                'no_rekening' => ['required', 'max:16', 'min:10'],
+                'no_rekening' => ['required', 'max:15', 'min:10', 'regex:/^[0-9]+$/'],
                 'nama_rekening' => ['required', 'max:20'],
             ],
             [
@@ -47,7 +47,8 @@ class WithdrawalController extends Controller
                 'no_rekening.required' => 'Data tidak boleh kosong, harap diisi',
                 'nama_rekening.required' => 'Data tidak boleh kosong, harap diisi',
                 'no_rekening.min' => 'Minimal 10 digit',
-                'no_rekening.max' => 'Maksimal 16 digit',
+                'no_rekening.max' => 'Maksimal 15 digit',
+                'no_rekening.regex' => 'Data yang dimasukkan tidak valid',
                 'nama_rekening.max' => 'Maksimal 20 karakter'
             ]
         );
