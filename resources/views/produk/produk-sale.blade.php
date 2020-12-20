@@ -73,10 +73,52 @@
                         </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-6 col-12">
                                 <label>Nomor HP</label>
                                 <input type="text" name="noHp" class="form-control summernote-simple @error('noHp') is-invalid @enderror">
                                 @error('noHp')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="form-group col-md-6 col-12">
+                                <label>Kecamatan</label>
+                                <select name="kecamatan" id="" class="form-control @error('kecamatan') is-invalid @enderror">
+                                    <option disabled selected>Pilih Salah Satu</option>
+                                    <option value="Ajung">Ajung</option>
+                                    <option value="Ambulu">Ambulu</option>
+                                    <option value="Arjasa">Arjasa</option>
+                                    <option value="Bangsalsari">Bangsalsari</option>
+                                    <option value="Balung">Balung</option>
+                                    <option value="Gumukmas">Gumukmas</option>
+                                    <option value="Jelbuk">Jelbuk</option>
+                                    <option value="Jenggawah">Jenggawah</option>
+                                    <option value="Jombang">Jombang</option>
+                                    <option value="Kalisat">Kalisat</option>
+                                    <option value="Kaliwates">Kaliwates</option>
+                                    <option value="Kencong">Kencong</option>
+                                    <option value="Ledokombo">Ledokombo</option>
+                                    <option value="Mayang">Mayang</option>
+                                    <option value="Mumbulsari">Mumbulsari</option>
+                                    <option value="Panti">Panti</option>
+                                    <option value="Pakusari">Pakusari</option>
+                                    <option value="Patrang">Patrang</option>
+                                    <option value="Puger">Puger</option>
+                                    <option value="Rambipuji">Rambipuji</option>
+                                    <option value="Semboro">Semboro</option>
+                                    <option value="Silo">Silo</option>
+                                    <option value="Sukorambi">Sukorambi</option>
+                                    <option value="Sukowono">Sukowono</option>
+                                    <option value="Sumberbaru">Sumberbaru</option>
+                                    <option value="Sumberjambe">Sumberjambe</option>
+                                    <option value="Sumbersari">Sumbersari</option>
+                                    <option value="Tanggul">Tanggul</option>
+                                    <option value="Tempurejo">Tempurejo</option>
+                                    <option value="Umbulsari">Umbulsari</option>
+                                    <option value="Wuluhan">Wuluhan</option>
+                                </select>
+                                @error('kecamatan')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

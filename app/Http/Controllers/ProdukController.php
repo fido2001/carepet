@@ -136,11 +136,13 @@ class ProdukController extends Controller
                 'jumlahProduk' => ['required'],
                 'noHp' => ['required', 'min:10', 'max:13', 'regex:/^(08)[0-9]*/'],
                 'alamat' => ['required', 'max:50'],
+                'kecamatan' => ['required'],
                 'catatan' => ['required', 'max:100'],
             ],
             [
                 'jumlahProduk.required' => 'Semua Form pemesanan harap diisi dan tidak boleh Kosong',
                 'noHp.required' => 'Semua Form pemesanan harap diisi dan tidak boleh Kosong',
+                'kecamatan.required' => 'Semua Form pemesanan harap diisi dan tidak boleh Kosong',
                 'alamat.required' => 'Semua Form pemesanan harap diisi dan tidak boleh Kosong',
                 'catatan.required' => 'Semua Form pemesanan harap diisi dan tidak boleh Kosong',
                 'catatan.max' => 'Maksimal 100 karakter',
